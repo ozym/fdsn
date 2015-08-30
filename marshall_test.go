@@ -109,13 +109,13 @@ func TestMarshalling(t *testing.T) {
 					StartDate:     MapDateTime("2008-10-13T04:00:00"),
 					EndDate:       MapDateTime("2010-03-15T02:00:00"),
 					Sensor: &Equipment{
-						ResourceId:  "Sensor#20150130114212.658908.42",
+						ResourceId:  MapString("Sensor#20150130114212.658908.42"),
 						Type:        MapString("L4C-3D"),
 						Description: MapString("L4C-3D"),
 						Model:       MapString("L4C-3D"),
 					},
 					DataLogger: &Equipment{
-						ResourceId:  "Datalogger#20150130114212.658624.40",
+						ResourceId:  MapString("Datalogger#20150130114212.658624.40"),
 						Description: MapString("ABAZ.2008.287.EHZ10"),
 					},
 					Response: &Response{
@@ -146,13 +146,13 @@ func TestMarshalling(t *testing.T) {
 						ClockDrift:    &ClockDrift{Value: 0.0001},
 						StartDate:     MapDateTime("2010-03-15T02:15:00"),
 						Sensor: &Equipment{
-							ResourceId:  "Sensor#20150130114212.659492.46",
+							ResourceId:  MapString("Sensor#20150130114212.659492.46"),
 							Type:        MapString("LE-3DliteMkII"),
 							Description: MapString("LE-3DliteMkII"),
 							Model:       MapString("LE-3DliteMkII"),
 						},
 						DataLogger: &Equipment{
-							ResourceId:  "Datalogger#20150130114212.659187.44",
+							ResourceId:  MapString("Datalogger#20150130114212.659187.44"),
 							Description: MapString("ABAZ.2010.074.EHZ10"),
 						},
 						Response: &Response{
@@ -207,13 +207,13 @@ func TestMarshalling(t *testing.T) {
 					StartDate:     MapDateTime("2008-10-13T04:00:00"),
 					EndDate:       MapDateTime("2010-03-15T02:00:00"),
 					Sensor: &Equipment{
-						ResourceId:  "Sensor#20150130114212.658908.42",
+						ResourceId:  MapString("Sensor#20150130114212.658908.42"),
 						Type:        MapString("L4C-3D"),
 						Description: MapString("L4C-3D"),
 						Model:       MapString("L4C-3D"),
 					},
 					DataLogger: &Equipment{
-						ResourceId:  "Datalogger#20150130114212.658624.40",
+						ResourceId:  MapString("Datalogger#20150130114212.658624.40"),
 						Description: MapString("ABAZ.2008.287.EHZ10"),
 					},
 					Response: &Response{
@@ -377,13 +377,13 @@ func TestMarshalling(t *testing.T) {
 						ClockDrift:    &ClockDrift{Value: 0.0001},
 						StartDate:     MapDateTime("2010-03-15T02:15:00"),
 						Sensor: &Equipment{
-							ResourceId:  "Sensor#20150130114212.659492.46",
+							ResourceId:  MapString("Sensor#20150130114212.659492.46"),
 							Type:        MapString("LE-3DliteMkII"),
 							Description: MapString("LE-3DliteMkII"),
 							Model:       MapString("LE-3DliteMkII"),
 						},
 						DataLogger: &Equipment{
-							ResourceId:  "Datalogger#20150130114212.659187.44",
+							ResourceId:  MapString("Datalogger#20150130114212.659187.44"),
 							Description: MapString("ABAZ.2010.074.EHZ10"),
 						},
 						Response: &Response{
@@ -545,12 +545,10 @@ func TestMarshalling(t *testing.T) {
 		{"channel", "testdata/channel.xml", c},
 		{"response", "testdata/response.xml", r},
 		{"ac1a", "testdata/ac1a.xml", nil},
-		/*
-			{"akus", "testdata/akus.xml", nil},
-			{"mqz", "testdata/mqz.xml", nil},
-			{"covz", "testdata/covz.xml", nil},
-			{"glkz", "testdata/glkz.xml", nil},
-		*/
+		{"akus", "testdata/akus.xml", nil},
+		{"mqz", "testdata/mqz.xml", nil},
+		{"covz", "testdata/covz.xml", nil},
+		{"glkz", "testdata/glkz.xml", nil},
 	}
 
 	var remaps = []struct {

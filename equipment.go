@@ -6,7 +6,7 @@ type Equipment struct {
 	// that generated the document. Also, we recommend to use something like
 	// GENERATOR:Meaningful ID. As a common behaviour equipment with the same ID should
 	// contains the same information/be derived from the same base instruments.
-	ResourceId string `xml:"resourceId,attr,omitempty"`
+	ResourceId *string `xml:"resourceId,attr,omitempty"`
 
 	Type             *string    `xml:",omitempty"`
 	Description      *string    `xml:",omitempty"`

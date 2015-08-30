@@ -5,7 +5,7 @@ package fdsn
 // to convert raw data to Earth at a specified frequency or within a range of frequencies.
 type Response struct {
 	// Same meaning as Equipment:resourceId.
-	ResourceId *string `xml:"resourceId,attr,omitempty"`
+	ResourceId *string `xml:"resourceId,attr,omitempty"` // schema indicates this is not optional however
 
 	// The total sensitivity for a channel, representing the complete acquisition system expressed as a scalar.
 	// Equivalent to SEED stage 0 gain with (blockette 58) with the ability to specify a frequency range.
