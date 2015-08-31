@@ -16,6 +16,7 @@ func TestChannel_Marshal(t *testing.T) {
 		"<Depth>0</Depth>",
 		"<Azimuth>0</Azimuth>",
 		"<Dip>-90</Dip>",
+		"<Type>GEOPHYSICAL</Type>",
 		"<SampleRate>100</SampleRate>",
 		"<SampleRateRatio>",
 		"<NumberSamples>100</NumberSamples>",
@@ -36,6 +37,7 @@ func TestChannel_Marshal(t *testing.T) {
 		Depth:            Distance{Value: 0},
 		Azimuth:          &Azimuth{Value: 0},
 		Dip:              &Dip{Value: -90},
+		Types:            []Type{{TYPE_GEOPHYSICAL}},
 		SampleRate:       SampleRate{Value: 100},
 		SampleRateRatio: &SampleRateRatio{
 			NumberSamples: 100,
