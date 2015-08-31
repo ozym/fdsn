@@ -7,7 +7,7 @@ import (
 )
 
 type DateTime struct {
-	time.Time
+	Time time.Time
 }
 
 const DateTimeFormat = "2006-01-02T15:04:05"
@@ -30,7 +30,7 @@ func MustParse(s string) DateTime {
 }
 
 func (t *DateTime) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
-	return e.EncodeElement(t.Format(DateTimeFormat), start)
+	return e.EncodeElement(t.Time.Format(DateTimeFormat), start)
 }
 
 func (t *DateTime) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
@@ -51,7 +51,11 @@ func (t *DateTime) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 }
 
 func (t *DateTime) MarshalXMLAttr(name xml.Name) (xml.Attr, error) {
-	return xml.Attr{Name: name, Value: t.Format(DateTimeFormat)}, nil
+	if t.Time.Year() < 1880 {
+		return xml.Attr{Name: name, Value: ""}, nil
+	}
+
+	return xml.Attr{Name: name, Value: t.Time.Format(DateTimeFormat)}, nil
 }
 
 func (t *DateTime) UnmarshalXMLAttr(attr xml.Attr) error {
@@ -65,8 +69,15 @@ func (t *DateTime) UnmarshalXMLAttr(attr xml.Attr) error {
 	return nil
 }
 
+func (t *DateTime) String() string {
+	if t.Time.Year() < 1880 {
+		return ""
+	}
+	return t.Time.String()
+}
+
 func (t *DateTime) IsValid() error {
-	if t.Year() < 1880 {
+	if t.Time.Year() < 1880 {
 		return fmt.Errorf("incorrect date: %s", t.String())
 	}
 	return nil

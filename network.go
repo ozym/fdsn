@@ -15,21 +15,21 @@ type Network struct {
 	RestrictedStatus *RestrictedStatus `xml:"restrictedStatus,attr,omitempty"`
 
 	// A code used for display or association, alternate to the SEED-compliant code.
-	AlternateCode *string `xml:"alternateCode,attr,omitempty"`
+	AlternateCode string `xml:"alternateCode,attr,omitempty"`
 
 	// A previously used code if different from the current code.
-	HistoricalCode *string `xml:"historicalCode,attr,omitempty"`
+	HistoricalCode string `xml:"historicalCode,attr,omitempty"`
 
-	Description *string   `xml:",omitempty"`
+	Description string    `xml:",omitempty"`
 	Comments    []Comment `xml:"comment,omitempty"`
 
 	// The total number of stations contained in this network, including inactive or terminated stations.
-	TotalNumberStations *uint32 `xml:",omitempty"`
+	TotalNumberStations uint32 `xml:",omitempty"`
 
 	// The total number of stations in this network that were selected by the query that produced this document,
 	// even if the stations do not appear in the document. (This might happen if the user only wants a document
 	// that goes contains only information at the Network level.)
-	SelectedNumberStations *uint32 `xml:",omitempty"`
+	SelectedNumberStations uint32 `xml:",omitempty"`
 
 	Stations []Station `xml:"Station,omitempty"`
 }
@@ -38,32 +38,30 @@ func (n Network) String() string {
 	var parts []string
 
 	parts = append(parts, fmt.Sprintf("Network: %s", n.Code))
-	/* need to call String()
 	if n.StartDate != nil {
 		parts = append(parts, fmt.Sprintf("StartDate: \"%s\"", *n.StartDate))
 	}
 	if n.EndDate != nil {
 		parts = append(parts, fmt.Sprintf("EndDate: \"%s\"", *n.EndDate))
 	}
-	*/
 	if n.RestrictedStatus != nil {
 		parts = append(parts, fmt.Sprintf("RestrictedStatus: \"%s\"", *n.RestrictedStatus))
 	}
-	if n.AlternateCode != nil {
-		parts = append(parts, fmt.Sprintf("AlternateCode: \"%s\"", *n.AlternateCode))
+	if n.AlternateCode != "" {
+		parts = append(parts, fmt.Sprintf("AlternateCode: \"%s\"", n.AlternateCode))
 	}
-	if n.HistoricalCode != nil {
-		parts = append(parts, fmt.Sprintf("HistoricalCode: \"%s\"", *n.HistoricalCode))
+	if n.HistoricalCode != "" {
+		parts = append(parts, fmt.Sprintf("HistoricalCode: \"%s\"", n.HistoricalCode))
 	}
-	if n.Description != nil {
-		parts = append(parts, fmt.Sprintf("Description: \"%s\"", *n.Description))
+	if n.Description != "" {
+		parts = append(parts, fmt.Sprintf("Description: \"%s\"", n.Description))
 	}
 	parts = append(parts, fmt.Sprintf("Comments: [%d]...", len(n.Comments)))
-	if n.TotalNumberStations != nil {
-		parts = append(parts, fmt.Sprintf("TotalNumberStations: \"%d\"", *n.TotalNumberStations))
+	if n.TotalNumberStations > 0 {
+		parts = append(parts, fmt.Sprintf("TotalNumberStations: \"%d\"", n.TotalNumberStations))
 	}
-	if n.SelectedNumberStations != nil {
-		parts = append(parts, fmt.Sprintf("SelectedNumberStations: \"%d\"", *n.SelectedNumberStations))
+	if n.SelectedNumberStations > 0 {
+		parts = append(parts, fmt.Sprintf("SelectedNumberStations: \"%d\"", n.SelectedNumberStations))
 	}
 	parts = append(parts, fmt.Sprintf("Stations: [%d]...", len(n.Stations)))
 
@@ -76,23 +74,27 @@ func (n Network) IsValid() error {
 		return fmt.Errorf("empty code element")
 	}
 
-	// need to validate all non ....
-	/*
-		if n.StartDate != nil && n.StartDate.Year() < 1880 {
-			return fmt.Errorf("bad start date")
+	if n.StartDate != nil {
+		if err := n.StartDate.IsValid(); err != nil {
+			return fmt.Errorf("bad start date: %s", err)
 		}
-		if n.EndDate != nil && n.EndDate.Year() < 1880 {
-			return fmt.Errorf("bad end date")
+	}
+	if n.EndDate != nil {
+		if err := n.EndDate.IsValid(); err != nil {
+			return fmt.Errorf("bad end date: %s", err)
 		}
-	*/
+	}
+	if n.RestrictedStatus != nil {
+		if err := n.RestrictedStatus.IsValid(); err != nil {
+			return err
+		}
+	}
 
-	/*
-		for _, s := range n.Stations {
-			if err := Validate(s); err != nil {
-				return err
-			}
+	for _, s := range n.Stations {
+		if err := Validate(s); err != nil {
+			return err
 		}
-	*/
+	}
 
 	return nil
 }

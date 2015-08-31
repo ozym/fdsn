@@ -1,5 +1,9 @@
 package fdsn
 
+import (
+	"fmt"
+)
+
 // Representation of floating-point numbers used as measurements. min: 0, max: 360
 type Azimuth struct {
 	Unit *string `xml:"unit,attr,omitempty"` // DEGREES
@@ -10,4 +14,11 @@ type Azimuth struct {
 	MinusError *float64 `xml:"minusError,attr,omitempty"`
 
 	Value float64 `xml:",chardata"`
+}
+
+func (a Azimuth) IsValid() error {
+	if a.Value < 0 || a.Value > 360 {
+		return fmt.Errorf("azimuth outside range: %g", a.Value)
+	}
+	return nil
 }

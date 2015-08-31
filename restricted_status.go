@@ -48,3 +48,17 @@ func (r *RestrictedStatus) UnmarshalXMLAttr(attr xml.Attr) error {
 
 	return nil
 }
+
+func (r RestrictedStatus) String() string {
+	if !(int(r.Status) < len(restrictedStatusLookup)) {
+		return ""
+	}
+	return restrictedStatusLookup[r.Status]
+}
+
+func (r RestrictedStatus) IsValid() error {
+	if !(int(r.Status) < len(restrictedStatusLookup)) {
+		return fmt.Errorf("invalid nominal entry: %d", r.Status)
+	}
+	return nil
+}

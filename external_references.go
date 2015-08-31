@@ -5,3 +5,10 @@ type ExternalReference struct {
 	URI         AnyURI
 	Description string
 }
+
+func (e ExternalReference) IsValid() error {
+	if err := e.URI.IsValid(); err != nil {
+		return err
+	}
+	return nil
+}

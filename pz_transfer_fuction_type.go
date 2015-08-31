@@ -56,3 +56,10 @@ func (f *PzTransferFunctionType) UnmarshalXML(d *xml.Decoder, start xml.StartEle
 
 	return nil
 }
+
+func (f PzTransferFunctionType) IsValid() error {
+	if !(int(f.Type) < len(pzFunctionLookup)) {
+		return fmt.Errorf("invalid transfer function type: %d", f.Type)
+	}
+	return nil
+}

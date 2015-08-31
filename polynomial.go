@@ -1,5 +1,9 @@
 package fdsn
 
+import (
+	"fmt"
+)
+
 // Response: expressed as a polynomial (allows non-linear sensors to be described).
 // Corresponds to SEED blockette 62. Can be used to describe a stage of acquisition or a complete system.
 type Polynomial struct {
@@ -9,7 +13,7 @@ type Polynomial struct {
 	// A name given to this filter.
 	Name string `xml:"name,attr"`
 
-	Description *string `xml:",omitempty"`
+	Description string `xml:",omitempty"`
 
 	// The units of the data as input from the perspective of data acquisition.
 	// After correcting data for this response, these would be the resulting units.
@@ -27,4 +31,39 @@ type Polynomial struct {
 	MaximumError            float64
 
 	Coefficients []Coefficient `xml:"Coefficient,omitempty"`
+}
+
+func (p Polynomial) IsValid() error {
+	if !(len(p.ResourceId) > 0) {
+		return fmt.Errorf("empty polynomial resourceid")
+	}
+	if !(len(p.Name) > 0) {
+		return fmt.Errorf("empty polynomial name")
+	}
+
+	if err := p.InputUnits.IsValid(); err != nil {
+		return err
+	}
+	if err := p.OutputUnits.IsValid(); err != nil {
+		return err
+	}
+
+	if err := p.ApproximationType.IsValid(); err != nil {
+		return err
+	}
+
+	if err := p.FrequencyLowerBound.IsValid(); err != nil {
+		return err
+	}
+	if err := p.FrequencyUpperBound.IsValid(); err != nil {
+		return err
+	}
+
+	for _, c := range p.Coefficients {
+		if err := c.IsValid(); err != nil {
+			return err
+		}
+	}
+
+	return nil
 }

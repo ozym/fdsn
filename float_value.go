@@ -18,3 +18,7 @@ func (f *FloatValue) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 		return e.EncodeElement(*f, start)
 	}
 }
+
+func (f FloatValue) IsValid() error {
+	return nil
+}

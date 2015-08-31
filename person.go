@@ -1,5 +1,9 @@
 package fdsn
 
+import (
+	"fmt"
+)
+
 // Representation of a person's contact information.
 // A person can belong to multiple agencies and have multiple email addresses and phone numbers.
 type Person struct {
@@ -7,4 +11,28 @@ type Person struct {
 	Agencies     []string      `xml:"Agency,omitempty"`
 	Email        []Email       `xml:"Email,omitempty"`
 	PhoneNumbers []PhoneNumber `xml:"Phone,omitempty"`
+}
+
+func (p Person) IsValid() error {
+	for _, n := range p.Names {
+		if !(len(n) > 0) {
+			return fmt.Errorf("empty person name")
+		}
+	}
+	for _, a := range p.Agencies {
+		if !(len(a) > 0) {
+			return fmt.Errorf("empty person agency")
+		}
+	}
+	for _, e := range p.Email {
+		if err := e.IsValid(); err != nil {
+			return err
+		}
+	}
+	for _, x := range p.PhoneNumbers {
+		if err := x.IsValid(); err != nil {
+			return err
+		}
+	}
+	return nil
 }

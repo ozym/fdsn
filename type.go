@@ -59,7 +59,7 @@ type Type struct {
 
 func (t *Type) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 	if !(int(t.Type) < len(typeLookup)) {
-		return fmt.Errorf("invalid nominal entry: %d", t.Type)
+		return fmt.Errorf("invalid type: %d", t.Type)
 	}
 	return e.EncodeElement(typeLookup[t.Type], start)
 }
@@ -73,10 +73,17 @@ func (t *Type) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	}
 
 	if _, ok := typeMap[s]; !ok {
-		return fmt.Errorf("invalid nominal value: %s", s)
+		return fmt.Errorf("invalid type: %s", s)
 	}
 
 	t.Type = typeMap[s]
 
+	return nil
+}
+
+func (t Type) IsValid() error {
+	if !(int(t.Type) < len(typeLookup)) {
+		return fmt.Errorf("invalid type: %d", t.Type)
+	}
 	return nil
 }
