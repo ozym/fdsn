@@ -20,7 +20,7 @@ type Coefficients struct {
 	// These would be the units of the data prior to correcting for this response.
 	OutputUnits Units
 
-	CfTransferFunctionType string
+	CfTransferFunctionType CfTransferFunctionType
 
 	Numerators   []Float `xml:"Numerator,omitempty"`
 	Denominators []Float `xml:"Denominator,omitempty"`

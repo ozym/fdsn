@@ -6,24 +6,24 @@ import (
 )
 
 const (
-	FUNCTION_UNKNOWN uint = iota
-	FUNCTION_LAPLACE_RADIANS_PER_SECOND
-	FUNCTION_LAPLACE_HERTZ
-	FUNCTION_LAPLACE_Z_TRANSFORM
+	PZ_FUNCTION_UNKNOWN uint = iota
+	PZ_FUNCTION_LAPLACE_RADIANS_PER_SECOND
+	PZ_FUNCTION_LAPLACE_HERTZ
+	PZ_FUNCTION_LAPLACE_Z_TRANSFORM
 )
 
-var functionLookup = []string{
-	FUNCTION_UNKNOWN:                    "UNKNOWN",
-	FUNCTION_LAPLACE_RADIANS_PER_SECOND: "LAPLACE (RADIANS/SECOND)",
-	FUNCTION_LAPLACE_HERTZ:              "LAPLACE (HERTZ)",
-	FUNCTION_LAPLACE_Z_TRANSFORM:        "DIGITAL (Z-TRANSFORM)",
+var pzFunctionLookup = []string{
+	PZ_FUNCTION_UNKNOWN:                    "UNKNOWN",
+	PZ_FUNCTION_LAPLACE_RADIANS_PER_SECOND: "LAPLACE (RADIANS/SECOND)",
+	PZ_FUNCTION_LAPLACE_HERTZ:              "LAPLACE (HERTZ)",
+	PZ_FUNCTION_LAPLACE_Z_TRANSFORM:        "DIGITAL (Z-TRANSFORM)",
 }
 
-var functionMap = map[string]uint{
-	"UNKNOWN":                  FUNCTION_UNKNOWN,
-	"LAPLACE (RADIANS/SECOND)": FUNCTION_LAPLACE_RADIANS_PER_SECOND,
-	"LAPLACE (HERTZ)":          FUNCTION_LAPLACE_HERTZ,
-	"DIGITAL (Z-TRANSFORM)":    FUNCTION_LAPLACE_Z_TRANSFORM,
+var pzFunctionMap = map[string]uint{
+	"UNKNOWN":                  PZ_FUNCTION_UNKNOWN,
+	"LAPLACE (RADIANS/SECOND)": PZ_FUNCTION_LAPLACE_RADIANS_PER_SECOND,
+	"LAPLACE (HERTZ)":          PZ_FUNCTION_LAPLACE_HERTZ,
+	"DIGITAL (Z-TRANSFORM)":    PZ_FUNCTION_LAPLACE_Z_TRANSFORM,
 }
 
 // The type of data this channel collects. Corresponds to
@@ -34,10 +34,10 @@ type PzTransferFunctionType struct {
 }
 
 func (f *PzTransferFunctionType) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
-	if !(int(f.Type) < len(functionLookup)) {
+	if !(int(f.Type) < len(pzFunctionLookup)) {
 		return fmt.Errorf("invalid function entry: %d", f.Type)
 	}
-	return e.EncodeElement(functionLookup[f.Type], start)
+	return e.EncodeElement(pzFunctionLookup[f.Type], start)
 }
 
 func (f *PzTransferFunctionType) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
@@ -48,11 +48,11 @@ func (f *PzTransferFunctionType) UnmarshalXML(d *xml.Decoder, start xml.StartEle
 		return err
 	}
 
-	if _, ok := functionMap[s]; !ok {
+	if _, ok := pzFunctionMap[s]; !ok {
 		return fmt.Errorf("invalid function: %s", s)
 	}
 
-	f.Type = functionMap[s]
+	f.Type = pzFunctionMap[s]
 
 	return nil
 }

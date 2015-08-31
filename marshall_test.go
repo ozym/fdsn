@@ -231,7 +231,7 @@ func TestMarshalling(t *testing.T) {
 									Name:                   "ABAZ.2008.287.HZ10",
 									InputUnits:             Units{Name: "M/S"},
 									OutputUnits:            Units{Name: "V"},
-									PzTransferFunctionType: PzTransferFunctionType{FUNCTION_LAPLACE_RADIANS_PER_SECOND},
+									PzTransferFunctionType: PzTransferFunctionType{PZ_FUNCTION_LAPLACE_RADIANS_PER_SECOND},
 									NormalizationFactor:    0.999556,
 									NormalizationFrequency: Frequency{Value: 15},
 									Zeros: []PoleZero{
@@ -253,7 +253,7 @@ func TestMarshalling(t *testing.T) {
 								Coefficients: &Coefficients{
 									InputUnits:             Units{Name: "V"},
 									OutputUnits:            Units{Name: "COUNTS"},
-									CfTransferFunctionType: "DIGITAL",
+									CfTransferFunctionType: CfTransferFunctionType{CF_FUNCTION_DIGITAL},
 								},
 								Decimation: &Decimation{
 									InputSampleRate: Frequency{Value: 100},
@@ -401,7 +401,7 @@ func TestMarshalling(t *testing.T) {
 										Name:                   "ABAZ.2010.074.HZ10",
 										InputUnits:             Units{Name: "M/S"},
 										OutputUnits:            Units{Name: "V"},
-										PzTransferFunctionType: PzTransferFunctionType{FUNCTION_LAPLACE_RADIANS_PER_SECOND},
+										PzTransferFunctionType: PzTransferFunctionType{PZ_FUNCTION_LAPLACE_RADIANS_PER_SECOND},
 										NormalizationFactor:    1.00008,
 										NormalizationFrequency: Frequency{Value: 15},
 										Zeros: []PoleZero{
@@ -425,7 +425,7 @@ func TestMarshalling(t *testing.T) {
 									Coefficients: &Coefficients{
 										InputUnits:             Units{Name: "V"},
 										OutputUnits:            Units{Name: "COUNTS"},
-										CfTransferFunctionType: "DIGITAL",
+										CfTransferFunctionType: CfTransferFunctionType{CF_FUNCTION_DIGITAL},
 									},
 									Decimation: &Decimation{
 										InputSampleRate: Frequency{Value: 100},
