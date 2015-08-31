@@ -7,6 +7,7 @@ import (
 )
 
 const (
+	FDSN_XML_HEADER     = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
 	FDSN_NAME_SPACE     = "http://www.fdsn.org/xml/station/1"
 	FDSN_SCHEMA_VERSION = "1.0"
 )
@@ -27,14 +28,14 @@ type FDSNStationXML struct {
 	Source string
 
 	// Name of the institution sending this message.
-	Sender *string `xml:",omitempty"`
+	Sender string `xml:",omitempty"`
 
 	//Name of the software module that generated this document.
-	Module *string `xml:",omitempty"`
+	Module string `xml:",omitempty"`
 
 	// This is the address of the query that generated the document, or,
 	// if applicable, the address of the software that generated this document.
-	ModuleURI *string `xml:",omitempty"`
+	ModuleURI string `xml:",omitempty"`
 
 	Created DateTime
 
@@ -42,7 +43,7 @@ type FDSNStationXML struct {
 }
 
 func (x *FDSNStationXML) Marshal() ([]byte, error) {
-	h := []byte(`<?xml version="1.0" encoding="UTF-8"?>`)
+	h := []byte(FDSN_XML_HEADER)
 	s, err := xml.Marshal(x)
 	if err != nil {
 		return nil, err
@@ -55,18 +56,19 @@ func (x *FDSNStationXML) Marshal() ([]byte, error) {
 func (x FDSNStationXML) String() string {
 	var parts []string
 
-	parts = append(parts, fmt.Sprintf("FDSNStationXML: %s", x.SchemaVersion))
+	parts = append(parts, fmt.Sprintf("<FDSNStationXML>"))
+	parts = append(parts, fmt.Sprintf("SchemaVersion: %s", x.SchemaVersion))
 	parts = append(parts, fmt.Sprintf("Source: \"%s\"", x.Source))
-	if x.Sender != nil {
-		parts = append(parts, fmt.Sprintf("Sender: \"%s\"", *x.Sender))
+	if x.Sender != "" {
+		parts = append(parts, fmt.Sprintf("Sender: \"%s\"", x.Sender))
 	}
-	if x.Module != nil {
-		parts = append(parts, fmt.Sprintf("Module: \"%s\"", *x.Module))
+	if x.Module != "" {
+		parts = append(parts, fmt.Sprintf("Module: \"%s\"", x.Module))
 	}
-	if x.ModuleURI != nil {
-		parts = append(parts, fmt.Sprintf("ModuleURI: \"%s\"", *x.ModuleURI))
+	if x.ModuleURI != "" {
+		parts = append(parts, fmt.Sprintf("ModuleURI: \"%s\"", x.ModuleURI))
 	}
-	parts = append(parts, fmt.Sprintf("Created: %s", x.Created))
+	parts = append(parts, fmt.Sprintf("Created: \"%s\"", x.Created))
 	parts = append(parts, fmt.Sprintf("Networks: [%d]...", len(x.Networks)))
 
 	return "<" + strings.Join(parts, "; ") + ">"
@@ -83,8 +85,9 @@ func (x FDSNStationXML) IsValid() error {
 	if !(len(x.Source) > 0) {
 		return fmt.Errorf("empty source element")
 	}
-	if !(x.Created.Year() > 1880) {
-		return fmt.Errorf("bad created date")
+
+	if err := x.Created.IsValid(); err != nil {
+		return err
 	}
 
 	for _, n := range x.Networks {

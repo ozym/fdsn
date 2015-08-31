@@ -2,6 +2,7 @@ package fdsn
 
 import (
 	"encoding/xml"
+	"fmt"
 	"time"
 )
 
@@ -61,5 +62,12 @@ func (t *DateTime) UnmarshalXMLAttr(attr xml.Attr) error {
 	}
 	*t = DateTime{x}
 
+	return nil
+}
+
+func (t *DateTime) IsValid() error {
+	if t.Year() < 1880 {
+		return fmt.Errorf("incorrect date: %s", t.String())
+	}
 	return nil
 }

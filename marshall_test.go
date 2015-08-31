@@ -23,7 +23,7 @@ func TestMarshalling(t *testing.T) {
 		NameSpace:     "http://www.fdsn.org/xml/station/1",
 		SchemaVersion: "1.0",
 		Source:        "SeisComP3",
-		Sender:        MapString("WEL(GNS_Test)"),
+		Sender:        "WEL(GNS_Test)",
 		Created:       MustParse("2015-08-28T11:10:40"),
 	}
 
@@ -31,7 +31,7 @@ func TestMarshalling(t *testing.T) {
 		NameSpace:     "http://www.fdsn.org/xml/station/1",
 		SchemaVersion: "1.0",
 		Source:        "SeisComP3",
-		Sender:        MapString("WEL(GNS_Test)"),
+		Sender:        "WEL(GNS_Test)",
 		Created:       MustParse("2015-08-28T11:10:40"),
 		Networks: []Network{{
 			Code:             "NZ",
@@ -50,7 +50,7 @@ func TestMarshalling(t *testing.T) {
 		NameSpace:     "http://www.fdsn.org/xml/station/1",
 		SchemaVersion: "1.0",
 		Source:        "SeisComP3",
-		Sender:        MapString("WEL(GNS_Test)"),
+		Sender:        "WEL(GNS_Test)",
 		Created:       MustParse("2015-08-28T11:10:02"),
 		Networks: []Network{{
 			Code:             "NZ",
@@ -74,7 +74,7 @@ func TestMarshalling(t *testing.T) {
 		NameSpace:     "http://www.fdsn.org/xml/station/1",
 		SchemaVersion: "1.0",
 		Source:        "SeisComP3",
-		Sender:        MapString("WEL(GNS_Test)"),
+		Sender:        "WEL(GNS_Test)",
 		Created:       MustParse("2015-08-28T11:05:52"),
 		Networks: []Network{{
 			Code:             "NZ",
@@ -172,7 +172,7 @@ func TestMarshalling(t *testing.T) {
 		NameSpace:     "http://www.fdsn.org/xml/station/1",
 		SchemaVersion: "1.0",
 		Source:        "SeisComP3",
-		Sender:        MapString("WEL(GNS_Test)"),
+		Sender:        "WEL(GNS_Test)",
 		Created:       MustParse("2015-08-28T23:11:23"),
 		Networks: []Network{{
 			Code:             "NZ",
