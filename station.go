@@ -4,10 +4,10 @@ package fdsn
 // It is common to only have a single station epoch with the station's creation
 // and termination dates as the epoch start and end dates.
 type Station struct {
-	Code             string    `xml:"code,attr"`
-	StartDate        *DateTime `xml:"startDate,attr,omitempty"`
-	EndDate          *DateTime `xml:"endDate,attr,omitempty"`
-	RestrictedStatus *string   `xml:"restrictedStatus,attr,omitempty"`
+	Code             string            `xml:"code,attr"`
+	StartDate        *DateTime         `xml:"startDate,attr,omitempty"`
+	EndDate          *DateTime         `xml:"endDate,attr,omitempty"`
+	RestrictedStatus *RestrictedStatus `xml:"restrictedStatus,attr,omitempty"`
 
 	// A code used for display or association, alternate to the SEED-compliant code.
 	AlternateCode *string `xml:"alternateCode,attr,omitempty"`

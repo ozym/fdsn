@@ -2,11 +2,11 @@ package fdsn
 
 // Equivalent to SEED blockette 52 and parent element for the related the response blockettes.
 type Channel struct {
-	Code             string    `xml:"code,attr"`
-	StartDate        *DateTime `xml:"startDate,attr,omitempty"`
-	EndDate          *DateTime `xml:"endDate,attr,omitempty"`
-	RestrictedStatus *string   `xml:"restrictedStatus,attr,omitempty"`
-	LocationCode     string    `xml:"locationCode,attr"`
+	Code             string            `xml:"code,attr"`
+	StartDate        *DateTime         `xml:"startDate,attr,omitempty"`
+	EndDate          *DateTime         `xml:"endDate,attr,omitempty"`
+	RestrictedStatus *RestrictedStatus `xml:"restrictedStatus,attr,omitempty"`
+	LocationCode     string            `xml:"locationCode,attr"`
 
 	// A code used for display or association, alternate to the SEED-compliant code.
 	AlternateCode *string `xml:"alternateCode,attr,omitempty"`

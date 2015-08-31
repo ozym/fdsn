@@ -15,9 +15,9 @@ func TestNetwork_Marshal(t *testing.T) {
 	}, "")
 
 	n := &Network{
-		Code:             MapString("NZ"),
+		Code:             "NZ",
 		Description:      MapString("New Zealand National Seismograph Network"),
-		RestrictedStatus: MapString("open"),
+		RestrictedStatus: &RestrictedStatus{STATUS_OPEN},
 		StartDate:        MapDateTime("1980-01-01T00:00:00"),
 	}
 

@@ -4,10 +4,10 @@ package fdsn
 // The official name of the network or other descriptive information can be included in the
 // Description element. The Network can contain 0 or more Stations.
 type Network struct {
-	Code             *string   `xml:"code,attr"`
-	StartDate        *DateTime `xml:"startDate,attr,omitempty"`
-	EndDate          *DateTime `xml:"endDate,attr,omitempty"`
-	RestrictedStatus *string   `xml:"restrictedStatus,attr,omitempty"`
+	Code             string            `xml:"code,attr"`
+	StartDate        *DateTime         `xml:"startDate,attr,omitempty"`
+	EndDate          *DateTime         `xml:"endDate,attr,omitempty"`
+	RestrictedStatus *RestrictedStatus `xml:"restrictedStatus,attr,omitempty"`
 
 	// A code used for display or association, alternate to the SEED-compliant code.
 	AlternateCode *string `xml:"alternateCode,attr,omitempty"`

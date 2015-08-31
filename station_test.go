@@ -24,7 +24,7 @@ func TestStation_Marshal(t *testing.T) {
 		Code:             "ABAZ",
 		Site:             Site{Name: "Army Bay"},
 		StartDate:        MapDateTime("2008-10-13T00:00:00"),
-		RestrictedStatus: MapString("open"),
+		RestrictedStatus: &RestrictedStatus{STATUS_OPEN},
 		Latitude:         Latitude{Value: -36.600224},
 		Longitude:        Longitude{Value: 174.832333},
 		Elevation:        Distance{Value: 74},

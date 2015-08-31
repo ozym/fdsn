@@ -29,7 +29,7 @@ func TestChannel_Marshal(t *testing.T) {
 	c := &Channel{
 		Code:             "EHZ",
 		LocationCode:     "10",
-		RestrictedStatus: MapString("open"),
+		RestrictedStatus: &RestrictedStatus{STATUS_OPEN},
 		Latitude:         Latitude{Value: -36.600224},
 		Longitude:        Longitude{Value: 174.832333},
 		Elevation:        Distance{Value: 74},
