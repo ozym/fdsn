@@ -19,7 +19,7 @@ type Polynomial struct {
 	// These would be the units of the data prior to correcting for this response.
 	OutputUnits Units
 
-	ApproximationType       string
+	ApproximationType       ApproximationType
 	FrequencyLowerBound     Frequency
 	FrequencyUpperBound     Frequency
 	ApproximationLowerBound string

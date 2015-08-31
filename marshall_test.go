@@ -544,13 +544,11 @@ func TestMarshalling(t *testing.T) {
 		{"station", "testdata/station.xml", s},
 		{"channel", "testdata/channel.xml", c},
 		{"response", "testdata/response.xml", r},
-		/*
-			{"ac1a", "testdata/ac1a.xml", nil},
-			{"akus", "testdata/akus.xml", nil},
-			{"mqz", "testdata/mqz.xml", nil},
-			{"covz", "testdata/covz.xml", nil},
-			{"glkz", "testdata/glkz.xml", nil},
-		*/
+		{"ac1a", "testdata/ac1a.xml", nil},
+		{"akus", "testdata/akus.xml", nil},
+		{"mqz", "testdata/mqz.xml", nil},
+		{"covz", "testdata/covz.xml", nil},
+		{"glkz", "testdata/glkz.xml", nil},
 	}
 
 	var remaps = []struct {
@@ -563,30 +561,28 @@ func TestMarshalling(t *testing.T) {
 		{"&apos;", "&#39;"},
 	}
 
-	/*
-		for _, test := range tests {
-			if test.s != nil {
-				x, err := ioutil.ReadFile(test.x)
-				if err != nil {
-					t.Error(err)
-				}
+	for _, test := range tests {
+		if test.s != nil {
+			x, err := ioutil.ReadFile(test.x)
+			if err != nil {
+				t.Error(err)
+			}
 
-				y := string(x)
-				for _, n := range remaps {
-					y = strings.Replace(y, n.f, n.t, -1)
-				}
+			y := string(x)
+			for _, n := range remaps {
+				y = strings.Replace(y, n.f, n.t, -1)
+			}
 
-				s, err := test.s.Marshal()
-				if err != nil {
-					t.Error(err)
-				}
+			s, err := test.s.Marshal()
+			if err != nil {
+				t.Error(err)
+			}
 
-				if !reflect.DeepEqual(string(s), y) {
-					t.Errorf("Marshal %s: \n\t%q\n\t%q\n", test.n, string(s), y)
-				}
+			if !reflect.DeepEqual(string(s), y) {
+				t.Errorf("Marshal %s: \n\t%q\n\t%q\n", test.n, string(s), y)
 			}
 		}
-	*/
+	}
 
 	for _, test := range tests {
 		x, err := ioutil.ReadFile(test.x)
