@@ -17,7 +17,7 @@ type PolesZeros struct {
 	// These would be the units of the data prior to correcting for this response.
 	OutputUnits Units
 
-	PzTransferFunctionType string
+	PzTransferFunctionType PzTransferFunctionType
 	NormalizationFactor    FloatValue
 	NormalizationFrequency Frequency
 	Zeros                  []PoleZero `xml:"Zero,omitempty"`

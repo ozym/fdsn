@@ -80,22 +80,3 @@ func (t *Type) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 
 	return nil
 }
-
-func (t *Type) MarshalXMLAttr(name xml.Name) (xml.Attr, error) {
-	if !(int(t.Type) < len(typeLookup)) {
-		return xml.Attr{}, fmt.Errorf("invalid nominal entry: %d", t.Type)
-	}
-
-	return xml.Attr{Name: name, Value: typeLookup[t.Type]}, nil
-}
-
-func (t *Type) UnmarshalXMLAttr(attr xml.Attr) error {
-
-	if _, ok := typeMap[attr.Value]; !ok {
-		return fmt.Errorf("invalid type: %s", attr.Value)
-	}
-
-	*t = Type{Type: typeMap[attr.Value]}
-
-	return nil
-}

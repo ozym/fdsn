@@ -30,30 +30,6 @@ type RestrictedStatus struct {
 	Status uint
 }
 
-func (r *RestrictedStatus) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
-	if !(int(r.Status) < len(restrictedStatusLookup)) {
-		return fmt.Errorf("invalid nominal entry: %d", r.Status)
-	}
-	return e.EncodeElement(restrictedStatusLookup[r.Status], start)
-}
-
-func (r *RestrictedStatus) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
-
-	var s string
-	err := d.DecodeElement(&s, &start)
-	if err != nil {
-		return err
-	}
-
-	if _, ok := restrictedStatusMap[s]; !ok {
-		return fmt.Errorf("invalid nominal value: %s", s)
-	}
-
-	r.Status = restrictedStatusMap[s]
-
-	return nil
-}
-
 func (r *RestrictedStatus) MarshalXMLAttr(name xml.Name) (xml.Attr, error) {
 	if !(int(r.Status) < len(restrictedStatusLookup)) {
 		return xml.Attr{}, fmt.Errorf("invalid nominal entry: %d", r.Status)
