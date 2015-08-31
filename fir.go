@@ -19,6 +19,6 @@ type FIR struct {
 	// These would be the units of the data prior to correcting for this response.
 	OutputUnits Units
 
-	Symmetry              string
+	Symmetry              Symmetry
 	NumeratorCoefficients []NumeratorCoefficient `xml:"NumeratorCoefficient,omitempty"`
 }

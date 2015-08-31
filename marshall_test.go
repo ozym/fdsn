@@ -274,7 +274,7 @@ func TestMarshalling(t *testing.T) {
 									Name:        "ABAZ.10.EHZ.2008.287.stage_3",
 									InputUnits:  Units{Name: "COUNTS"},
 									OutputUnits: Units{Name: "COUNTS"},
-									Symmetry:    "NONE",
+									Symmetry:    Symmetry{SYMMETRY_NONE},
 									NumeratorCoefficients: []NumeratorCoefficient{
 										{Coefficient: 0, Value: 1.31549e-11},
 										{Coefficient: 1, Value: 0.000150107},
@@ -446,7 +446,7 @@ func TestMarshalling(t *testing.T) {
 										Name:        "ABAZ.10.EHZ.2010.074.stage_3",
 										InputUnits:  Units{Name: "COUNTS"},
 										OutputUnits: Units{Name: "COUNTS"},
-										Symmetry:    "NONE",
+										Symmetry:    Symmetry{SYMMETRY_NONE},
 										NumeratorCoefficients: []NumeratorCoefficient{
 											{Coefficient: 0, Value: 1.31549e-11},
 											{Coefficient: 1, Value: 0.000150107},
