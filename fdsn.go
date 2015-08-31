@@ -2,6 +2,13 @@ package fdsn
 
 import (
 	"encoding/xml"
+	"fmt"
+	"strings"
+)
+
+const (
+	FDSN_NAME_SPACE     = "http://www.fdsn.org/xml/station/1"
+	FDSN_SCHEMA_VERSION = "1.0"
 )
 
 // FDSN StationXML schema. Designed as an XML representation of SEED metadata, the schema maps to
@@ -41,4 +48,50 @@ func (x *FDSNStationXML) Marshal() ([]byte, error) {
 		return nil, err
 	}
 	return append(h, append(s, '\n')...), nil
+}
+
+// standard interface implementations
+
+func (x FDSNStationXML) String() string {
+	var parts []string
+
+	parts = append(parts, fmt.Sprintf("FDSNStationXML: %s", x.SchemaVersion))
+	parts = append(parts, fmt.Sprintf("Source: \"%s\"", x.Source))
+	if x.Sender != nil {
+		parts = append(parts, fmt.Sprintf("Sender: \"%s\"", *x.Sender))
+	}
+	if x.Module != nil {
+		parts = append(parts, fmt.Sprintf("Module: \"%s\"", *x.Module))
+	}
+	if x.ModuleURI != nil {
+		parts = append(parts, fmt.Sprintf("ModuleURI: \"%s\"", *x.ModuleURI))
+	}
+	parts = append(parts, fmt.Sprintf("Created: %s", x.Created))
+	parts = append(parts, fmt.Sprintf("Networks: [%d]...", len(x.Networks)))
+
+	return "<" + strings.Join(parts, "; ") + ">"
+}
+
+func (x FDSNStationXML) IsValid() error {
+
+	if x.NameSpace != FDSN_NAME_SPACE {
+		return fmt.Errorf("wrong name space: %s", x.NameSpace)
+	}
+	if x.SchemaVersion != FDSN_SCHEMA_VERSION {
+		return fmt.Errorf("wrong schema version: %s", x.SchemaVersion)
+	}
+	if !(len(x.Source) > 0) {
+		return fmt.Errorf("empty source element")
+	}
+	if !(x.Created.Year() > 1880) {
+		return fmt.Errorf("bad created date")
+	}
+
+	for _, n := range x.Networks {
+		if err := Validate(n); err != nil {
+			return err
+		}
+	}
+
+	return nil
 }

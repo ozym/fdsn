@@ -27,11 +27,31 @@ type ApproximationType struct {
 	Type uint
 }
 
-func (f *ApproximationType) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
-	if !(int(f.Type) < len(approximationLookup)) {
-		return fmt.Errorf("invalid function entry: %d", f.Type)
+func (f *ApproximationType) Valid() bool {
+
+	if int(f.Type) < len(approximationLookup) {
+		return true
 	}
-	return e.EncodeElement(approximationLookup[f.Type], start)
+
+	return false
+}
+
+func (f *ApproximationType) String() string {
+
+	if f.Valid() {
+		return approximationLookup[f.Type]
+	}
+
+	return ""
+}
+
+func (f *ApproximationType) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
+
+	if f.Valid() {
+		return e.EncodeElement(approximationLookup[f.Type], start)
+	}
+
+	return fmt.Errorf("invalid function entry: %d", f.Type)
 }
 
 func (f *ApproximationType) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {

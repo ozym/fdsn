@@ -30,3 +30,37 @@ func TestNetwork_Marshal(t *testing.T) {
 		t.Error(strings.Join([]string{"marshalling mismatch:", (string)(x), testNetwork, ""}, "\n=========\n"))
 	}
 }
+
+func TestNetwork_Valid(t *testing.T) {
+
+	n := Network{
+		Code:             "NZ",
+		Description:      MapString("New Zealand National Seismograph Network"),
+		RestrictedStatus: &RestrictedStatus{STATUS_OPEN},
+		StartDate:        MapDateTime("1980-01-01T00:00:00"),
+	}
+
+	if err := Validate(n); err != nil {
+		t.Errorf("Network struct is not valid: %s", err)
+	}
+}
+
+func TestNetwork_InValid(t *testing.T) {
+	var tests = []Network{
+		Network{
+			Code: "",
+		},
+		/*
+			Network{
+				Code:      "NZ",
+				StartDate: MapDateTime("1080-01-01T00:00:00"),
+			},
+		*/
+	}
+
+	for _, n := range tests {
+		if err := Validate(n); err == nil {
+			t.Errorf("Network struct should be invalid: %s", n)
+		}
+	}
+}

@@ -563,6 +563,14 @@ func TestMarshalling(t *testing.T) {
 
 	for _, test := range tests {
 		if test.s != nil {
+			if err := Validate(test.s); err != nil {
+				t.Errorf("FDSNStationXML struct is not valid %s: %s", test.n, err)
+			}
+		}
+	}
+
+	for _, test := range tests {
+		if test.s != nil {
 			x, err := ioutil.ReadFile(test.x)
 			if err != nil {
 				t.Error(err)

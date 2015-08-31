@@ -1,5 +1,10 @@
 package fdsn
 
+import (
+	"fmt"
+	"strings"
+)
+
 // This type represents the Network layer, all station metadata is contained within this element.
 // The official name of the network or other descriptive information can be included in the
 // Description element. The Network can contain 0 or more Stations.
@@ -27,4 +32,67 @@ type Network struct {
 	SelectedNumberStations *uint32 `xml:",omitempty"`
 
 	Stations []Station `xml:"Station,omitempty"`
+}
+
+func (n Network) String() string {
+	var parts []string
+
+	parts = append(parts, fmt.Sprintf("Network: %s", n.Code))
+	/* need to call String()
+	if n.StartDate != nil {
+		parts = append(parts, fmt.Sprintf("StartDate: \"%s\"", *n.StartDate))
+	}
+	if n.EndDate != nil {
+		parts = append(parts, fmt.Sprintf("EndDate: \"%s\"", *n.EndDate))
+	}
+	*/
+	if n.RestrictedStatus != nil {
+		parts = append(parts, fmt.Sprintf("RestrictedStatus: \"%s\"", *n.RestrictedStatus))
+	}
+	if n.AlternateCode != nil {
+		parts = append(parts, fmt.Sprintf("AlternateCode: \"%s\"", *n.AlternateCode))
+	}
+	if n.HistoricalCode != nil {
+		parts = append(parts, fmt.Sprintf("HistoricalCode: \"%s\"", *n.HistoricalCode))
+	}
+	if n.Description != nil {
+		parts = append(parts, fmt.Sprintf("Description: \"%s\"", *n.Description))
+	}
+	parts = append(parts, fmt.Sprintf("Comments: [%d]...", len(n.Comments)))
+	if n.TotalNumberStations != nil {
+		parts = append(parts, fmt.Sprintf("TotalNumberStations: \"%d\"", *n.TotalNumberStations))
+	}
+	if n.SelectedNumberStations != nil {
+		parts = append(parts, fmt.Sprintf("SelectedNumberStations: \"%d\"", *n.SelectedNumberStations))
+	}
+	parts = append(parts, fmt.Sprintf("Stations: [%d]...", len(n.Stations)))
+
+	return "<" + strings.Join(parts, "; ") + ">"
+}
+
+func (n Network) IsValid() error {
+
+	if !(len(n.Code) > 0) {
+		return fmt.Errorf("empty code element")
+	}
+
+	// need to validate all non ....
+	/*
+		if n.StartDate != nil && n.StartDate.Year() < 1880 {
+			return fmt.Errorf("bad start date")
+		}
+		if n.EndDate != nil && n.EndDate.Year() < 1880 {
+			return fmt.Errorf("bad end date")
+		}
+	*/
+
+	/*
+		for _, s := range n.Stations {
+			if err := Validate(s); err != nil {
+				return err
+			}
+		}
+	*/
+
+	return nil
 }
