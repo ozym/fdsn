@@ -10,3 +10,10 @@ type Gain struct {
 	// The frequency (in Hertz) at which the Value is valid.
 	Frequency float64
 }
+
+func (g Gain) IsValid() error {
+	if err := g.Value.IsValid(); err != nil {
+		return err
+	}
+	return nil
+}

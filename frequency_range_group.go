@@ -6,3 +6,7 @@ type FrequencyRangeGroup struct {
 	// Variation in decibels within the specified range.
 	FrequencyDBVariation float64
 }
+
+func (f FrequencyRangeGroup) IsValid() error {
+	return nil
+}

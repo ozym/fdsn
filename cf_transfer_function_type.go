@@ -56,3 +56,11 @@ func (f *CfTransferFunctionType) UnmarshalXML(d *xml.Decoder, start xml.StartEle
 
 	return nil
 }
+
+func (f CfTransferFunctionType) IsValid() error {
+	if !(int(f.Type) < len(cfFunctionLookup)) {
+		return fmt.Errorf("invalid function entry: %d", f.Type)
+	}
+
+	return nil
+}

@@ -23,7 +23,7 @@ func TestMarshalling(t *testing.T) {
 		NameSpace:     "http://www.fdsn.org/xml/station/1",
 		SchemaVersion: "1.0",
 		Source:        "SeisComP3",
-		Sender:        MapString("WEL(GNS_Test)"),
+		Sender:        "WEL(GNS_Test)",
 		Created:       MustParse("2015-08-28T11:10:40"),
 	}
 
@@ -31,11 +31,11 @@ func TestMarshalling(t *testing.T) {
 		NameSpace:     "http://www.fdsn.org/xml/station/1",
 		SchemaVersion: "1.0",
 		Source:        "SeisComP3",
-		Sender:        MapString("WEL(GNS_Test)"),
+		Sender:        "WEL(GNS_Test)",
 		Created:       MustParse("2015-08-28T11:10:40"),
 		Networks: []Network{{
 			Code:             "NZ",
-			Description:      MapString("New Zealand National Seismograph Network"),
+			Description:      "New Zealand National Seismograph Network",
 			RestrictedStatus: &RestrictedStatus{STATUS_OPEN},
 			StartDate:        MapDateTime("1980-01-01T00:00:00"),
 		}},
@@ -50,11 +50,11 @@ func TestMarshalling(t *testing.T) {
 		NameSpace:     "http://www.fdsn.org/xml/station/1",
 		SchemaVersion: "1.0",
 		Source:        "SeisComP3",
-		Sender:        MapString("WEL(GNS_Test)"),
+		Sender:        "WEL(GNS_Test)",
 		Created:       MustParse("2015-08-28T11:10:02"),
 		Networks: []Network{{
 			Code:             "NZ",
-			Description:      MapString("New Zealand National Seismograph Network"),
+			Description:      "New Zealand National Seismograph Network",
 			RestrictedStatus: &RestrictedStatus{STATUS_OPEN},
 			StartDate:        MapDateTime("1980-01-01T00:00:00"),
 			Stations: []Station{{
@@ -74,11 +74,11 @@ func TestMarshalling(t *testing.T) {
 		NameSpace:     "http://www.fdsn.org/xml/station/1",
 		SchemaVersion: "1.0",
 		Source:        "SeisComP3",
-		Sender:        MapString("WEL(GNS_Test)"),
+		Sender:        "WEL(GNS_Test)",
 		Created:       MustParse("2015-08-28T11:05:52"),
 		Networks: []Network{{
 			Code:             "NZ",
-			Description:      MapString("New Zealand National Seismograph Network"),
+			Description:      "New Zealand National Seismograph Network",
 			RestrictedStatus: &RestrictedStatus{STATUS_OPEN},
 			StartDate:        MapDateTime("1980-01-01T00:00:00"),
 			Stations: []Station{{Code: "ABAZ",
@@ -109,14 +109,14 @@ func TestMarshalling(t *testing.T) {
 					StartDate:     MapDateTime("2008-10-13T04:00:00"),
 					EndDate:       MapDateTime("2010-03-15T02:00:00"),
 					Sensor: &Equipment{
-						ResourceId:  MapString("Sensor#20150130114212.658908.42"),
-						Type:        MapString("L4C-3D"),
-						Description: MapString("L4C-3D"),
-						Model:       MapString("L4C-3D"),
+						ResourceId:  "Sensor#20150130114212.658908.42",
+						Type:        "L4C-3D",
+						Description: "L4C-3D",
+						Model:       "L4C-3D",
 					},
 					DataLogger: &Equipment{
-						ResourceId:  MapString("Datalogger#20150130114212.658624.40"),
-						Description: MapString("ABAZ.2008.287.EHZ10"),
+						ResourceId:  "Datalogger#20150130114212.658624.40",
+						Description: "ABAZ.2008.287.EHZ10",
 					},
 					Response: &Response{
 						InstrumentSensitivity: &Sensitivity{
@@ -146,14 +146,14 @@ func TestMarshalling(t *testing.T) {
 						ClockDrift:    &ClockDrift{Value: 0.0001},
 						StartDate:     MapDateTime("2010-03-15T02:15:00"),
 						Sensor: &Equipment{
-							ResourceId:  MapString("Sensor#20150130114212.659492.46"),
-							Type:        MapString("LE-3DliteMkII"),
-							Description: MapString("LE-3DliteMkII"),
-							Model:       MapString("LE-3DliteMkII"),
+							ResourceId:  "Sensor#20150130114212.659492.46",
+							Type:        "LE-3DliteMkII",
+							Description: "LE-3DliteMkII",
+							Model:       "LE-3DliteMkII",
 						},
 						DataLogger: &Equipment{
-							ResourceId:  MapString("Datalogger#20150130114212.659187.44"),
-							Description: MapString("ABAZ.2010.074.EHZ10"),
+							ResourceId:  "Datalogger#20150130114212.659187.44",
+							Description: "ABAZ.2010.074.EHZ10",
 						},
 						Response: &Response{
 							InstrumentSensitivity: &Sensitivity{
@@ -172,11 +172,11 @@ func TestMarshalling(t *testing.T) {
 		NameSpace:     "http://www.fdsn.org/xml/station/1",
 		SchemaVersion: "1.0",
 		Source:        "SeisComP3",
-		Sender:        MapString("WEL(GNS_Test)"),
+		Sender:        "WEL(GNS_Test)",
 		Created:       MustParse("2015-08-28T23:11:23"),
 		Networks: []Network{{
 			Code:             "NZ",
-			Description:      MapString("New Zealand National Seismograph Network"),
+			Description:      "New Zealand National Seismograph Network",
 			RestrictedStatus: &RestrictedStatus{STATUS_OPEN},
 			StartDate:        MapDateTime("1980-01-01T00:00:00"),
 			Stations: []Station{{Code: "ABAZ",
@@ -207,14 +207,14 @@ func TestMarshalling(t *testing.T) {
 					StartDate:     MapDateTime("2008-10-13T04:00:00"),
 					EndDate:       MapDateTime("2010-03-15T02:00:00"),
 					Sensor: &Equipment{
-						ResourceId:  MapString("Sensor#20150130114212.658908.42"),
-						Type:        MapString("L4C-3D"),
-						Description: MapString("L4C-3D"),
-						Model:       MapString("L4C-3D"),
+						ResourceId:  "Sensor#20150130114212.658908.42",
+						Type:        "L4C-3D",
+						Description: "L4C-3D",
+						Model:       "L4C-3D",
 					},
 					DataLogger: &Equipment{
-						ResourceId:  MapString("Datalogger#20150130114212.658624.40"),
-						Description: MapString("ABAZ.2008.287.EHZ10"),
+						ResourceId:  "Datalogger#20150130114212.658624.40",
+						Description: "ABAZ.2008.287.EHZ10",
 					},
 					Response: &Response{
 						InstrumentSensitivity: &Sensitivity{
@@ -377,14 +377,14 @@ func TestMarshalling(t *testing.T) {
 						ClockDrift:    &ClockDrift{Value: 0.0001},
 						StartDate:     MapDateTime("2010-03-15T02:15:00"),
 						Sensor: &Equipment{
-							ResourceId:  MapString("Sensor#20150130114212.659492.46"),
-							Type:        MapString("LE-3DliteMkII"),
-							Description: MapString("LE-3DliteMkII"),
-							Model:       MapString("LE-3DliteMkII"),
+							ResourceId:  "Sensor#20150130114212.659492.46",
+							Type:        "LE-3DliteMkII",
+							Description: "LE-3DliteMkII",
+							Model:       "LE-3DliteMkII",
 						},
 						DataLogger: &Equipment{
-							ResourceId:  MapString("Datalogger#20150130114212.659187.44"),
-							Description: MapString("ABAZ.2010.074.EHZ10"),
+							ResourceId:  "Datalogger#20150130114212.659187.44",
+							Description: "ABAZ.2010.074.EHZ10",
 						},
 						Response: &Response{
 							InstrumentSensitivity: &Sensitivity{

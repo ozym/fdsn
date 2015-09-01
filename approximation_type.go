@@ -27,18 +27,9 @@ type ApproximationType struct {
 	Type uint
 }
 
-func (f *ApproximationType) Valid() bool {
-
-	if int(f.Type) < len(approximationLookup) {
-		return true
-	}
-
-	return false
-}
-
 func (f *ApproximationType) String() string {
 
-	if f.Valid() {
+	if int(f.Type) < len(approximationLookup) {
 		return approximationLookup[f.Type]
 	}
 
@@ -47,7 +38,7 @@ func (f *ApproximationType) String() string {
 
 func (f *ApproximationType) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 
-	if f.Valid() {
+	if int(f.Type) < len(approximationLookup) {
 		return e.EncodeElement(approximationLookup[f.Type], start)
 	}
 
@@ -69,4 +60,12 @@ func (f *ApproximationType) UnmarshalXML(d *xml.Decoder, start xml.StartElement)
 	f.Type = approximationMap[s]
 
 	return nil
+}
+
+func (f ApproximationType) IsValid() error {
+	if !(int(f.Type) < len(approximationLookup)) {
+		return fmt.Errorf("invalid approximation type: %d", f.Type)
+	}
+	return nil
+
 }

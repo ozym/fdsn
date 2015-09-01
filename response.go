@@ -5,7 +5,7 @@ package fdsn
 // to convert raw data to Earth at a specified frequency or within a range of frequencies.
 type Response struct {
 	// Same meaning as Equipment:resourceId.
-	ResourceId *string `xml:"resourceId,attr,omitempty"` // schema indicates this is not optional however
+	ResourceId string `xml:"resourceId,attr,omitempty"` // schema indicates this is not optional however
 
 	// The total sensitivity for a channel, representing the complete acquisition system expressed as a scalar.
 	// Equivalent to SEED stage 0 gain with (blockette 58) with the ability to specify a frequency range.
@@ -16,4 +16,23 @@ type Response struct {
 	InstrumentPolynomial *Polynomial `xml:",omitempty"`
 
 	Stages []ResponseStage `xml:"Stage,omitempty"`
+}
+
+func (r Response) IsValid() error {
+	if r.InstrumentSensitivity != nil {
+		if err := r.InstrumentSensitivity.IsValid(); err != nil {
+			return err
+		}
+	}
+	if r.InstrumentPolynomial != nil {
+		if err := r.InstrumentPolynomial.IsValid(); err != nil {
+			return err
+		}
+	}
+	for _, s := range r.Stages {
+		if err := s.IsValid(); err != nil {
+			return err
+		}
+	}
+	return nil
 }

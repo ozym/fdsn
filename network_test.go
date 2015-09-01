@@ -16,7 +16,7 @@ func TestNetwork_Marshal(t *testing.T) {
 
 	n := &Network{
 		Code:             "NZ",
-		Description:      MapString("New Zealand National Seismograph Network"),
+		Description:      "New Zealand National Seismograph Network",
 		RestrictedStatus: &RestrictedStatus{STATUS_OPEN},
 		StartDate:        MapDateTime("1980-01-01T00:00:00"),
 	}
@@ -31,17 +31,51 @@ func TestNetwork_Marshal(t *testing.T) {
 	}
 }
 
+func TestNetwork_String(t *testing.T) {
+
+	var tests = []struct {
+		s string
+		x Network
+	}{
+		{
+			`{"Code":"XX","StartDate":"1980-01-01T00:00:00","EndDate":"1980-01-01T00:00:00","RestrictedStatus":"open","AlternateCode":"YY","HistoricalCode":"ZZ","Description":"D"}`,
+			Network{
+				Code:             "XX",
+				StartDate:        MapDateTime("1980-01-01T00:00:00"),
+				EndDate:          MustParsePtr("1980-01-01T00:00:00"),
+				RestrictedStatus: &RestrictedStatus{STATUS_OPEN},
+				AlternateCode:    "YY",
+				HistoricalCode:   "ZZ",
+				Description:      "D",
+			},
+		}, {
+			`{"Code":"XX"}`,
+			Network{
+				Code: "XX",
+			},
+		}, {
+			`{"Code":""}`,
+			Network{},
+		}}
+
+	for _, test := range tests {
+		if test.x.String() != test.s {
+			t.Error(strings.Join([]string{"string mismatch:", test.x.String(), test.s, ""}, "\n****\n"))
+		}
+	}
+}
+
 func TestNetwork_Valid(t *testing.T) {
 
 	n := Network{
 		Code:             "NZ",
-		Description:      MapString("New Zealand National Seismograph Network"),
+		Description:      "New Zealand National Seismograph Network",
 		RestrictedStatus: &RestrictedStatus{STATUS_OPEN},
 		StartDate:        MapDateTime("1980-01-01T00:00:00"),
 	}
 
 	if err := Validate(n); err != nil {
-		t.Errorf("Network struct is not valid: %s", err)
+		t.Errorf("network struct is not valid: %s", err)
 	}
 }
 
@@ -50,17 +84,11 @@ func TestNetwork_InValid(t *testing.T) {
 		Network{
 			Code: "",
 		},
-		/*
-			Network{
-				Code:      "NZ",
-				StartDate: MapDateTime("1080-01-01T00:00:00"),
-			},
-		*/
 	}
 
 	for _, n := range tests {
 		if err := Validate(n); err == nil {
-			t.Errorf("Network struct should be invalid: %s", n)
+			t.Errorf("network struct should be invalid: %s", n)
 		}
 	}
 }

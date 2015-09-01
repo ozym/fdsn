@@ -18,3 +18,22 @@ type Sensitivity struct {
 	// The frequency range for which the SensitivityValue is valid within the dB variation specified.
 	FrequencyRangeGroups []FrequencyRangeGroup `xml:"FrequencyRangeGroup,omitempty"`
 }
+
+func (s Sensitivity) IsValid() error {
+	if err := s.Value.IsValid(); err != nil {
+		return err
+	}
+	if err := s.InputUnits.IsValid(); err != nil {
+		return err
+	}
+	if err := s.OutputUnits.IsValid(); err != nil {
+		return err
+	}
+	for _, f := range s.FrequencyRangeGroups {
+		if err := f.IsValid(); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
