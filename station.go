@@ -1,6 +1,7 @@
 package fdsn
 
 import (
+	"encoding/json"
 	"fmt"
 )
 
@@ -9,18 +10,18 @@ import (
 // and termination dates as the epoch start and end dates.
 type Station struct {
 	Code             string            `xml:"code,attr"`
-	StartDate        *DateTime         `xml:"startDate,attr,omitempty"`
-	EndDate          *DateTime         `xml:"endDate,attr,omitempty"`
-	RestrictedStatus *RestrictedStatus `xml:"restrictedStatus,attr,omitempty"`
+	StartDate        *DateTime         `xml:"startDate,attr,omitempty" json:",omitempty"`
+	EndDate          *DateTime         `xml:"endDate,attr,omitempty" json:",omitempty"`
+	RestrictedStatus *RestrictedStatus `xml:"restrictedStatus,attr,omitempty" json:",omitempty"`
 
 	// A code used for display or association, alternate to the SEED-compliant code.
-	AlternateCode string `xml:"alternateCode,attr,omitempty"`
+	AlternateCode string `xml:"alternateCode,attr,omitempty" json:",omitempty"`
 
 	// A previously used code if different from the current code.
-	HistoricalCode string `xml:"historicalCode,attr,omitempty"`
+	HistoricalCode string `xml:"historicalCode,attr,omitempty" json:",omitempty"`
 
-	Description string    `xml:"description,omitempty"`
-	Comments    []Comment `xml:"comment,omitempty"`
+	Description string    `xml:"description,omitempty" json:",omitempty"`
+	Comments    []Comment `xml:"comment,omitempty" json:",omitempty"`
 
 	Latitude  Latitude
 	Longitude Longitude
@@ -31,38 +32,47 @@ type Station struct {
 	Site Site
 
 	// Type of vault, e.g. WWSSN, tunnel, transportable array, etc.
-	Vault string `xml:",omitempty"`
+	Vault string `xml:",omitempty" json:",omitempty"`
 
 	// Type of rock and/or geologic formation.
-	Geology string `xml:",omitempty"`
+	Geology string `xml:",omitempty" json:",omitempty"`
 
 	// Equipment used by all channels at a station.
-	Equipments []Equipment `xml:"Equipment,omitempty"`
+	Equipments []Equipment `xml:"Equipment,omitempty" json:",omitempty"`
 
 	// An operating agency and associated contact persons.
 	// If there multiple operators, each one should be encapsulated within an Operator tag.
 	// Since the Contact element is a generic type that represents any contact person,
 	// it also has its own optional Agency element.
-	Operators []Operator `xml:"Operator,omitempty"`
+	Operators []Operator `xml:"Operator,omitempty" json:",omitempty"`
 
 	// Date and time (UTC) when the station was first installed.
 	CreationDate DateTime
 
 	// Date and time (UTC) when the station was terminated or will be terminated.
 	// A blank value should be assumed to mean that the station is still active.
-	TerminationDate *DateTime `xml",omitempty"`
+	TerminationDate *DateTime `xml:",omitempty" json:",omitempty"`
 
 	// Total number of channels recorded at this station.
-	TotalNumberChannels uint32 `xml:",omitempty"`
+	TotalNumberChannels uint32 `xml:",omitempty" json:",omitempty"`
 
 	// Number of channels recorded at this station and selected by the query
 	// that produced this document.
-	SelectedNumberChannels uint32 `xml:",omitempty"`
+	SelectedNumberChannels uint32 `xml:",omitempty" json:",omitempty"`
 
 	// URI of any type of external report, such as IRIS data reports or dataless SEED volumes.
-	ExternalReferences []ExternalReference `xml:"ExternalReference,omitempty"`
+	ExternalReferences []ExternalReference `xml:"ExternalReference,omitempty" json:",omitempty"`
 
-	Channels []Channel `xml:"Channel,omitempty"`
+	Channels []Channel `xml:"Channel,omitempty" json:",omitempty"`
+}
+
+func (s Station) String() string {
+
+	j, err := json.Marshal(&s)
+	if err != nil {
+		return ""
+	}
+	return string(j)
 }
 
 func (s Station) IsValid() error {

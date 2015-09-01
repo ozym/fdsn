@@ -2,7 +2,7 @@ package fdsn
 
 // Sample rate in samples per second.
 type SampleRate struct {
-	Unit string `xml:"unit,attr,omitempty"` // SAMPLES/S
+	Unit string `xml:"unit,attr,omitempty" json:",omitempty"` // SAMPLES/S
 
 	Value float64 `xml:",chardata"`
 }

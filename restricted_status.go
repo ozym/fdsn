@@ -1,6 +1,7 @@
 package fdsn
 
 import (
+	"encoding/json"
 	"encoding/xml"
 	"fmt"
 )
@@ -32,7 +33,7 @@ type RestrictedStatus struct {
 
 func (r *RestrictedStatus) MarshalXMLAttr(name xml.Name) (xml.Attr, error) {
 	if !(int(r.Status) < len(restrictedStatusLookup)) {
-		return xml.Attr{}, fmt.Errorf("invalid nominal entry: %d", r.Status)
+		return xml.Attr{}, fmt.Errorf("invalid restricted value: %d", r.Status)
 	}
 
 	return xml.Attr{Name: name, Value: restrictedStatusLookup[r.Status]}, nil
@@ -41,7 +42,7 @@ func (r *RestrictedStatus) MarshalXMLAttr(name xml.Name) (xml.Attr, error) {
 func (r *RestrictedStatus) UnmarshalXMLAttr(attr xml.Attr) error {
 
 	if _, ok := restrictedStatusMap[attr.Value]; !ok {
-		return fmt.Errorf("invalid nominal value: %s", attr.Value)
+		return fmt.Errorf("invalid restricted value: %s", attr.Value)
 	}
 
 	*r = RestrictedStatus{Status: restrictedStatusMap[attr.Value]}
@@ -49,16 +50,42 @@ func (r *RestrictedStatus) UnmarshalXMLAttr(attr xml.Attr) error {
 	return nil
 }
 
-func (r RestrictedStatus) String() string {
+func (r *RestrictedStatus) MarshalJSON() ([]byte, error) {
 	if !(int(r.Status) < len(restrictedStatusLookup)) {
+		return nil, fmt.Errorf("invalid restricted value: %d", r.Status)
+	}
+	return []byte(`"` + restrictedStatusLookup[r.Status] + `"`), nil
+}
+
+func (r *RestrictedStatus) UnmarshalJSON(data []byte) error {
+	var b []byte
+	err := json.Unmarshal(data, b)
+	if err != nil {
+		return err
+	}
+	s := string(b)
+
+	if _, ok := restrictedStatusMap[s]; !ok {
+		return fmt.Errorf("invalid restricted value: %s", s)
+	}
+
+	*r = RestrictedStatus{Status: restrictedStatusMap[s]}
+
+	return nil
+}
+
+func (r RestrictedStatus) String() string {
+
+	j, err := json.Marshal(&r)
+	if err != nil {
 		return ""
 	}
-	return restrictedStatusLookup[r.Status]
+	return string(j)
 }
 
 func (r RestrictedStatus) IsValid() error {
 	if !(int(r.Status) < len(restrictedStatusLookup)) {
-		return fmt.Errorf("invalid nominal entry: %d", r.Status)
+		return fmt.Errorf("invalid restricted value: %d", r.Status)
 	}
 	return nil
 }

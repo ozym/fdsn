@@ -21,12 +21,25 @@ func Parse(s string) (DateTime, error) {
 	return DateTime{x}, err
 }
 
+func ParsePtr(s string) (*DateTime, error) {
+	x, err := time.Parse(DateTimeFormat, s)
+	return &DateTime{x}, err
+}
+
 func MustParse(s string) DateTime {
 	x, err := time.Parse(DateTimeFormat, s)
 	if err != nil {
 		panic(err)
 	}
 	return DateTime{x}
+}
+
+func MustParsePtr(s string) *DateTime {
+	x, err := time.Parse(DateTimeFormat, s)
+	if err != nil {
+		panic(err)
+	}
+	return &DateTime{x}
 }
 
 func (t *DateTime) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
@@ -61,6 +74,20 @@ func (t *DateTime) MarshalXMLAttr(name xml.Name) (xml.Attr, error) {
 func (t *DateTime) UnmarshalXMLAttr(attr xml.Attr) error {
 
 	x, err := time.Parse(DateTimeFormat, attr.Value)
+	if err != nil {
+		return nil
+	}
+	*t = DateTime{x}
+
+	return nil
+}
+
+func (t *DateTime) MarshalJSON() ([]byte, error) {
+	return []byte(`"` + t.Time.Format(DateTimeFormat) + `"`), nil
+}
+
+func (t *DateTime) UnmarshalJSON(data []byte) error {
+	x, err := time.Parse(DateTimeFormat, string(data))
 	if err != nil {
 		return nil
 	}

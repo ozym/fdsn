@@ -1,9 +1,9 @@
 package fdsn
 
 import (
+	"encoding/json"
 	"encoding/xml"
 	"fmt"
-	"strings"
 )
 
 const (
@@ -12,10 +12,12 @@ const (
 	FDSN_SCHEMA_VERSION = "1.0"
 )
 
-// FDSN StationXML schema. Designed as an XML representation of SEED metadata, the schema maps to
+// FDSNStationXML represents the FDSN StationXML schema's root type.
+//
+// Designed as an XML representation of SEED metadata, the schema maps to
 // the most important and commonly used structures of SEED 2.4. When definitions and usage are
 // underdefined the SEED manual should be referred to for clarification.
-
+//
 // Top-level type for Station XML. Required field are Source (network ID of the institution sending
 // the message) and one or more Network containers or one or more Station containers.
 type FDSNStationXML struct {
@@ -28,18 +30,18 @@ type FDSNStationXML struct {
 	Source string
 
 	// Name of the institution sending this message.
-	Sender string `xml:",omitempty"`
+	Sender string `xml:",omitempty" json:",omitempty"`
 
 	//Name of the software module that generated this document.
-	Module string `xml:",omitempty"`
+	Module string `xml:",omitempty" json:",omitempty"`
 
 	// This is the address of the query that generated the document, or,
 	// if applicable, the address of the software that generated this document.
-	ModuleURI string `xml:",omitempty"`
+	ModuleURI string `xml:",omitempty" json:",omitempty"`
 
 	Created DateTime
 
-	Networks []Network `xml:"Network,omitempty"`
+	Networks []Network `xml:"Network,omitempty" json:",omitempty"`
 }
 
 func (x *FDSNStationXML) Marshal() ([]byte, error) {
@@ -51,27 +53,13 @@ func (x *FDSNStationXML) Marshal() ([]byte, error) {
 	return append(h, append(s, '\n')...), nil
 }
 
-// standard interface implementations
-
 func (x FDSNStationXML) String() string {
-	var parts []string
 
-	parts = append(parts, fmt.Sprintf("<FDSNStationXML>"))
-	parts = append(parts, fmt.Sprintf("SchemaVersion: %s", x.SchemaVersion))
-	parts = append(parts, fmt.Sprintf("Source: \"%s\"", x.Source))
-	if x.Sender != "" {
-		parts = append(parts, fmt.Sprintf("Sender: \"%s\"", x.Sender))
+	j, err := json.Marshal(&x)
+	if err != nil {
+		return ""
 	}
-	if x.Module != "" {
-		parts = append(parts, fmt.Sprintf("Module: \"%s\"", x.Module))
-	}
-	if x.ModuleURI != "" {
-		parts = append(parts, fmt.Sprintf("ModuleURI: \"%s\"", x.ModuleURI))
-	}
-	parts = append(parts, fmt.Sprintf("Created: \"%s\"", x.Created))
-	parts = append(parts, fmt.Sprintf("Networks: [%d]...", len(x.Networks)))
-
-	return "<" + strings.Join(parts, "; ") + ">"
+	return string(j)
 }
 
 func (x FDSNStationXML) IsValid() error {

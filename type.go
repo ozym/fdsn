@@ -1,6 +1,7 @@
 package fdsn
 
 import (
+	"encoding/json"
 	"encoding/xml"
 	"fmt"
 )
@@ -77,6 +78,30 @@ func (t *Type) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	}
 
 	t.Type = typeMap[s]
+
+	return nil
+}
+
+func (t *Type) MarshalJSON() ([]byte, error) {
+	if !(int(t.Type) < len(typeLookup)) {
+		return nil, fmt.Errorf("invalid type: %d", t.Type)
+	}
+	return []byte(`"` + typeLookup[t.Type] + `"`), nil
+}
+
+func (t *Type) UnmarshalJSON(data []byte) error {
+	var b []byte
+	err := json.Unmarshal(data, b)
+	if err != nil {
+		return err
+	}
+	s := string(b)
+
+	if _, ok := typeMap[s]; !ok {
+		return fmt.Errorf("invalid type: %s", s)
+	}
+
+	*t = Type{Type: typeMap[s]}
 
 	return nil
 }
