@@ -5,9 +5,9 @@ import (
 )
 
 type Operator struct {
-	Agencies []string `xml:"Agency,omitempty"`
-	Contacts []Person `xml:"Contact,omitempty"`
-	WebSites []string `xml:"WebSite,omitempty"`
+	Agencies []string `xml:"Agency,omitempty" json:",omitempty"`
+	Contacts []Person `xml:"Contact,omitempty" json:",omitempty"`
+	WebSites []string `xml:"WebSite,omitempty" json:",omitempty"`
 }
 
 func (o Operator) IsValid() error {

@@ -6,9 +6,9 @@ import (
 )
 
 type PhoneNumber struct {
-	Description string `xml:"description,attr,omitempty"`
+	Description string `xml:"description,attr,omitempty" json:",omitempty"`
 
-	CountryCode int32 `xml:",omitempty"`
+	CountryCode int32 `xml:",omitempty" json:",omitempty"`
 	AreaCode    int32
 
 	// Pattern "[0-9]+-[0-9]+"

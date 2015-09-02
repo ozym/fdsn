@@ -16,7 +16,7 @@ type Sensitivity struct {
 	// These would be the units of the data prior to correcting for this response.
 	OutputUnits Units
 	// The frequency range for which the SensitivityValue is valid within the dB variation specified.
-	FrequencyRangeGroups []FrequencyRangeGroup `xml:"FrequencyRangeGroup,omitempty"`
+	FrequencyRangeGroups []FrequencyRangeGroup `xml:"FrequencyRangeGroup,omitempty" json:",omitempty"`
 }
 
 func (s Sensitivity) IsValid() error {

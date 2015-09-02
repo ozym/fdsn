@@ -13,7 +13,7 @@ type Polynomial struct {
 	// A name given to this filter.
 	Name string `xml:"name,attr"`
 
-	Description string `xml:",omitempty"`
+	Description string `xml:",omitempty" json:",omitempty"`
 
 	// The units of the data as input from the perspective of data acquisition.
 	// After correcting data for this response, these would be the resulting units.
@@ -30,7 +30,7 @@ type Polynomial struct {
 	ApproximationUpperBound string
 	MaximumError            float64
 
-	Coefficients []Coefficient `xml:"Coefficient,omitempty"`
+	Coefficients []Coefficient `xml:"Coefficient,omitempty" json:",omitempty"`
 }
 
 func (p Polynomial) IsValid() error {

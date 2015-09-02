@@ -9,13 +9,13 @@ type ResponseStage struct {
 	Number int32 `xml:"number,attr"`
 
 	// A choice of response types. There should be one response per stage.
-	PolesZeros   *PolesZeros   `xml:",omitempty"`
-	Coefficients *Coefficients `xml:",omitempty"`
-	ResponseList *ResponseList `xml:,omitempty"`
-	FIR          *FIR          `xml:",omitempty"`
-	Polynomial   *Polynomial   `xml:",omitempty"`
+	PolesZeros   *PolesZeros   `xml:",omitempty" json:",omitempty"`
+	Coefficients *Coefficients `xml:",omitempty" json:",omitempty"`
+	ResponseList *ResponseList `xml:,omitempty" json:",omitempty"`
+	FIR          *FIR          `xml:",omitempty" json:",omitempty"`
+	Polynomial   *Polynomial   `xml:",omitempty" json:",omitempty"`
 
-	Decimation *Decimation `xml:",omitempty"`
+	Decimation *Decimation `xml:",omitempty" json:",omitempty"`
 	StageGain  Gain
 }
 
