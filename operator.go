@@ -7,7 +7,7 @@ import (
 type Operator struct {
 	Agencies []string `xml:"Agency,omitempty"`
 	Contacts []Person `xml:"Contact,omitempty"`
-	WebSites []AnyURI `xml:"WebSite,omitempty"`
+	WebSites []string `xml:"WebSite,omitempty"`
 }
 
 func (o Operator) IsValid() error {
@@ -22,8 +22,8 @@ func (o Operator) IsValid() error {
 		}
 	}
 	for _, w := range o.WebSites {
-		if err := w.IsValid(); err != nil {
-			return err
+		if !(len(w) > 0) {
+			return fmt.Errorf("empty websites uri")
 		}
 	}
 	return nil
