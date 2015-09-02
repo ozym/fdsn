@@ -23,7 +23,7 @@ func TestStation_Marshal(t *testing.T) {
 	n := &Station{
 		Code:             "ABAZ",
 		Site:             Site{Name: "Army Bay"},
-		StartDate:        MapDateTime("2008-10-13T00:00:00"),
+		StartDate:        MustParsePtr("2008-10-13T00:00:00"),
 		RestrictedStatus: &RestrictedStatus{STATUS_OPEN},
 		Latitude:         Latitude{Value: -36.600224},
 		Longitude:        Longitude{Value: 174.832333},
@@ -52,7 +52,7 @@ func TestStation_String(t *testing.T) {
 			Station{
 				Code:             "ABAZ",
 				Site:             Site{Name: "Army Bay"},
-				StartDate:        MapDateTime("2008-10-13T00:00:00"),
+				StartDate:        MustParsePtr("2008-10-13T00:00:00"),
 				RestrictedStatus: &RestrictedStatus{STATUS_OPEN},
 				Latitude:         Latitude{Value: -36.600224},
 				Longitude:        Longitude{Value: 174.832333},
@@ -83,7 +83,7 @@ func TestStation_Valid(t *testing.T) {
 	s := Station{
 		Code:             "ABAZ",
 		Site:             Site{Name: "Army Bay"},
-		StartDate:        MapDateTime("2008-10-13T00:00:00"),
+		StartDate:        MustParsePtr("2008-10-13T00:00:00"),
 		RestrictedStatus: &RestrictedStatus{STATUS_OPEN},
 		Latitude:         Latitude{Value: -36.600224},
 		Longitude:        Longitude{Value: 174.832333},

@@ -18,7 +18,7 @@ Expected enhancements:
 Progress:
 
 - [x]RootType
-- [ ]NetworkType
+- [x]NetworkType
 - [ ]StationType
 - [ ]ChannelType
 - [ ]GainType
