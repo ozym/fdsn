@@ -41,10 +41,10 @@ Progress:
 - [ ]SecondType
 - [ ]VoltageType
 - [ ]AngleType
-- [ ]LatitudeBaseType
-- [ ]LatitudeType
-- [ ]LongitudeBaseType
-- [ ]LongitudeType
+- [x]LatitudeBaseType
+- [x]LatitudeType
+- [x]LongitudeBaseType
+- [x]LongitudeType
 - [ ]AzimuthType
 - [ ]DipType
 - [ ]DistanceType
