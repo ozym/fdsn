@@ -17,51 +17,51 @@ Expected enhancements:
 
 Progress:
 
-- [x]RootType
-- [x]NetworkType
-- [ ]StationType
-- [ ]ChannelType
-- [ ]GainType
-- [ ]FrequencyRangeGroup
-- [ ]SensitivityType
-- [ ]EquipmentType
-- [ ]ResponseStageType
-- [ ]LogType
-- [ ]CommentType
-- [ ]PolesZerosType
-- [ ]FIRType
-- [ ]CoefficientsType
-- [ ]ResponseListElementType
-- [ ]ResponseListType
-- [ ]PolynomialType
-- [ ]DecimationType
-- [ ]uncertaintyDouble
-- [ ]FloatNoUnitType
-- [ ]FloatType
-- [ ]SecondType
-- [ ]VoltageType
-- [ ]AngleType
-- [x]LatitudeBaseType
-- [x]LatitudeType
-- [x]LongitudeBaseType
-- [x]LongitudeType
-- [ ]AzimuthType
-- [ ]DipType
-- [ ]DistanceType
-- [ ]FrequencyType
-- [ ]RateGroup
-- [ ]SampleRateType
-- [ ]SampleRateRatioType
-- [ ]PoleZeroType
-- [ ]CounterType
-- [ ]PersonType
-- [ ]SiteType
-- [x]ExternalReferenceType
-- [ ]NominalType
-- [ ]EmailType
-- [ ]PhoneNumberType
-- [ ]RestrictedStatusType
-- [ ]UnitsType
-- [ ]BaseFilterType
-- [ ]ResponseType
-- [ ]BaseNodeType
+- [x] RootType
+- [x] NetworkType
+- [ ] StationType
+- [ ] ChannelType
+- [ ] GainType
+- [ ] FrequencyRangeGroup
+- [ ] SensitivityType
+- [ ] EquipmentType
+- [ ] ResponseStageType
+- [ ] LogType
+- [ ] CommentType
+- [ ] PolesZerosType
+- [ ] FIRType
+- [ ] CoefficientsType
+- [ ] ResponseListElementType
+- [ ] ResponseListType
+- [ ] PolynomialType
+- [ ] DecimationType
+- [ ] uncertaintyDouble
+- [ ] FloatNoUnitType
+- [ ] FloatType
+- [ ] SecondType
+- [ ] VoltageType
+- [ ] AngleType
+- [x] LatitudeBaseType
+- [x] LatitudeType
+- [x] LongitudeBaseType
+- [x] LongitudeType
+- [ ] AzimuthType
+- [ ] DipType
+- [ ] DistanceType
+- [ ] FrequencyType
+- [ ] RateGroup
+- [ ] SampleRateType
+- [ ] SampleRateRatioType
+- [ ] PoleZeroType
+- [ ] CounterType
+- [ ] PersonType
+- [ ] SiteType
+- [x] ExternalReferenceType
+- [ ] NominalType
+- [ ] EmailType
+- [ ] PhoneNumberType
+- [ ] RestrictedStatusType
+- [ ] UnitsType
+- [ ] BaseFilterType
+- [ ] ResponseType
+- [ ] BaseNodeType
