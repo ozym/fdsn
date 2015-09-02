@@ -11,7 +11,7 @@ type PolesZeros struct {
 	// A name given to this filter.
 	Name string `xml:"name,attr"`
 
-	Description string `xml:",omitempty"`
+	Description string `xml:",omitempty" json:",omitempty"`
 
 	// The units of the data as input from the perspective of data acquisition.
 	// After correcting data for this response, these would be the resulting units.
@@ -24,8 +24,8 @@ type PolesZeros struct {
 	PzTransferFunctionType PzTransferFunctionType
 	NormalizationFactor    FloatValue
 	NormalizationFrequency Frequency
-	Zeros                  []PoleZero `xml:"Zero,omitempty"`
-	Poles                  []PoleZero `xml:"Pole,omitempty"`
+	Zeros                  []PoleZero `xml:"Zero,omitempty" json:",omitempty"`
+	Poles                  []PoleZero `xml:"Pole,omitempty" json:",omitempty"`
 }
 
 func (pz PolesZeros) IsValid() error {

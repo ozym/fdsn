@@ -45,8 +45,8 @@ func TestChannel_Marshal(t *testing.T) {
 		},
 		StorageFormat: "Steim2",
 		ClockDrift:    &ClockDrift{Value: 0.0001},
-		StartDate:     MapDateTime("2008-10-13T04:00:00"),
-		EndDate:       MapDateTime("2010-03-15T02:00:00"),
+		StartDate:     MustParsePtr("2008-10-13T04:00:00"),
+		EndDate:       MustParsePtr("2010-03-15T02:00:00"),
 	}
 
 	x, err := xml.Marshal(&c)
@@ -85,8 +85,8 @@ func TestChannel_String(t *testing.T) {
 				},
 				StorageFormat: "Steim2",
 				ClockDrift:    &ClockDrift{Value: 0.0001},
-				StartDate:     MapDateTime("2008-10-13T04:00:00"),
-				EndDate:       MapDateTime("2010-03-15T02:00:00"),
+				StartDate:     MustParsePtr("2008-10-13T04:00:00"),
+				EndDate:       MustParsePtr("2010-03-15T02:00:00"),
 			},
 		}, {
 			`{"Code":"EHZ","LocationCode":"10","Latitude":{"Value":0},"Longitude":{"Value":0},"Elevation":{"Value":0},"Depth":{"Value":0},"SampleRate":{"Value":0},"StorageFormat":""}`,

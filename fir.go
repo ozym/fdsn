@@ -13,7 +13,7 @@ type FIR struct {
 	// A name given to this filter.
 	Name string `xml:"name,attr"`
 
-	Description string `xml:",omitempty"`
+	Description string `xml:",omitempty" json:",omitempty"`
 
 	// The units of the data as input from the perspective of data acquisition.
 	// After correcting data for this response, these would be the resulting units.
@@ -24,7 +24,7 @@ type FIR struct {
 	OutputUnits Units
 
 	Symmetry              Symmetry
-	NumeratorCoefficients []NumeratorCoefficient `xml:"NumeratorCoefficient,omitempty"`
+	NumeratorCoefficients []NumeratorCoefficient `xml:"NumeratorCoefficient,omitempty" json:",omitempty"`
 }
 
 func (f FIR) IsValid() error {

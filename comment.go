@@ -6,8 +6,8 @@ type Comment struct {
 	Id uint32 `xml:"id,attr"`
 
 	Value              string
-	BeginEffectiveTime *DateTime `xml:",omitempty"`
-	EndEffectiveTime   *DateTime `xml:",omitempty"`
+	BeginEffectiveTime *DateTime `xml:",omitempty" json:",omitempty"`
+	EndEffectiveTime   *DateTime `xml:",omitempty" json:",omitempty"`
 
-	Authors []Person `xml:"Author,omitempty"`
+	Authors []Person `xml:"Author,omitempty" json:",omitempty"`
 }

@@ -31,6 +31,7 @@ func TestFDSNStationXML_Marshal(t *testing.T) {
 			strings.Join([]string{
 				"<FDSNStationXML xmlns=\"http://www.fdsn.org/xml/station/1\" schemaVersion=\"1.0\">",
 				"<Source>Test Source</Source>",
+				"<ModuleURI>Module URI</ModuleURI>",
 				"<Created>2015-08-28T06:09:37</Created>",
 				"</FDSNStationXML>",
 			}, ""),
@@ -38,6 +39,7 @@ func TestFDSNStationXML_Marshal(t *testing.T) {
 				NameSpace:     "http://www.fdsn.org/xml/station/1",
 				SchemaVersion: "1.0",
 				Source:        "Test Source",
+				ModuleURI:     "Module URI",
 				Created:       MustParse("2015-08-28T06:09:37"),
 			},
 		}}
@@ -62,14 +64,14 @@ func TestFDSNStationXML_String(t *testing.T) {
 		x FDSNStationXML
 	}{
 		{
-			`{"NameSpace":"http://www.fdsn.org/xml/station/1","SchemaVersion":"1.0","Source":"S","Sender":"S","Module":"M","ModuleURI":"M","Created":"2015-08-28T06:09:37"}`,
+			`{"NameSpace":"http://www.fdsn.org/xml/station/1","SchemaVersion":"1.0","Source":"S","Sender":"S","Module":"M","ModuleURI":"U","Created":"2015-08-28T06:09:37"}`,
 			FDSNStationXML{
 				NameSpace:     "http://www.fdsn.org/xml/station/1",
 				SchemaVersion: "1.0",
 				Sender:        "S",
 				Source:        "S",
 				Module:        "M",
-				ModuleURI:     "M",
+				ModuleURI:     "U",
 				Created:       MustParse("2015-08-28T06:09:37"),
 			},
 		}, {

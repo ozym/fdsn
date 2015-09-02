@@ -1,6 +1,7 @@
 package fdsn
 
 import (
+	"encoding/json"
 	"fmt"
 )
 
@@ -17,7 +18,19 @@ type Longitude struct {
 	Value float64 `xml:",chardata"`
 }
 
+func (l Longitude) String() string {
+
+	j, err := json.Marshal(&l)
+	if err != nil {
+		return ""
+	}
+	return string(j)
+}
+
 func (l Longitude) IsValid() error {
+	if l.Unit != "" && l.Unit != "DEGREES" {
+		return fmt.Errorf("invalid latitude unit: %s", l.Unit)
+	}
 	if l.Value < -180 || l.Value > 180 {
 		return fmt.Errorf("longitude outside range: %g", l.Value)
 	}

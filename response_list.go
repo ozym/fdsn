@@ -13,7 +13,7 @@ type ResponseList struct {
 	// A name given to this filter.
 	Name string `xml:"name,attr"`
 
-	Description string `xml:",omitempty"`
+	Description string `xml:",omitempty" json:",omitempty"`
 
 	// The units of the data as input from the perspective of data acquisition.
 	// After correcting data for this response, these would be the resulting units.
@@ -23,7 +23,7 @@ type ResponseList struct {
 	// These would be the units of the data prior to correcting for this response.
 	OutputUnits Units
 
-	ResponseListElements []ResponseListElement `xml:"ResponseListElement,omitempty"`
+	ResponseListElements []ResponseListElement `xml:"ResponseListElement,omitempty" json:",omitempty"`
 }
 
 func (r ResponseList) IsValid() error {

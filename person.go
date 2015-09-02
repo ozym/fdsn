@@ -7,10 +7,10 @@ import (
 // Representation of a person's contact information.
 // A person can belong to multiple agencies and have multiple email addresses and phone numbers.
 type Person struct {
-	Names        []string      `xml:"Name,omitempty"`
-	Agencies     []string      `xml:"Agency,omitempty"`
-	Email        []Email       `xml:"Email,omitempty"`
-	PhoneNumbers []PhoneNumber `xml:"Phone,omitempty"`
+	Names        []string      `xml:"Name,omitempty" json:",omitempty"`
+	Agencies     []string      `xml:"Agency,omitempty" json:",omitempty"`
+	Email        []Email       `xml:"Email,omitempty" json:",omitempty"`
+	PhoneNumbers []PhoneNumber `xml:"Phone,omitempty" json:",omitempty"`
 }
 
 func (p Person) IsValid() error {

@@ -8,15 +8,6 @@ import (
 	"testing"
 )
 
-func MapString(s string) *string {
-	return &s
-}
-
-func MapDateTime(s string) *DateTime {
-	t := MustParse(s)
-	return &t
-}
-
 func TestMarshalling(t *testing.T) {
 
 	f := &FDSNStationXML{
@@ -37,7 +28,7 @@ func TestMarshalling(t *testing.T) {
 			Code:             "NZ",
 			Description:      "New Zealand National Seismograph Network",
 			RestrictedStatus: &RestrictedStatus{STATUS_OPEN},
-			StartDate:        MapDateTime("1980-01-01T00:00:00"),
+			StartDate:        MustParsePtr("1980-01-01T00:00:00"),
 		}},
 	}
 
@@ -56,11 +47,11 @@ func TestMarshalling(t *testing.T) {
 			Code:             "NZ",
 			Description:      "New Zealand National Seismograph Network",
 			RestrictedStatus: &RestrictedStatus{STATUS_OPEN},
-			StartDate:        MapDateTime("1980-01-01T00:00:00"),
+			StartDate:        MustParsePtr("1980-01-01T00:00:00"),
 			Stations: []Station{{
 				Code:             "ABAZ",
 				Site:             Site{Name: "Army Bay"},
-				StartDate:        MapDateTime("2008-10-13T00:00:00"),
+				StartDate:        MustParsePtr("2008-10-13T00:00:00"),
 				RestrictedStatus: &RestrictedStatus{STATUS_OPEN},
 				Latitude:         Latitude{Value: -36.600224},
 				Longitude:        Longitude{Value: 174.832333},
@@ -80,10 +71,10 @@ func TestMarshalling(t *testing.T) {
 			Code:             "NZ",
 			Description:      "New Zealand National Seismograph Network",
 			RestrictedStatus: &RestrictedStatus{STATUS_OPEN},
-			StartDate:        MapDateTime("1980-01-01T00:00:00"),
+			StartDate:        MustParsePtr("1980-01-01T00:00:00"),
 			Stations: []Station{{Code: "ABAZ",
 				Site:             Site{Name: "Army Bay"},
-				StartDate:        MapDateTime("2008-10-13T00:00:00"),
+				StartDate:        MustParsePtr("2008-10-13T00:00:00"),
 				RestrictedStatus: &RestrictedStatus{STATUS_OPEN},
 				Latitude:         Latitude{Value: -36.600224},
 				Longitude:        Longitude{Value: 174.832333},
@@ -106,8 +97,8 @@ func TestMarshalling(t *testing.T) {
 					},
 					StorageFormat: "Steim2",
 					ClockDrift:    &ClockDrift{Value: 0.0001},
-					StartDate:     MapDateTime("2008-10-13T04:00:00"),
-					EndDate:       MapDateTime("2010-03-15T02:00:00"),
+					StartDate:     MustParsePtr("2008-10-13T04:00:00"),
+					EndDate:       MustParsePtr("2010-03-15T02:00:00"),
 					Sensor: &Equipment{
 						ResourceId:  "Sensor#20150130114212.658908.42",
 						Type:        "L4C-3D",
@@ -144,7 +135,7 @@ func TestMarshalling(t *testing.T) {
 						},
 						StorageFormat: "Steim2",
 						ClockDrift:    &ClockDrift{Value: 0.0001},
-						StartDate:     MapDateTime("2010-03-15T02:15:00"),
+						StartDate:     MustParsePtr("2010-03-15T02:15:00"),
 						Sensor: &Equipment{
 							ResourceId:  "Sensor#20150130114212.659492.46",
 							Type:        "LE-3DliteMkII",
@@ -178,10 +169,10 @@ func TestMarshalling(t *testing.T) {
 			Code:             "NZ",
 			Description:      "New Zealand National Seismograph Network",
 			RestrictedStatus: &RestrictedStatus{STATUS_OPEN},
-			StartDate:        MapDateTime("1980-01-01T00:00:00"),
+			StartDate:        MustParsePtr("1980-01-01T00:00:00"),
 			Stations: []Station{{Code: "ABAZ",
 				Site:             Site{Name: "Army Bay"},
-				StartDate:        MapDateTime("2008-10-13T00:00:00"),
+				StartDate:        MustParsePtr("2008-10-13T00:00:00"),
 				RestrictedStatus: &RestrictedStatus{STATUS_OPEN},
 				Latitude:         Latitude{Value: -36.600224},
 				Longitude:        Longitude{Value: 174.832333},
@@ -204,8 +195,8 @@ func TestMarshalling(t *testing.T) {
 					},
 					StorageFormat: "Steim2",
 					ClockDrift:    &ClockDrift{Value: 0.0001},
-					StartDate:     MapDateTime("2008-10-13T04:00:00"),
-					EndDate:       MapDateTime("2010-03-15T02:00:00"),
+					StartDate:     MustParsePtr("2008-10-13T04:00:00"),
+					EndDate:       MustParsePtr("2010-03-15T02:00:00"),
 					Sensor: &Equipment{
 						ResourceId:  "Sensor#20150130114212.658908.42",
 						Type:        "L4C-3D",
@@ -375,7 +366,7 @@ func TestMarshalling(t *testing.T) {
 						},
 						StorageFormat: "Steim2",
 						ClockDrift:    &ClockDrift{Value: 0.0001},
-						StartDate:     MapDateTime("2010-03-15T02:15:00"),
+						StartDate:     MustParsePtr("2010-03-15T02:15:00"),
 						Sensor: &Equipment{
 							ResourceId:  "Sensor#20150130114212.659492.46",
 							Type:        "LE-3DliteMkII",

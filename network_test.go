@@ -18,7 +18,7 @@ func TestNetwork_Marshal(t *testing.T) {
 		Code:             "NZ",
 		Description:      "New Zealand National Seismograph Network",
 		RestrictedStatus: &RestrictedStatus{STATUS_OPEN},
-		StartDate:        MapDateTime("1980-01-01T00:00:00"),
+		StartDate:        MustParsePtr("1980-01-01T00:00:00"),
 	}
 
 	x, err := xml.Marshal(&n)
@@ -41,7 +41,7 @@ func TestNetwork_String(t *testing.T) {
 			`{"Code":"XX","StartDate":"1980-01-01T00:00:00","EndDate":"1980-01-01T00:00:00","RestrictedStatus":"open","AlternateCode":"YY","HistoricalCode":"ZZ","Description":"D"}`,
 			Network{
 				Code:             "XX",
-				StartDate:        MapDateTime("1980-01-01T00:00:00"),
+				StartDate:        MustParsePtr("1980-01-01T00:00:00"),
 				EndDate:          MustParsePtr("1980-01-01T00:00:00"),
 				RestrictedStatus: &RestrictedStatus{STATUS_OPEN},
 				AlternateCode:    "YY",
@@ -71,7 +71,7 @@ func TestNetwork_Valid(t *testing.T) {
 		Code:             "NZ",
 		Description:      "New Zealand National Seismograph Network",
 		RestrictedStatus: &RestrictedStatus{STATUS_OPEN},
-		StartDate:        MapDateTime("1980-01-01T00:00:00"),
+		StartDate:        MustParsePtr("1980-01-01T00:00:00"),
 	}
 
 	if err := Validate(n); err != nil {
