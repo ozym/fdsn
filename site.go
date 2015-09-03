@@ -1,6 +1,7 @@
 package fdsn
 
 import (
+	"encoding/json"
 	"fmt"
 )
 
@@ -20,6 +21,15 @@ type Site struct {
 	// The state, province, or region of this site.
 	Region  string `xml:",omitempty" json:",omitempty"`
 	Country string `xml:",omitempty" json:",omitempty"`
+}
+
+func (s Site) String() string {
+
+	j, err := json.Marshal(&s)
+	if err != nil {
+		return ""
+	}
+	return string(j)
 }
 
 func (s Site) IsValid() error {
