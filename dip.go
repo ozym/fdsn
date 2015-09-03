@@ -18,6 +18,10 @@ type Dip struct {
 }
 
 func (d Dip) IsValid() error {
+	if d.Unit != "" && d.Unit != "DEGREES" {
+		return fmt.Errorf("dip invalid unit: %s", d.Unit)
+	}
+
 	if d.Value < -90 || d.Value > 90 {
 		return fmt.Errorf("dip outside range: %g", d.Value)
 	}

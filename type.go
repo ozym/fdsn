@@ -86,7 +86,7 @@ func (t *Type) MarshalJSON() ([]byte, error) {
 	if !(int(t.Type) < len(typeLookup)) {
 		return nil, fmt.Errorf("invalid type: %d", t.Type)
 	}
-	return []byte(`"` + typeLookup[t.Type] + `"`), nil
+	return json.Marshal(typeLookup[t.Type])
 }
 
 func (t *Type) UnmarshalJSON(data []byte) error {
@@ -104,6 +104,15 @@ func (t *Type) UnmarshalJSON(data []byte) error {
 	*t = Type{Type: typeMap[s]}
 
 	return nil
+}
+
+func (t Type) String() string {
+
+	j, err := json.Marshal(&t)
+	if err != nil {
+		return ""
+	}
+	return string(j)
 }
 
 func (t Type) IsValid() error {

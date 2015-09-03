@@ -1,5 +1,9 @@
 package fdsn
 
+import (
+	"encoding/json"
+)
+
 type Equipment struct {
 	// This field contains a string that should serve as a unique resource identifier.
 	// This identifier can be interpreted differently depending on the datacenter/software
@@ -17,6 +21,15 @@ type Equipment struct {
 	InstallationDate *DateTime  `xml:",omitempty" json:",omitempty"`
 	RemovalDate      *DateTime  `xml:",omitempty" json:",omitempty"`
 	CalibrationDates []DateTime `xml:"CalibrationDate,omitempty" json:",omitempty"`
+}
+
+func (e Equipment) String() string {
+
+	j, err := json.Marshal(&e)
+	if err != nil {
+		return ""
+	}
+	return string(j)
 }
 
 func (e Equipment) IsValid() error {
