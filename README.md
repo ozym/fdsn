@@ -19,7 +19,7 @@ Progress:
 
 - [x] RootType
 - [x] NetworkType
-- [ ] StationType
+- [x] StationType
 - [ ] ChannelType
 - [ ] GainType
 - [ ] FrequencyRangeGroup
@@ -27,7 +27,7 @@ Progress:
 - [ ] EquipmentType
 - [ ] ResponseStageType
 - [ ] LogType
-- [ ] CommentType
+- [x] CommentType
 - [ ] PolesZerosType
 - [ ] FIRType
 - [ ] CoefficientsType
@@ -45,23 +45,23 @@ Progress:
 - [x] LatitudeType
 - [x] LongitudeBaseType
 - [x] LongitudeType
-- [ ] AzimuthType
-- [ ] DipType
-- [ ] DistanceType
+- [x] AzimuthType
+- [x] DipType
+- [x] DistanceType
 - [ ] FrequencyType
 - [ ] RateGroup
-- [ ] SampleRateType
-- [ ] SampleRateRatioType
+- [x] SampleRateType
+- [x] SampleRateRatioType
 - [ ] PoleZeroType
 - [ ] CounterType
 - [ ] PersonType
-- [ ] SiteType
+- [x] SiteType
 - [x] ExternalReferenceType
 - [ ] NominalType
 - [ ] EmailType
 - [ ] PhoneNumberType
-- [ ] RestrictedStatusType
-- [ ] UnitsType
+- [x] RestrictedStatusType
+- [x] UnitsType
 - [ ] BaseFilterType
 - [ ] ResponseType
 - [ ] BaseNodeType

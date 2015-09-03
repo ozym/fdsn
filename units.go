@@ -1,6 +1,7 @@
 package fdsn
 
 import (
+	"encoding/json"
 	"fmt"
 )
 
@@ -10,6 +11,15 @@ type Units struct {
 	Name string
 	// Description of units, e.g. "Velocity in meters per second", "Volts", "Pascals".
 	Description string `xml:",omitempty" json:",omitempty"`
+}
+
+func (u Units) String() string {
+
+	j, err := json.Marshal(&u)
+	if err != nil {
+		return ""
+	}
+	return string(j)
 }
 
 func (u Units) IsValid() error {
