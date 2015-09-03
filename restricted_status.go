@@ -54,7 +54,7 @@ func (r *RestrictedStatus) MarshalJSON() ([]byte, error) {
 	if !(int(r.Status) < len(restrictedStatusLookup)) {
 		return nil, fmt.Errorf("invalid restricted value: %d", r.Status)
 	}
-	return []byte(`"` + restrictedStatusLookup[r.Status] + `"`), nil
+	return json.Marshal(restrictedStatusLookup[r.Status])
 }
 
 func (r *RestrictedStatus) UnmarshalJSON(data []byte) error {
