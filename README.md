@@ -15,26 +15,26 @@ Expected enhancements:
 * Enumeration of selections
 * More tests
 
-Progress:
+Progress: String() IsValid()
 
 - [x] RootType
 - [x] NetworkType
 - [x] StationType
-- [ ] ChannelType
-- [ ] GainType
-- [ ] FrequencyRangeGroup
-- [ ] SensitivityType
-- [ ] EquipmentType
-- [ ] ResponseStageType
-- [ ] LogType
+- [x] ChannelType
+- [x] GainType
+- [x] FrequencyRangeGroup
+- [x] SensitivityType
+- [x] EquipmentType
+- [x] ResponseStageType
+- [x] LogType
 - [x] CommentType
-- [ ] PolesZerosType
-- [ ] FIRType
-- [ ] CoefficientsType
-- [ ] ResponseListElementType
-- [ ] ResponseListType
-- [ ] PolynomialType
-- [ ] DecimationType
+- [x] PolesZerosType
+- [x] FIRType
+- [x] CoefficientsType
+- [x] ResponseListElementType
+- [x] ResponseListType
+- [x] PolynomialType
+- [x] DecimationType
 - [ ] uncertaintyDouble
 - [ ] FloatNoUnitType
 - [ ] FloatType

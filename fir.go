@@ -1,6 +1,7 @@
 package fdsn
 
 import (
+	"encoding/json"
 	"fmt"
 )
 
@@ -25,6 +26,15 @@ type FIR struct {
 
 	Symmetry              Symmetry
 	NumeratorCoefficients []NumeratorCoefficient `xml:"NumeratorCoefficient,omitempty" json:",omitempty"`
+}
+
+func (f FIR) String() string {
+
+	j, err := json.Marshal(&f)
+	if err != nil {
+		return ""
+	}
+	return string(j)
 }
 
 func (f FIR) IsValid() error {

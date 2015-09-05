@@ -1,6 +1,7 @@
 package fdsn
 
 import (
+	"encoding/json"
 	"fmt"
 )
 
@@ -26,6 +27,15 @@ type PolesZeros struct {
 	NormalizationFrequency Frequency
 	Zeros                  []PoleZero `xml:"Zero,omitempty" json:",omitempty"`
 	Poles                  []PoleZero `xml:"Pole,omitempty" json:",omitempty"`
+}
+
+func (pz PolesZeros) String() string {
+
+	j, err := json.Marshal(&pz)
+	if err != nil {
+		return ""
+	}
+	return string(j)
 }
 
 func (pz PolesZeros) IsValid() error {
