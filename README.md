@@ -35,12 +35,12 @@ Progress: String() IsValid()
 - [x] ResponseListType
 - [x] PolynomialType
 - [x] DecimationType
-- [ ] uncertaintyDouble
-- [ ] FloatNoUnitType
-- [ ] FloatType
-- [ ] SecondType
-- [ ] VoltageType
-- [ ] AngleType
+- [-] uncertaintyDouble
+- [x] FloatNoUnitType
+- [x] FloatType
+- [-] SecondType
+- [-] VoltageType
+- [x] AngleType
 - [x] LatitudeBaseType
 - [x] LatitudeType
 - [x] LongitudeBaseType
@@ -48,20 +48,20 @@ Progress: String() IsValid()
 - [x] AzimuthType
 - [x] DipType
 - [x] DistanceType
-- [ ] FrequencyType
-- [ ] RateGroup
+- [x] FrequencyType
+- [-] SampleRateGroup
 - [x] SampleRateType
 - [x] SampleRateRatioType
-- [ ] PoleZeroType
-- [ ] CounterType
-- [ ] PersonType
+- [x] PoleZeroType
+- [-] CounterType
+- [x] PersonType
 - [x] SiteType
 - [x] ExternalReferenceType
-- [ ] NominalType
-- [ ] EmailType
-- [ ] PhoneNumberType
+- [x] NominalType
+- [x] EmailType
+- [x] PhoneNumberType
 - [x] RestrictedStatusType
 - [x] UnitsType
-- [ ] BaseFilterType
-- [ ] ResponseType
-- [ ] BaseNodeType
+- [-] BaseFilterType
+- [x] ResponseType
+- [-] BaseNodeType
