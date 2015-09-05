@@ -1,6 +1,7 @@
 package fdsn
 
 import (
+	"encoding/json"
 	"fmt"
 )
 
@@ -9,6 +10,15 @@ type PoleZero struct {
 	Number    int32 `xml:"number,attr"`
 	Real      FloatNoUnit
 	Imaginary FloatNoUnit
+}
+
+func (pz PoleZero) String() string {
+
+	j, err := json.Marshal(&pz)
+	if err != nil {
+		return ""
+	}
+	return string(j)
 }
 
 func (pz PoleZero) IsValid() error {
