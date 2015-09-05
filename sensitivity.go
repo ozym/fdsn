@@ -1,5 +1,9 @@
 package fdsn
 
+import (
+	"encoding/json"
+)
+
 // Sensitivity and frequency ranges.
 // The FrequencyRangeGroup is an optional construct that defines a pass band in Hertz
 // (FrequencyStart and FrequencyEnd) in which the SensitivityValue is valid within the
@@ -17,6 +21,15 @@ type Sensitivity struct {
 	OutputUnits Units
 	// The frequency range for which the SensitivityValue is valid within the dB variation specified.
 	FrequencyRangeGroups []FrequencyRangeGroup `xml:"FrequencyRangeGroup,omitempty" json:",omitempty"`
+}
+
+func (s Sensitivity) String() string {
+
+	j, err := json.Marshal(&s)
+	if err != nil {
+		return ""
+	}
+	return string(j)
 }
 
 func (s Sensitivity) IsValid() error {

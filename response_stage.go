@@ -1,6 +1,7 @@
 package fdsn
 
 import (
+	"encoding/json"
 	"fmt"
 )
 
@@ -17,6 +18,15 @@ type ResponseStage struct {
 
 	Decimation *Decimation `xml:",omitempty" json:",omitempty"`
 	StageGain  Gain
+}
+
+func (r ResponseStage) String() string {
+
+	j, err := json.Marshal(&r)
+	if err != nil {
+		return ""
+	}
+	return string(j)
 }
 
 func (r ResponseStage) IsValid() error {

@@ -1,5 +1,9 @@
 package fdsn
 
+import (
+	"encoding/json"
+)
+
 // Instrument sensitivities, or the complete system sensitivity, can be expressed
 // using either a sensitivity value or a polynomial. The information can be used
 // to convert raw data to Earth at a specified frequency or within a range of frequencies.
@@ -16,6 +20,15 @@ type Response struct {
 	InstrumentPolynomial *Polynomial `xml:",omitempty" json:",omitempty"`
 
 	Stages []ResponseStage `xml:"Stage,omitempty" json:",omitempty"`
+}
+
+func (r Response) String() string {
+
+	j, err := json.Marshal(&r)
+	if err != nil {
+		return ""
+	}
+	return string(j)
 }
 
 func (r Response) IsValid() error {

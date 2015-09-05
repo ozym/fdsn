@@ -1,6 +1,7 @@
 package fdsn
 
 import (
+	"encoding/json"
 	"fmt"
 )
 
@@ -24,6 +25,15 @@ type ResponseList struct {
 	OutputUnits Units
 
 	ResponseListElements []ResponseListElement `xml:"ResponseListElement,omitempty" json:",omitempty"`
+}
+
+func (r ResponseList) String() string {
+
+	j, err := json.Marshal(&r)
+	if err != nil {
+		return ""
+	}
+	return string(j)
 }
 
 func (r ResponseList) IsValid() error {
