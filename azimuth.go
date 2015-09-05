@@ -1,6 +1,7 @@
 package fdsn
 
 import (
+	"encoding/json"
 	"fmt"
 )
 
@@ -10,10 +11,18 @@ type Azimuth struct {
 
 	//Expressing uncertainties or errors with a positive and a negative component.
 	// Both values should be given as positive integers, but minus_error is understood to actually be negative.
-	PlusError  *float64 `xml:"plusError,attr,omitempty" json:",omitempty"`
-	MinusError *float64 `xml:"minusError,attr,omitempty" json:",omitempty"`
+	PlusError  float64 `xml:"plusError,attr,omitempty" json:",omitempty"`
+	MinusError float64 `xml:"minusError,attr,omitempty" json:",omitempty"`
 
 	Value float64 `xml:",chardata"`
+}
+
+func (a Azimuth) String() string {
+	j, err := json.Marshal(&a)
+	if err == nil {
+		return string(j)
+	}
+	return ""
 }
 
 func (a Azimuth) IsValid() error {
@@ -23,5 +32,12 @@ func (a Azimuth) IsValid() error {
 	if a.Value < 0 || a.Value > 360 {
 		return fmt.Errorf("azimuth outside range: %g", a.Value)
 	}
+	if a.PlusError < 0.0 {
+		return fmt.Errorf("azimuth plus error shouldn't be negative: %g", a.PlusError)
+	}
+	if a.MinusError < 0.0 {
+		return fmt.Errorf("azimuth minus error shouldn't be negative: %g", a.MinusError)
+	}
+
 	return nil
 }
