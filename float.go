@@ -1,5 +1,10 @@
 package fdsn
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 type Float struct {
 	Unit string `xml:"unit,attr,omitempty" json:",omitempty"`
 
@@ -11,6 +16,23 @@ type Float struct {
 	Value float64 `xml:",chardata"`
 }
 
+func (f Float) String() string {
+
+	j, err := json.Marshal(&f)
+	if err != nil {
+		return ""
+	}
+
+	return string(j)
+}
+
 func (f Float) IsValid() error {
+	if f.PlusError < 0.0 {
+		return fmt.Errorf("float plus error shouldn't be negative: %g", f.PlusError)
+	}
+	if f.MinusError < 0.0 {
+		return fmt.Errorf("float minus error shouldn't be negative: %g", f.MinusError)
+	}
+
 	return nil
 }

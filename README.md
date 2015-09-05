@@ -15,32 +15,32 @@ Expected enhancements:
 * Enumeration of selections
 * More tests
 
-Progress:
+Progress: String() IsValid()
 
 - [x] RootType
 - [x] NetworkType
 - [x] StationType
-- [ ] ChannelType
-- [ ] GainType
-- [ ] FrequencyRangeGroup
-- [ ] SensitivityType
-- [ ] EquipmentType
-- [ ] ResponseStageType
-- [ ] LogType
+- [x] ChannelType
+- [x] GainType
+- [x] FrequencyRangeGroup
+- [x] SensitivityType
+- [x] EquipmentType
+- [x] ResponseStageType
+- [x] LogType
 - [x] CommentType
-- [ ] PolesZerosType
-- [ ] FIRType
-- [ ] CoefficientsType
-- [ ] ResponseListElementType
-- [ ] ResponseListType
-- [ ] PolynomialType
-- [ ] DecimationType
-- [ ] uncertaintyDouble
-- [ ] FloatNoUnitType
-- [ ] FloatType
-- [ ] SecondType
-- [ ] VoltageType
-- [ ] AngleType
+- [x] PolesZerosType
+- [x] FIRType
+- [x] CoefficientsType
+- [x] ResponseListElementType
+- [x] ResponseListType
+- [x] PolynomialType
+- [x] DecimationType
+- [-] uncertaintyDouble
+- [x] FloatNoUnitType
+- [x] FloatType
+- [-] SecondType
+- [-] VoltageType
+- [x] AngleType
 - [x] LatitudeBaseType
 - [x] LatitudeType
 - [x] LongitudeBaseType
@@ -48,20 +48,20 @@ Progress:
 - [x] AzimuthType
 - [x] DipType
 - [x] DistanceType
-- [ ] FrequencyType
-- [ ] RateGroup
+- [x] FrequencyType
+- [-] SampleRateGroup
 - [x] SampleRateType
 - [x] SampleRateRatioType
-- [ ] PoleZeroType
-- [ ] CounterType
-- [ ] PersonType
+- [x] PoleZeroType
+- [-] CounterType
+- [x] PersonType
 - [x] SiteType
 - [x] ExternalReferenceType
-- [ ] NominalType
-- [ ] EmailType
-- [ ] PhoneNumberType
+- [x] NominalType
+- [x] EmailType
+- [x] PhoneNumberType
 - [x] RestrictedStatusType
 - [x] UnitsType
-- [ ] BaseFilterType
-- [ ] ResponseType
-- [ ] BaseNodeType
+- [-] BaseFilterType
+- [x] ResponseType
+- [-] BaseNodeType

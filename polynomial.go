@@ -1,6 +1,7 @@
 package fdsn
 
 import (
+	"encoding/json"
 	"fmt"
 )
 
@@ -31,6 +32,15 @@ type Polynomial struct {
 	MaximumError            float64
 
 	Coefficients []Coefficient `xml:"Coefficient,omitempty" json:",omitempty"`
+}
+
+func (p Polynomial) String() string {
+
+	j, err := json.Marshal(&p)
+	if err != nil {
+		return ""
+	}
+	return string(j)
 }
 
 func (p Polynomial) IsValid() error {

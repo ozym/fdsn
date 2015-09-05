@@ -1,5 +1,9 @@
 package fdsn
 
+import (
+	"encoding/json"
+)
+
 // Response: coefficients for FIR filter.
 // Laplace transforms or IIR filters can be expressed using type as well but the
 // PolesAndZerosType should be used instead. Corresponds to SEED blockette 54.
@@ -24,6 +28,15 @@ type Coefficients struct {
 
 	Numerators   []Float `xml:"Numerator,omitempty" json:",omitempty"`
 	Denominators []Float `xml:"Denominator,omitempty" json:",omitempty"`
+}
+
+func (c Coefficients) String() string {
+
+	j, err := json.Marshal(&c)
+	if err != nil {
+		return ""
+	}
+	return string(j)
 }
 
 func (c Coefficients) IsValid() error {

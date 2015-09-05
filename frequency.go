@@ -1,5 +1,10 @@
 package fdsn
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 type Frequency struct {
 	Unit string `xml:"unit,attr,omitempty" json:",omitempty"` // HERTZ
 
@@ -11,6 +16,24 @@ type Frequency struct {
 	Value float64 `xml:",chardata"`
 }
 
+func (f Frequency) String() string {
+	j, err := json.Marshal(&f)
+	if err == nil {
+		return string(j)
+	}
+	return ""
+}
+
 func (f Frequency) IsValid() error {
+	if f.Unit != "" && f.Unit != "HERTZ" {
+		return fmt.Errorf("invalid unit: %s", f.Unit)
+	}
+	if f.PlusError < 0.0 {
+		return fmt.Errorf("frequency plus error shouldn't be negative: %g", f.PlusError)
+	}
+	if f.MinusError < 0.0 {
+		return fmt.Errorf("frequency minus error shouldn't be negative: %g", f.MinusError)
+	}
+
 	return nil
 }

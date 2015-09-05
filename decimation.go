@@ -1,5 +1,9 @@
 package fdsn
 
+import (
+	"encoding/json"
+)
+
 // Corresponds to SEED blockette 57.
 type Decimation struct {
 	InputSampleRate Frequency
@@ -7,6 +11,15 @@ type Decimation struct {
 	Offset          int32
 	Delay           Float
 	Correction      Float
+}
+
+func (d Decimation) String() string {
+
+	j, err := json.Marshal(&d)
+	if err != nil {
+		return ""
+	}
+	return string(j)
 }
 
 func (d Decimation) IsValid() error {

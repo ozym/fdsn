@@ -8,20 +8,17 @@ import (
 
 func TestAngle_Marshal(t *testing.T) {
 
-	var p float64 = 2
-	var m float64 = -2
-
 	var tests = []struct {
 		s string
 		x Angle
 	}{
 		{
-			`<Angle unit="DEGREES" plusError="2" minusError="-2">1</Angle>`,
+			`<Angle unit="DEGREES" plusError="2" minusError="2">1</Angle>`,
 			Angle{
 				Value:      1,
 				Unit:       "DEGREES",
-				PlusError:  &p,
-				MinusError: &m,
+				PlusError:  2,
+				MinusError: 2,
 			},
 		}, {
 			`<Angle>1</Angle>`,
@@ -46,20 +43,17 @@ func TestAngle_Marshal(t *testing.T) {
 
 func TestAngle_String(t *testing.T) {
 
-	var p float64 = 2
-	var m float64 = -2
-
 	var tests = []struct {
 		s string
 		x Angle
 	}{
 		{
-			`{"Unit":"DEGREES","PlusError":2,"MinusError":-2,"Value":1}`,
+			`{"Unit":"DEGREES","PlusError":2,"MinusError":2,"Value":1}`,
 			Angle{
 				Value:      1,
 				Unit:       "DEGREES",
-				PlusError:  &p,
-				MinusError: &m,
+				PlusError:  2,
+				MinusError: 2,
 			},
 		}, {
 			`{"Value":1}`,
@@ -102,6 +96,8 @@ func TestAngle_InValid(t *testing.T) {
 		Angle{Unit: "degrees"},
 		Angle{Value: -361.0},
 		Angle{Value: 361.0},
+		Angle{PlusError: -1.0},
+		Angle{MinusError: -1.0},
 	}
 
 	for _, a := range tests {

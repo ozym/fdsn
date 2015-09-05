@@ -1,6 +1,7 @@
 package fdsn
 
 import (
+	"encoding/json"
 	"fmt"
 	"regexp"
 )
@@ -13,6 +14,15 @@ type PhoneNumber struct {
 
 	// Pattern "[0-9]+-[0-9]+"
 	PhoneNumber string
+}
+
+func (p PhoneNumber) String() string {
+
+	j, err := json.Marshal(&p)
+	if err != nil {
+		return ""
+	}
+	return string(j)
 }
 
 func (p PhoneNumber) IsValid() error {

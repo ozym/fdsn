@@ -1,6 +1,7 @@
 package fdsn
 
 import (
+	"encoding/json"
 	"fmt"
 )
 
@@ -11,6 +12,15 @@ type Person struct {
 	Agencies     []string      `xml:"Agency,omitempty" json:",omitempty"`
 	Email        []Email       `xml:"Email,omitempty" json:",omitempty"`
 	PhoneNumbers []PhoneNumber `xml:"Phone,omitempty" json:",omitempty"`
+}
+
+func (p Person) String() string {
+
+	j, err := json.Marshal(&p)
+	if err != nil {
+		return ""
+	}
+	return string(j)
 }
 
 func (p Person) IsValid() error {

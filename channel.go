@@ -129,6 +129,7 @@ func (c Channel) IsValid() error {
 			return err
 		}
 	}
+
 	if err := c.SampleRate.IsValid(); err != nil {
 		return nil
 	}
