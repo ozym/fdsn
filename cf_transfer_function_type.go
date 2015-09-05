@@ -1,6 +1,7 @@
 package fdsn
 
 import (
+	"encoding/json"
 	"encoding/xml"
 	"fmt"
 )
@@ -55,6 +56,38 @@ func (f *CfTransferFunctionType) UnmarshalXML(d *xml.Decoder, start xml.StartEle
 	f.Type = cfFunctionMap[s]
 
 	return nil
+}
+
+func (f *CfTransferFunctionType) MarshalJSON() ([]byte, error) {
+	if !(int(f.Type) < len(cfFunctionLookup)) {
+		return nil, fmt.Errorf("invalid type: %d", f.Type)
+	}
+	return json.Marshal(cfFunctionLookup[f.Type])
+}
+
+func (f *CfTransferFunctionType) UnmarshalJSON(data []byte) error {
+	var b []byte
+	err := json.Unmarshal(data, b)
+	if err != nil {
+		return err
+	}
+	s := string(b)
+
+	if _, ok := cfFunctionMap[s]; !ok {
+		return fmt.Errorf("invalid type: %s", s)
+	}
+
+	f.Type = cfFunctionMap[s]
+
+	return nil
+}
+
+func (f CfTransferFunctionType) String() string {
+	j, err := json.Marshal(&f)
+	if err == nil {
+		return string(j)
+	}
+	return ""
 }
 
 func (f CfTransferFunctionType) IsValid() error {
