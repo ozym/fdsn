@@ -23,30 +23,54 @@ type Sensitivity struct {
 	FrequencyRangeGroups []FrequencyRangeGroup `xml:"FrequencyRangeGroup,omitempty" json:",omitempty"`
 }
 
-func (s Sensitivity) String() string {
+func (s *Sensitivity) String() string {
 
-	j, err := json.Marshal(&s)
+	j, err := json.Marshal(s)
 	if err != nil {
 		return ""
 	}
 	return string(j)
 }
 
-func (s Sensitivity) IsValid() error {
-	if err := s.Value.IsValid(); err != nil {
+func (s *Sensitivity) IsValid() error {
+	if s == nil {
+		return nil
+	}
+
+	if err := Validate(&s.Value); err != nil {
 		return err
 	}
-	if err := s.InputUnits.IsValid(); err != nil {
+	if err := Validate(&s.InputUnits); err != nil {
 		return err
 	}
-	if err := s.OutputUnits.IsValid(); err != nil {
+	if err := Validate(&s.OutputUnits); err != nil {
 		return err
 	}
 	for _, f := range s.FrequencyRangeGroups {
-		if err := f.IsValid(); err != nil {
+		if err := Validate(&f); err != nil {
 			return err
 		}
 	}
 
 	return nil
+}
+
+func (s *Sensitivity) Copy(level Level) *Sensitivity {
+
+	if s == nil {
+		return nil
+	}
+
+	switch {
+	case level < CHANNEL_LEVEL:
+		return nil
+	case level > CHANNEL_LEVEL:
+		return s
+	}
+
+	return &Sensitivity{
+		Value:      s.Value,
+		Frequency:  s.Frequency,
+		InputUnits: s.InputUnits,
+	}
 }

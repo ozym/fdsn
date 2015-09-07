@@ -15,17 +15,17 @@ type Gain struct {
 	Frequency float64
 }
 
-func (g Gain) String() string {
+func (g *Gain) String() string {
 
-	j, err := json.Marshal(&g)
+	j, err := json.Marshal(g)
 	if err != nil {
 		return ""
 	}
 	return string(j)
 }
 
-func (g Gain) IsValid() error {
-	if err := g.Value.IsValid(); err != nil {
+func (g *Gain) IsValid() error {
+	if err := Validate(&g.Value); err != nil {
 		return err
 	}
 	return nil

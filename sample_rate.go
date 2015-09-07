@@ -12,18 +12,23 @@ type SampleRate struct {
 	Value float64 `xml:",chardata"`
 }
 
-func (s SampleRate) String() string {
+func (s *SampleRate) String() string {
 
-	j, err := json.Marshal(&s)
+	j, err := json.Marshal(s)
 	if err != nil {
 		return ""
 	}
 	return string(j)
 }
 
-func (s SampleRate) IsValid() error {
+func (s *SampleRate) IsValid() error {
+	if s == nil {
+		return nil
+	}
+
 	if s.Unit != "" && s.Unit != "SAMPLES/S" {
 		return fmt.Errorf("invalid sample rate unit: %s", s.Unit)
 	}
+
 	return nil
 }

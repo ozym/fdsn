@@ -16,15 +16,20 @@ type Angle struct {
 	Value float64 `xml:",chardata"`
 }
 
-func (a Angle) String() string {
-	j, err := json.Marshal(&a)
+func (a *Angle) String() string {
+	j, err := json.Marshal(a)
 	if err == nil {
 		return string(j)
 	}
 	return ""
 }
 
-func (a Angle) IsValid() error {
+func (a *Angle) IsValid() error {
+
+	if a == nil {
+		return nil
+	}
+
 	if a.Unit != "" && a.Unit != "DEGREES" {
 		return fmt.Errorf("invalid unit: %s", a.Unit)
 	}

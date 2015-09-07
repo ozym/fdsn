@@ -36,42 +36,64 @@ type Network struct {
 	Stations []Station `xml:"Station,omitempty" json:",omitempty"`
 }
 
-func (n Network) String() string {
+func (n *Network) String() string {
 
-	j, err := json.Marshal(&n)
+	j, err := json.Marshal(n)
 	if err != nil {
 		return ""
 	}
 	return string(j)
 }
 
-func (n Network) IsValid() error {
+func (n *Network) IsValid() error {
+
+	if n == nil {
+		return nil
+	}
 
 	if !(len(n.Code) > 0) {
 		return fmt.Errorf("empty code element")
 	}
 
-	if n.StartDate != nil {
-		if err := n.StartDate.IsValid(); err != nil {
-			return fmt.Errorf("bad start date: %s", err)
-		}
+	if err := n.StartDate.IsValid(); err != nil {
+		return fmt.Errorf("bad start date: %s", err)
 	}
-	if n.EndDate != nil {
-		if err := n.EndDate.IsValid(); err != nil {
-			return fmt.Errorf("bad end date: %s", err)
-		}
+	if err := n.EndDate.IsValid(); err != nil {
+		return fmt.Errorf("bad end date: %s", err)
 	}
-	if n.RestrictedStatus != nil {
-		if err := n.RestrictedStatus.IsValid(); err != nil {
-			return err
-		}
+	if err := n.RestrictedStatus.IsValid(); err != nil {
+		return err
 	}
 
 	for _, s := range n.Stations {
-		if err := Validate(s); err != nil {
+		if err := Validate(&s); err != nil {
 			return err
 		}
 	}
 
 	return nil
+}
+
+func (x *Network) Copy(level Level) *Network {
+
+	var s []Station
+	if level > NETWORK_LEVEL {
+		for _, y := range x.Stations {
+			s = append(s, *y.Copy(level))
+		}
+	}
+
+	return &Network{
+		Code:                   x.Code,
+		StartDate:              x.StartDate,
+		EndDate:                x.EndDate,
+		RestrictedStatus:       x.RestrictedStatus,
+		AlternateCode:          x.AlternateCode,
+		HistoricalCode:         x.HistoricalCode,
+		Description:            x.Description,
+		Comments:               x.Comments,
+		TotalNumberStations:    x.TotalNumberStations,
+		SelectedNumberStations: x.SelectedNumberStations,
+		Stations:               s,
+	}
 }

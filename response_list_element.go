@@ -10,24 +10,30 @@ type ResponseListElement struct {
 	Phase     Angle
 }
 
-func (r ResponseListElement) String() string {
+func (r *ResponseListElement) String() string {
 
-	j, err := json.Marshal(&r)
+	j, err := json.Marshal(r)
 	if err != nil {
 		return ""
 	}
 	return string(j)
 }
 
-func (r ResponseListElement) IsValid() error {
-	if err := r.Frequency.IsValid(); err != nil {
+func (r *ResponseListElement) IsValid() error {
+
+	if r == nil {
+		return nil
+	}
+
+	if err := Validate(&r.Frequency); err != nil {
 		return err
 	}
-	if err := r.Amplitude.IsValid(); err != nil {
+	if err := Validate(&r.Amplitude); err != nil {
 		return err
 	}
-	if err := r.Phase.IsValid(); err != nil {
+	if err := Validate(&r.Phase); err != nil {
 		return err
 	}
+
 	return nil
 }

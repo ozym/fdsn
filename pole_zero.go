@@ -12,23 +12,28 @@ type PoleZero struct {
 	Imaginary FloatNoUnit
 }
 
-func (pz PoleZero) String() string {
+func (pz *PoleZero) String() string {
 
-	j, err := json.Marshal(&pz)
+	j, err := json.Marshal(pz)
 	if err != nil {
 		return ""
 	}
 	return string(j)
 }
 
-func (pz PoleZero) IsValid() error {
+func (pz *PoleZero) IsValid() error {
+
+	if pz == nil {
+		return nil
+	}
+
 	if pz.Number < 0 {
 		return fmt.Errorf("invalid pole/zero number: %d", pz.Number)
 	}
-	if err := pz.Real.IsValid(); err != nil {
+	if err := Validate(&pz.Real); err != nil {
 		return err
 	}
-	if err := pz.Imaginary.IsValid(); err != nil {
+	if err := Validate(&pz.Imaginary); err != nil {
 		return err
 	}
 

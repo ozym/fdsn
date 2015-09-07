@@ -16,9 +16,9 @@ type Float struct {
 	Value float64 `xml:",chardata"`
 }
 
-func (f Float) String() string {
+func (f *Float) String() string {
 
-	j, err := json.Marshal(&f)
+	j, err := json.Marshal(f)
 	if err != nil {
 		return ""
 	}
@@ -26,7 +26,11 @@ func (f Float) String() string {
 	return string(j)
 }
 
-func (f Float) IsValid() error {
+func (f *Float) IsValid() error {
+	if f == nil {
+		return nil
+	}
+
 	if f.PlusError < 0.0 {
 		return fmt.Errorf("float plus error shouldn't be negative: %g", f.PlusError)
 	}

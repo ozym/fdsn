@@ -11,23 +11,28 @@ type Operator struct {
 	WebSites []string `xml:"WebSite,omitempty" json:",omitempty"`
 }
 
-func (o Operator) String() string {
+func (o *Operator) String() string {
 
-	j, err := json.Marshal(&o)
+	j, err := json.Marshal(o)
 	if err != nil {
 		return ""
 	}
 	return string(j)
 }
 
-func (o Operator) IsValid() error {
+func (o *Operator) IsValid() error {
+
+	if o == nil {
+		return nil
+	}
+
 	for _, a := range o.Agencies {
 		if !(len(a) > 0) {
 			return fmt.Errorf("empty operator agency")
 		}
 	}
 	for _, c := range o.Contacts {
-		if err := c.IsValid(); err != nil {
+		if err := Validate(&c); err != nil {
 			return err
 		}
 	}

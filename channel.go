@@ -70,114 +70,132 @@ type Channel struct {
 	Response         *Response  `xml:",omitempty" json:",omitempty"`
 }
 
-func (c Channel) String() string {
+func (c *Channel) String() string {
 
-	j, err := json.Marshal(&c)
+	j, err := json.Marshal(c)
 	if err != nil {
 		return ""
 	}
 	return string(j)
 }
 
-func (c Channel) IsValid() error {
+func (c *Channel) IsValid() error {
+	if c == nil {
+		return nil
+	}
+
 	if !(len(c.Code) > 0) {
 		return fmt.Errorf("empty code element")
 	}
 
-	if c.StartDate != nil {
-		if err := c.StartDate.IsValid(); err != nil {
-			return fmt.Errorf("bad start date: %s", err)
-		}
+	if err := Validate(c.StartDate); err != nil {
+		return fmt.Errorf("bad start date: %s", err)
 	}
-	if c.EndDate != nil {
-		if err := c.EndDate.IsValid(); err != nil {
-			return fmt.Errorf("bad end date: %s", err)
-		}
+	if err := Validate(c.EndDate); err != nil {
+		return fmt.Errorf("bad end date: %s", err)
 	}
-	if c.RestrictedStatus != nil {
-		if err := c.RestrictedStatus.IsValid(); err != nil {
-			return err
-		}
-	}
-
-	if err := c.Latitude.IsValid(); err != nil {
-		return err
-	}
-	if err := c.Longitude.IsValid(); err != nil {
-		return err
-	}
-	if err := c.Elevation.IsValid(); err != nil {
-		return err
-	}
-	if err := c.Depth.IsValid(); err != nil {
+	if err := Validate(c.RestrictedStatus); err != nil {
 		return err
 	}
 
-	if c.Dip != nil {
-		if err := c.Dip.IsValid(); err != nil {
-			return err
-		}
+	if err := Validate(&c.Latitude); err != nil {
+		return err
 	}
-	if c.Azimuth != nil {
-		if err := c.Azimuth.IsValid(); err != nil {
-			return err
-		}
+	if err := Validate(&c.Longitude); err != nil {
+		return err
+	}
+	if err := Validate(&c.Elevation); err != nil {
+		return err
+	}
+	if err := Validate(&c.Depth); err != nil {
+		return err
+	}
+
+	if err := Validate(c.Dip); err != nil {
+		return err
+	}
+	if err := Validate(c.Azimuth); err != nil {
+		return err
 	}
 
 	for _, t := range c.Types {
-		if err := t.IsValid(); err != nil {
+		if err := Validate(&t); err != nil {
 			return err
 		}
 	}
 
-	if err := c.SampleRate.IsValid(); err != nil {
+	if err := Validate(&c.SampleRate); err != nil {
 		return nil
 	}
-	if c.SampleRateRatio != nil {
-		if err := c.SampleRateRatio.IsValid(); err != nil {
-			return nil
-		}
+	if err := Validate(c.SampleRateRatio); err != nil {
+		return nil
 	}
 	if !(len(c.StorageFormat) > 0) {
 		return fmt.Errorf("empty code element")
 	}
 
-	if c.ClockDrift != nil {
-		if err := c.ClockDrift.IsValid(); err != nil {
-			return nil
-		}
+	if err := Validate(c.ClockDrift); err != nil {
+		return nil
 	}
 
-	if c.CalibrationUnits != nil {
-		if err := c.CalibrationUnits.IsValid(); err != nil {
-			return nil
-		}
+	if err := Validate(c.CalibrationUnits); err != nil {
+		return nil
 	}
-	if c.Sensor != nil {
-		if err := c.Sensor.IsValid(); err != nil {
-			return nil
-		}
+	if err := Validate(c.Sensor); err != nil {
+		return nil
 	}
-	if c.PreAmplifier != nil {
-		if err := c.PreAmplifier.IsValid(); err != nil {
-			return nil
-		}
+	if err := Validate(c.PreAmplifier); err != nil {
+		return nil
 	}
-	if c.DataLogger != nil {
-		if err := c.DataLogger.IsValid(); err != nil {
-			return nil
-		}
+	if err := Validate(c.DataLogger); err != nil {
+		return nil
 	}
-	if c.Equipment != nil {
-		if err := c.Equipment.IsValid(); err != nil {
-			return nil
-		}
+	if err := Validate(c.Equipment); err != nil {
+		return nil
 	}
-	if c.Response != nil {
-		if err := c.Response.IsValid(); err != nil {
-			return nil
-		}
+	if err := Validate(c.Response); err != nil {
+		return nil
 	}
 
 	return nil
+}
+
+func (c *Channel) Copy(level Level) *Channel {
+
+	var r *Response
+
+	if level >= CHANNEL_LEVEL {
+		r = c.Response.Copy(level)
+	}
+
+	return &Channel{
+		Code:               c.Code,
+		StartDate:          c.StartDate,
+		EndDate:            c.EndDate,
+		RestrictedStatus:   c.RestrictedStatus,
+		LocationCode:       c.LocationCode,
+		AlternateCode:      c.AlternateCode,
+		HistoricalCode:     c.HistoricalCode,
+		Description:        c.Description,
+		Comments:           c.Comments,
+		ExternalReferences: c.ExternalReferences,
+		Latitude:           c.Latitude,
+		Longitude:          c.Longitude,
+		Elevation:          c.Elevation,
+		Depth:              c.Depth,
+		Azimuth:            c.Azimuth,
+		Dip:                c.Dip,
+		Types:              c.Types,
+		SampleRate:         c.SampleRate,
+		SampleRateRatio:    c.SampleRateRatio,
+		StorageFormat:      c.StorageFormat,
+		ClockDrift:         c.ClockDrift,
+		CalibrationUnits:   c.CalibrationUnits,
+		Sensor:             c.Sensor,
+		PreAmplifier:       c.PreAmplifier,
+		DataLogger:         c.DataLogger,
+		Equipment:          c.Equipment,
+
+		Response: r,
+	}
 }

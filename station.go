@@ -66,82 +66,116 @@ type Station struct {
 	Channels []Channel `xml:"Channel,omitempty" json:",omitempty"`
 }
 
-func (s Station) String() string {
+func (s *Station) String() string {
 
-	j, err := json.Marshal(&s)
+	j, err := json.Marshal(s)
 	if err != nil {
 		return ""
 	}
 	return string(j)
 }
 
-func (s Station) IsValid() error {
+func (s *Station) IsValid() error {
+	if s == nil {
+		return nil
+	}
+
 	if !(len(s.Code) > 0) {
 		return fmt.Errorf("empty code element")
 	}
 
-	if s.StartDate != nil {
-		if err := s.StartDate.IsValid(); err != nil {
-			return fmt.Errorf("bad start date: %s", err)
-		}
+	if err := Validate(s.StartDate); err != nil {
+		return fmt.Errorf("bad start date: %s", err)
 	}
-	if s.EndDate != nil {
-		if err := s.EndDate.IsValid(); err != nil {
-			return fmt.Errorf("bad end date: %s", err)
-		}
+	if err := Validate(s.EndDate); err != nil {
+		return fmt.Errorf("bad end date: %s", err)
 	}
-	if s.RestrictedStatus != nil {
-		if err := s.RestrictedStatus.IsValid(); err != nil {
-			return err
-		}
+	if err := Validate(s.RestrictedStatus); err != nil {
+		return err
 	}
 
-	if err := s.Latitude.IsValid(); err != nil {
+	if err := Validate(&s.Latitude); err != nil {
 		return err
 	}
-	if err := s.Longitude.IsValid(); err != nil {
+	if err := Validate(&s.Longitude); err != nil {
 		return err
 	}
-	if err := s.Elevation.IsValid(); err != nil {
+	if err := Validate(&s.Elevation); err != nil {
 		return err
 	}
-	if err := s.Site.IsValid(); err != nil {
+	if err := Validate(&s.Site); err != nil {
 		return err
 	}
 
 	for _, e := range s.Equipments {
-		if err := Validate(e); err != nil {
+		if err := Validate(&e); err != nil {
 			return err
 		}
 	}
 
 	for _, o := range s.Operators {
-		if err := Validate(o); err != nil {
+		if err := Validate(&o); err != nil {
 			return err
 		}
 	}
 
-	if err := s.CreationDate.IsValid(); err != nil {
+	if err := Validate(&s.CreationDate); err != nil {
 		return err
 	}
 
-	if s.TerminationDate != nil {
-		if err := s.TerminationDate.IsValid(); err != nil {
-			return err
-		}
+	if err := Validate(s.TerminationDate); err != nil {
+		return err
 	}
 
 	for _, x := range s.ExternalReferences {
-		if err := Validate(x); err != nil {
+		if err := Validate(&x); err != nil {
 			return err
 		}
 	}
 
 	for _, c := range s.Channels {
-		if err := Validate(c); err != nil {
+		if err := Validate(&c); err != nil {
 			return err
 		}
 	}
 
 	return nil
+}
+
+func (s *Station) Copy(level Level) *Station {
+
+	var c []Channel
+
+	if level > STATION_LEVEL {
+		for _, y := range s.Channels {
+			c = append(c, *y.Copy(level))
+		}
+	}
+
+	return &Station{
+
+		Code:                   s.Code,
+		StartDate:              s.StartDate,
+		EndDate:                s.EndDate,
+		RestrictedStatus:       s.RestrictedStatus,
+		AlternateCode:          s.AlternateCode,
+		HistoricalCode:         s.HistoricalCode,
+		Description:            s.Description,
+		Comments:               s.Comments,
+		Latitude:               s.Latitude,
+		Longitude:              s.Longitude,
+		Elevation:              s.Elevation,
+		Site:                   s.Site,
+		Vault:                  s.Vault,
+		Geology:                s.Geology,
+		Equipments:             s.Equipments,
+		Operators:              s.Operators,
+		CreationDate:           s.CreationDate,
+		TerminationDate:        s.TerminationDate,
+		TotalNumberChannels:    s.TotalNumberChannels,
+		SelectedNumberChannels: s.SelectedNumberChannels,
+		ExternalReferences:     s.ExternalReferences,
+
+		Channels: c,
+	}
 }

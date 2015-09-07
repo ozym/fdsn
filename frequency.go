@@ -16,15 +16,19 @@ type Frequency struct {
 	Value float64 `xml:",chardata"`
 }
 
-func (f Frequency) String() string {
-	j, err := json.Marshal(&f)
+func (f *Frequency) String() string {
+	j, err := json.Marshal(f)
 	if err == nil {
 		return string(j)
 	}
 	return ""
 }
 
-func (f Frequency) IsValid() error {
+func (f *Frequency) IsValid() error {
+	if f == nil {
+		return nil
+	}
+
 	if f.Unit != "" && f.Unit != "HERTZ" {
 		return fmt.Errorf("invalid unit: %s", f.Unit)
 	}

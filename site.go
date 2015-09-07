@@ -23,18 +23,23 @@ type Site struct {
 	Country string `xml:",omitempty" json:",omitempty"`
 }
 
-func (s Site) String() string {
+func (s *Site) String() string {
 
-	j, err := json.Marshal(&s)
+	j, err := json.Marshal(s)
 	if err != nil {
 		return ""
 	}
 	return string(j)
 }
 
-func (s Site) IsValid() error {
+func (s *Site) IsValid() error {
+	if s == nil {
+		return nil
+	}
+
 	if !(len(s.Name) > 0) {
 		return fmt.Errorf("empty site name")
 	}
+
 	return nil
 }

@@ -8,12 +8,17 @@ type ExternalReference struct {
 	Description string
 }
 
-func (e ExternalReference) IsValid() error {
+func (e *ExternalReference) IsValid() error {
+	if e == nil {
+		return nil
+	}
+
 	if !(len(e.URI) > 0) {
 		return fmt.Errorf("empty external reference uri")
 	}
 	if !(len(e.Description) > 0) {
 		return fmt.Errorf("empty external reference description")
 	}
+
 	return nil
 }

@@ -82,15 +82,19 @@ func (f *CfTransferFunctionType) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (f CfTransferFunctionType) String() string {
-	j, err := json.Marshal(&f)
+func (f *CfTransferFunctionType) String() string {
+	j, err := json.Marshal(f)
 	if err == nil {
 		return string(j)
 	}
 	return ""
 }
 
-func (f CfTransferFunctionType) IsValid() error {
+func (f *CfTransferFunctionType) IsValid() error {
+	if f == nil {
+		return nil
+	}
+
 	if !(int(f.Type) < len(cfFunctionLookup)) {
 		return fmt.Errorf("invalid function entry: %d", f.Type)
 	}

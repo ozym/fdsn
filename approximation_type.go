@@ -62,7 +62,11 @@ func (f *ApproximationType) UnmarshalXML(d *xml.Decoder, start xml.StartElement)
 	return nil
 }
 
-func (f ApproximationType) IsValid() error {
+func (f *ApproximationType) IsValid() error {
+	if f == nil {
+		return nil
+	}
+
 	if !(int(f.Type) < len(approximationLookup)) {
 		return fmt.Errorf("invalid approximation type: %d", f.Type)
 	}

@@ -74,7 +74,7 @@ func TestNetwork_Valid(t *testing.T) {
 		StartDate:        MustParsePtr("1980-01-01T00:00:00"),
 	}
 
-	if err := Validate(n); err != nil {
+	if err := Validate(&n); err != nil {
 		t.Errorf("network struct is not valid: %s", err)
 	}
 }
@@ -87,7 +87,7 @@ func TestNetwork_InValid(t *testing.T) {
 	}
 
 	for _, n := range tests {
-		if err := Validate(n); err == nil {
+		if err := Validate(&n); err == nil {
 			t.Errorf("network struct should be invalid: %s", n)
 		}
 	}

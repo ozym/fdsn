@@ -97,14 +97,14 @@ func (t *DateTime) UnmarshalJSON(data []byte) error {
 }
 
 func (t *DateTime) String() string {
-	if t.Time.Year() < 1880 {
+	if t == nil || t.Time.Year() < 1880 {
 		return ""
 	}
 	return t.Time.String()
 }
 
 func (t *DateTime) IsValid() error {
-	if t.Time.Year() < 1880 {
+	if t != nil && t.Time.Year() < 1880 {
 		return fmt.Errorf("incorrect date: %s", t.String())
 	}
 	return nil

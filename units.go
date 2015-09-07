@@ -13,7 +13,7 @@ type Units struct {
 	Description string `xml:",omitempty" json:",omitempty"`
 }
 
-func (u Units) String() string {
+func (u *Units) String() string {
 
 	j, err := json.Marshal(&u)
 	if err != nil {
@@ -22,9 +22,14 @@ func (u Units) String() string {
 	return string(j)
 }
 
-func (u Units) IsValid() error {
+func (u *Units) IsValid() error {
+	if u == nil {
+		return nil
+	}
+
 	if !(len(u.Name) > 0) {
 		return fmt.Errorf("empty units name")
 	}
+
 	return nil
 }

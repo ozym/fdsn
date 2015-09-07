@@ -27,16 +27,20 @@ type ResponseList struct {
 	ResponseListElements []ResponseListElement `xml:"ResponseListElement,omitempty" json:",omitempty"`
 }
 
-func (r ResponseList) String() string {
+func (r *ResponseList) String() string {
 
-	j, err := json.Marshal(&r)
+	j, err := json.Marshal(r)
 	if err != nil {
 		return ""
 	}
 	return string(j)
 }
 
-func (r ResponseList) IsValid() error {
+func (r *ResponseList) IsValid() error {
+	if r == nil {
+		return nil
+	}
+
 	if !(len(r.ResourceId) > 0) {
 		return fmt.Errorf("empty response list resourceid")
 	}
@@ -44,15 +48,15 @@ func (r ResponseList) IsValid() error {
 		return fmt.Errorf("empty response list name")
 	}
 
-	if err := r.InputUnits.IsValid(); err != nil {
+	if err := Validate(&r.InputUnits); err != nil {
 		return err
 	}
-	if err := r.OutputUnits.IsValid(); err != nil {
+	if err := Validate(&r.OutputUnits); err != nil {
 		return err
 	}
 
 	for _, e := range r.ResponseListElements {
-		if err := e.IsValid(); err != nil {
+		if err := Validate(&e); err != nil {
 			return err
 		}
 	}

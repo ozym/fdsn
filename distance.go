@@ -12,6 +12,6 @@ type Distance struct {
 	Value float64 `xml:",chardata"`
 }
 
-func (d Distance) IsValid() error {
+func (d *Distance) IsValid() error {
 	return nil
 }

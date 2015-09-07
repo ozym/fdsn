@@ -12,6 +12,16 @@ const (
 	FDSN_SCHEMA_VERSION = "1.0"
 )
 
+type Level uint
+
+const (
+	ROOT_LEVEL Level = iota
+	NETWORK_LEVEL
+	STATION_LEVEL
+	CHANNEL_LEVEL
+	RESPONSE_LEVEL
+)
+
 // FDSNStationXML represents the FDSN StationXML schema's root type.
 //
 // Designed as an XML representation of SEED metadata, the schema maps to
@@ -53,16 +63,20 @@ func (x *FDSNStationXML) Marshal() ([]byte, error) {
 	return append(h, append(s, '\n')...), nil
 }
 
-func (x FDSNStationXML) String() string {
+func (x *FDSNStationXML) String() string {
 
-	j, err := json.Marshal(&x)
+	j, err := json.Marshal(x)
 	if err != nil {
 		return ""
 	}
 	return string(j)
 }
 
-func (x FDSNStationXML) IsValid() error {
+func (x *FDSNStationXML) IsValid() error {
+
+	if x == nil {
+		return nil
+	}
 
 	if x.NameSpace != FDSN_NAME_SPACE {
 		return fmt.Errorf("wrong name space: %s", x.NameSpace)
@@ -70,19 +84,42 @@ func (x FDSNStationXML) IsValid() error {
 	if x.SchemaVersion != FDSN_SCHEMA_VERSION {
 		return fmt.Errorf("wrong schema version: %s", x.SchemaVersion)
 	}
+
 	if !(len(x.Source) > 0) {
 		return fmt.Errorf("empty source element")
 	}
 
-	if err := x.Created.IsValid(); err != nil {
+	if err := Validate(&x.Created); err != nil {
 		return err
 	}
 
 	for _, n := range x.Networks {
-		if err := Validate(n); err != nil {
+		if err := Validate(&n); err != nil {
 			return err
 		}
 	}
 
 	return nil
+}
+
+func (x *FDSNStationXML) Copy(level Level) *FDSNStationXML {
+
+	var n []Network
+
+	if level > ROOT_LEVEL {
+		for _, y := range x.Networks {
+			n = append(n, *y.Copy(level))
+		}
+	}
+
+	return &FDSNStationXML{
+		NameSpace:     x.NameSpace,
+		SchemaVersion: x.SchemaVersion,
+		Source:        x.Source,
+		Sender:        x.Sender,
+		Module:        x.Module,
+		ModuleURI:     x.ModuleURI,
+		Created:       x.Created,
+		Networks:      n,
+	}
 }

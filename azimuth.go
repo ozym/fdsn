@@ -17,15 +17,19 @@ type Azimuth struct {
 	Value float64 `xml:",chardata"`
 }
 
-func (a Azimuth) String() string {
-	j, err := json.Marshal(&a)
+func (a *Azimuth) String() string {
+	j, err := json.Marshal(a)
 	if err == nil {
 		return string(j)
 	}
 	return ""
 }
 
-func (a Azimuth) IsValid() error {
+func (a *Azimuth) IsValid() error {
+	if a == nil {
+		return nil
+	}
+
 	if a.Unit != "" && a.Unit != "DEGREES" {
 		return fmt.Errorf("azimuth invalid unit: %s", a.Unit)
 	}

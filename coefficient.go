@@ -5,6 +5,6 @@ type Coefficient struct {
 	Value  float64 `xml:",chardata"`
 }
 
-func (c Coefficient) IsValid() error {
+func (c *Coefficient) IsValid() error {
 	return nil
 }

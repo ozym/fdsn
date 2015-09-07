@@ -13,24 +13,29 @@ type Decimation struct {
 	Correction      Float
 }
 
-func (d Decimation) String() string {
+func (d *Decimation) String() string {
 
-	j, err := json.Marshal(&d)
+	j, err := json.Marshal(d)
 	if err != nil {
 		return ""
 	}
 	return string(j)
 }
 
-func (d Decimation) IsValid() error {
-	if err := d.InputSampleRate.IsValid(); err != nil {
+func (d *Decimation) IsValid() error {
+	if d == nil {
+		return nil
+	}
+
+	if err := Validate(&d.InputSampleRate); err != nil {
 		return err
 	}
-	if err := d.Delay.IsValid(); err != nil {
+	if err := Validate(&d.Delay); err != nil {
 		return err
 	}
-	if err := d.Correction.IsValid(); err != nil {
+	if err := Validate(&d.Correction); err != nil {
 		return err
 	}
+
 	return nil
 }

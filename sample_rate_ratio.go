@@ -10,7 +10,7 @@ type SampleRateRatio struct {
 	NumberSeconds int32
 }
 
-func (s SampleRateRatio) String() string {
+func (s *SampleRateRatio) String() string {
 
 	j, err := json.Marshal(&s)
 	if err != nil {
@@ -19,6 +19,6 @@ func (s SampleRateRatio) String() string {
 	return string(j)
 }
 
-func (s SampleRateRatio) IsValid() error {
+func (s *SampleRateRatio) IsValid() error {
 	return nil
 }

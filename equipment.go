@@ -23,7 +23,7 @@ type Equipment struct {
 	CalibrationDates []DateTime `xml:"CalibrationDate,omitempty" json:",omitempty"`
 }
 
-func (e Equipment) String() string {
+func (e *Equipment) String() string {
 
 	j, err := json.Marshal(&e)
 	if err != nil {
@@ -32,22 +32,22 @@ func (e Equipment) String() string {
 	return string(j)
 }
 
-func (e Equipment) IsValid() error {
+func (e *Equipment) IsValid() error {
 
-	if e.InstallationDate != nil {
-		if err := e.InstallationDate.IsValid(); err != nil {
-			return err
-		}
+	if e == nil {
+		return nil
 	}
 
-	if e.RemovalDate != nil {
-		if err := e.RemovalDate.IsValid(); err != nil {
-			return err
-		}
+	if err := Validate(e.InstallationDate); err != nil {
+		return err
+	}
+
+	if err := Validate(e.RemovalDate); err != nil {
+		return err
 	}
 
 	for _, c := range e.CalibrationDates {
-		if err := c.IsValid(); err != nil {
+		if err := Validate(&c); err != nil {
 			return err
 		}
 	}

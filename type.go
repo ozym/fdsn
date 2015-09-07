@@ -106,18 +106,23 @@ func (t *Type) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (t Type) String() string {
+func (t *Type) String() string {
 
-	j, err := json.Marshal(&t)
+	j, err := json.Marshal(t)
 	if err != nil {
 		return ""
 	}
 	return string(j)
 }
 
-func (t Type) IsValid() error {
+func (t *Type) IsValid() error {
+	if t == nil {
+		return nil
+	}
+
 	if !(int(t.Type) < len(typeLookup)) {
 		return fmt.Errorf("invalid type: %d", t.Type)
 	}
+
 	return nil
 }
