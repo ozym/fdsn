@@ -6,7 +6,9 @@ import (
 	"regexp"
 )
 
-type Email string
+type Email struct {
+	Address string `xml:",chardata"`
+}
 
 func (e *Email) String() string {
 
@@ -17,13 +19,17 @@ func (e *Email) String() string {
 	return string(j)
 }
 
-func (e Email) IsValid() error {
+func (e *Email) IsValid() error {
 
-	if !(len(e) > 0) {
+	if e == nil {
+		return nil
+	}
+
+	if !(len(e.Address) > 0) {
 		return fmt.Errorf("empty email")
 	}
 
-	if !(regexp.MustCompile(`^[\w\.\-_]+@[\w\.\-_]+$`).MatchString(string(e))) {
+	if !(regexp.MustCompile(`^[\w\.\-_]+@[\w\.\-_]+$`).MatchString(e.Address)) {
 		return fmt.Errorf("bad email address: %s", e)
 	}
 
