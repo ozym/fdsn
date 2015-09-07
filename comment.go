@@ -25,21 +25,17 @@ func (c Comment) String() string {
 	return string(j)
 }
 
-func (c Comment) IsValid() error {
+func (c *Comment) IsValid() error {
 
-	if c.BeginEffectiveTime != nil {
-		if err := c.BeginEffectiveTime.IsValid(); err != nil {
-			return err
-		}
+	if err := Validate(c.BeginEffectiveTime); err != nil {
+		return err
 	}
-	if c.EndEffectiveTime != nil {
-		if err := c.EndEffectiveTime.IsValid(); err != nil {
-			return err
-		}
+	if err := Validate(c.EndEffectiveTime); err != nil {
+		return err
 	}
 
 	for _, p := range c.Authors {
-		if err := p.IsValid(); err != nil {
+		if err := Validate(&p); err != nil {
 			return err
 		}
 	}

@@ -39,27 +39,31 @@ func (c Coefficients) String() string {
 	return string(j)
 }
 
-func (c Coefficients) IsValid() error {
+func (c *Coefficients) IsValid() error {
 
-	if err := c.InputUnits.IsValid(); err != nil {
-		return err
-	}
-	if err := c.OutputUnits.IsValid(); err != nil {
-		return err
+	if c == nil {
+		return nil
 	}
 
-	if err := c.CfTransferFunctionType.IsValid(); err != nil {
+	if err := Validate(&c.InputUnits); err != nil {
+		return err
+	}
+	if err := Validate(&c.OutputUnits); err != nil {
+		return err
+	}
+
+	if err := Validate(&c.CfTransferFunctionType); err != nil {
 		return err
 	}
 
 	for _, n := range c.Numerators {
-		if err := n.IsValid(); err != nil {
+		if err := Validate(&n); err != nil {
 			return err
 		}
 	}
 
 	for _, d := range c.Denominators {
-		if err := d.IsValid(); err != nil {
+		if err := Validate(&d); err != nil {
 			return err
 		}
 	}

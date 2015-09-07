@@ -23,7 +23,11 @@ func (p Person) String() string {
 	return string(j)
 }
 
-func (p Person) IsValid() error {
+func (p *Person) IsValid() error {
+	if p == nil {
+		return nil
+	}
+
 	for _, n := range p.Names {
 		if !(len(n) > 0) {
 			return fmt.Errorf("empty person name")
@@ -35,12 +39,12 @@ func (p Person) IsValid() error {
 		}
 	}
 	for _, e := range p.Email {
-		if err := e.IsValid(); err != nil {
+		if err := Validate(&e); err != nil {
 			return err
 		}
 	}
 	for _, x := range p.PhoneNumbers {
-		if err := x.IsValid(); err != nil {
+		if err := Validate(&x); err != nil {
 			return err
 		}
 	}

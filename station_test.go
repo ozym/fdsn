@@ -91,7 +91,7 @@ func TestStation_Valid(t *testing.T) {
 		CreationDate:     MustParse("2008-10-13T00:00:00"),
 	}
 
-	if err := Validate(s); err != nil {
+	if err := Validate(&s); err != nil {
 		t.Errorf("station struct is not valid: %s", err)
 	}
 }
@@ -114,9 +114,9 @@ func TestStation_InValid(t *testing.T) {
 		},
 	}
 
-	for _, n := range tests {
-		if err := Validate(n); err == nil {
-			t.Errorf("network struct should be invalid: %s", n)
+	for _, s := range tests {
+		if err := Validate(&s); err == nil {
+			t.Errorf("station struct should be invalid: %s", s)
 		}
 	}
 }

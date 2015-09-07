@@ -115,9 +115,14 @@ func (t Type) String() string {
 	return string(j)
 }
 
-func (t Type) IsValid() error {
+func (t *Type) IsValid() error {
+	if t == nil {
+		return nil
+	}
+
 	if !(int(t.Type) < len(typeLookup)) {
 		return fmt.Errorf("invalid type: %d", t.Type)
 	}
+
 	return nil
 }

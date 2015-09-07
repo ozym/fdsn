@@ -20,14 +20,19 @@ func (o Operator) String() string {
 	return string(j)
 }
 
-func (o Operator) IsValid() error {
+func (o *Operator) IsValid() error {
+
+	if o == nil {
+		return nil
+	}
+
 	for _, a := range o.Agencies {
 		if !(len(a) > 0) {
 			return fmt.Errorf("empty operator agency")
 		}
 	}
 	for _, c := range o.Contacts {
-		if err := c.IsValid(); err != nil {
+		if err := Validate(&c); err != nil {
 			return err
 		}
 	}

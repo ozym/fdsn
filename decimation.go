@@ -22,15 +22,20 @@ func (d Decimation) String() string {
 	return string(j)
 }
 
-func (d Decimation) IsValid() error {
-	if err := d.InputSampleRate.IsValid(); err != nil {
+func (d *Decimation) IsValid() error {
+	if d == nil {
+		return nil
+	}
+
+	if err := Validate(&d.InputSampleRate); err != nil {
 		return err
 	}
-	if err := d.Delay.IsValid(); err != nil {
+	if err := Validate(&d.Delay); err != nil {
 		return err
 	}
-	if err := d.Correction.IsValid(); err != nil {
+	if err := Validate(&d.Correction); err != nil {
 		return err
 	}
+
 	return nil
 }

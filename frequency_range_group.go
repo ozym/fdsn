@@ -20,6 +20,6 @@ func (f FrequencyRangeGroup) String() string {
 	return string(j)
 }
 
-func (f FrequencyRangeGroup) IsValid() error {
+func (f *FrequencyRangeGroup) IsValid() error {
 	return nil
 }

@@ -29,21 +29,18 @@ func (r ResponseStage) String() string {
 	return string(j)
 }
 
-func (r ResponseStage) IsValid() error {
+func (r *ResponseStage) IsValid() error {
 	if r.Number < 0 {
 		return fmt.Errorf("invalid response stage number: %d", r.Number)
 	}
 
-	if r.PolesZeros != nil {
-		if err := r.PolesZeros.IsValid(); err != nil {
-			return err
-		}
+	if err := Validate(r.PolesZeros); err != nil {
+		return err
 	}
-	if r.Coefficients != nil {
-		if err := r.Coefficients.IsValid(); err != nil {
-			return err
-		}
+	if err := Validate(r.Coefficients); err != nil {
+		return err
 	}
+
 	if r.ResponseList != nil {
 		if err := r.ResponseList.IsValid(); err != nil {
 			return err

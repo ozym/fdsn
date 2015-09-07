@@ -25,7 +25,11 @@ func (p PhoneNumber) String() string {
 	return string(j)
 }
 
-func (p PhoneNumber) IsValid() error {
+func (p *PhoneNumber) IsValid() error {
+	if p == nil {
+		return nil
+	}
+
 	if !(len(p.PhoneNumber) > 0) {
 		return fmt.Errorf("empty phone number")
 	}

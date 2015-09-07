@@ -38,7 +38,11 @@ func (pz PolesZeros) String() string {
 	return string(j)
 }
 
-func (pz PolesZeros) IsValid() error {
+func (pz *PolesZeros) IsValid() error {
+	if pz == nil {
+		return nil
+	}
+
 	if !(len(pz.ResourceId) > 0) {
 		return fmt.Errorf("empty poles/zeros resourcedId")
 	}
@@ -46,31 +50,31 @@ func (pz PolesZeros) IsValid() error {
 		return fmt.Errorf("empty poles/zeros resourcedId")
 	}
 
-	if err := pz.InputUnits.IsValid(); err != nil {
+	if err := Validate(&pz.InputUnits); err != nil {
 		return err
 	}
-	if err := pz.OutputUnits.IsValid(); err != nil {
+	if err := Validate(&pz.OutputUnits); err != nil {
 		return err
 	}
 
-	if err := pz.PzTransferFunctionType.IsValid(); err != nil {
+	if err := Validate(&pz.PzTransferFunctionType); err != nil {
 		return err
 	}
-	if err := pz.NormalizationFactor.IsValid(); err != nil {
+	if err := Validate(&pz.NormalizationFactor); err != nil {
 		return err
 	}
-	if err := pz.NormalizationFrequency.IsValid(); err != nil {
+	if err := Validate(&pz.NormalizationFrequency); err != nil {
 		return err
 	}
 
 	for _, z := range pz.Zeros {
-		if err := z.IsValid(); err != nil {
+		if err := Validate(&z); err != nil {
 			return err
 		}
 	}
 
 	for _, p := range pz.Poles {
-		if err := p.IsValid(); err != nil {
+		if err := Validate(&p); err != nil {
 			return err
 		}
 	}

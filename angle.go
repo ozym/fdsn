@@ -24,7 +24,12 @@ func (a Angle) String() string {
 	return ""
 }
 
-func (a Angle) IsValid() error {
+func (a *Angle) IsValid() error {
+
+	if a == nil {
+		return nil
+	}
+
 	if a.Unit != "" && a.Unit != "DEGREES" {
 		return fmt.Errorf("invalid unit: %s", a.Unit)
 	}

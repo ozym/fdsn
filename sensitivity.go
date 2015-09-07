@@ -32,7 +32,11 @@ func (s Sensitivity) String() string {
 	return string(j)
 }
 
-func (s Sensitivity) IsValid() error {
+func (s *Sensitivity) IsValid() error {
+	if s == nil {
+		return nil
+	}
+
 	if err := s.Value.IsValid(); err != nil {
 		return err
 	}
@@ -49,4 +53,24 @@ func (s Sensitivity) IsValid() error {
 	}
 
 	return nil
+}
+
+func (s *Sensitivity) Copy(level Level) *Sensitivity {
+
+	if s == nil {
+		return nil
+	}
+
+	switch {
+	case level < CHANNEL_LEVEL:
+		return nil
+	case level > CHANNEL_LEVEL:
+		return s
+	}
+
+	return &Sensitivity{
+		Value:      s.Value,
+		Frequency:  s.Frequency,
+		InputUnits: s.InputUnits,
+	}
 }
