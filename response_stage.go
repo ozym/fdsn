@@ -20,9 +20,9 @@ type ResponseStage struct {
 	StageGain  Gain
 }
 
-func (r ResponseStage) String() string {
+func (r *ResponseStage) String() string {
 
-	j, err := json.Marshal(&r)
+	j, err := json.Marshal(r)
 	if err != nil {
 		return ""
 	}

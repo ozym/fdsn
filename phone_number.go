@@ -16,9 +16,9 @@ type PhoneNumber struct {
 	PhoneNumber string
 }
 
-func (p PhoneNumber) String() string {
+func (p *PhoneNumber) String() string {
 
-	j, err := json.Marshal(&p)
+	j, err := json.Marshal(p)
 	if err != nil {
 		return ""
 	}

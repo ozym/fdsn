@@ -36,9 +36,9 @@ type Network struct {
 	Stations []Station `xml:"Station,omitempty" json:",omitempty"`
 }
 
-func (n Network) String() string {
+func (n *Network) String() string {
 
-	j, err := json.Marshal(&n)
+	j, err := json.Marshal(n)
 	if err != nil {
 		return ""
 	}

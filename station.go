@@ -66,9 +66,9 @@ type Station struct {
 	Channels []Channel `xml:"Channel,omitempty" json:",omitempty"`
 }
 
-func (s Station) String() string {
+func (s *Station) String() string {
 
-	j, err := json.Marshal(&s)
+	j, err := json.Marshal(s)
 	if err != nil {
 		return ""
 	}

@@ -16,8 +16,8 @@ type Frequency struct {
 	Value float64 `xml:",chardata"`
 }
 
-func (f Frequency) String() string {
-	j, err := json.Marshal(&f)
+func (f *Frequency) String() string {
+	j, err := json.Marshal(f)
 	if err == nil {
 		return string(j)
 	}

@@ -23,9 +23,9 @@ type Sensitivity struct {
 	FrequencyRangeGroups []FrequencyRangeGroup `xml:"FrequencyRangeGroup,omitempty" json:",omitempty"`
 }
 
-func (s Sensitivity) String() string {
+func (s *Sensitivity) String() string {
 
-	j, err := json.Marshal(&s)
+	j, err := json.Marshal(s)
 	if err != nil {
 		return ""
 	}

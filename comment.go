@@ -16,9 +16,9 @@ type Comment struct {
 	Authors []Person `xml:"Author,omitempty" json:",omitempty"`
 }
 
-func (c Comment) String() string {
+func (c *Comment) String() string {
 
-	j, err := json.Marshal(&c)
+	j, err := json.Marshal(c)
 	if err != nil {
 		return ""
 	}

@@ -27,9 +27,9 @@ type ResponseList struct {
 	ResponseListElements []ResponseListElement `xml:"ResponseListElement,omitempty" json:",omitempty"`
 }
 
-func (r ResponseList) String() string {
+func (r *ResponseList) String() string {
 
-	j, err := json.Marshal(&r)
+	j, err := json.Marshal(r)
 	if err != nil {
 		return ""
 	}

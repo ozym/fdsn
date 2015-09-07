@@ -12,9 +12,9 @@ type SampleRate struct {
 	Value float64 `xml:",chardata"`
 }
 
-func (s SampleRate) String() string {
+func (s *SampleRate) String() string {
 
-	j, err := json.Marshal(&s)
+	j, err := json.Marshal(s)
 	if err != nil {
 		return ""
 	}

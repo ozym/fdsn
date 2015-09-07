@@ -14,9 +14,9 @@ type Person struct {
 	PhoneNumbers []PhoneNumber `xml:"Phone,omitempty" json:",omitempty"`
 }
 
-func (p Person) String() string {
+func (p *Person) String() string {
 
-	j, err := json.Marshal(&p)
+	j, err := json.Marshal(p)
 	if err != nil {
 		return ""
 	}

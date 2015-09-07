@@ -82,8 +82,8 @@ func (f *CfTransferFunctionType) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (f CfTransferFunctionType) String() string {
-	j, err := json.Marshal(&f)
+func (f *CfTransferFunctionType) String() string {
+	j, err := json.Marshal(f)
 	if err == nil {
 		return string(j)
 	}

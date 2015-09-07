@@ -12,9 +12,9 @@ type PoleZero struct {
 	Imaginary FloatNoUnit
 }
 
-func (pz PoleZero) String() string {
+func (pz *PoleZero) String() string {
 
-	j, err := json.Marshal(&pz)
+	j, err := json.Marshal(pz)
 	if err != nil {
 		return ""
 	}

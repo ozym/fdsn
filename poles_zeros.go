@@ -29,9 +29,9 @@ type PolesZeros struct {
 	Poles                  []PoleZero `xml:"Pole,omitempty" json:",omitempty"`
 }
 
-func (pz PolesZeros) String() string {
+func (pz *PolesZeros) String() string {
 
-	j, err := json.Marshal(&pz)
+	j, err := json.Marshal(pz)
 	if err != nil {
 		return ""
 	}

@@ -70,9 +70,9 @@ type Channel struct {
 	Response         *Response  `xml:",omitempty" json:",omitempty"`
 }
 
-func (c Channel) String() string {
+func (c *Channel) String() string {
 
-	j, err := json.Marshal(&c)
+	j, err := json.Marshal(c)
 	if err != nil {
 		return ""
 	}

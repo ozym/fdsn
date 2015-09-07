@@ -30,9 +30,9 @@ type Coefficients struct {
 	Denominators []Float `xml:"Denominator,omitempty" json:",omitempty"`
 }
 
-func (c Coefficients) String() string {
+func (c *Coefficients) String() string {
 
-	j, err := json.Marshal(&c)
+	j, err := json.Marshal(c)
 	if err != nil {
 		return ""
 	}

@@ -18,9 +18,9 @@ type Latitude struct {
 	Value float64 `xml:",chardata"`
 }
 
-func (l Latitude) String() string {
+func (l *Latitude) String() string {
 
-	j, err := json.Marshal(&l)
+	j, err := json.Marshal(l)
 	if err != nil {
 		return ""
 	}

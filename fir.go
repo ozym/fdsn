@@ -28,9 +28,9 @@ type FIR struct {
 	NumeratorCoefficients []NumeratorCoefficient `xml:"NumeratorCoefficient,omitempty" json:",omitempty"`
 }
 
-func (f FIR) String() string {
+func (f *FIR) String() string {
 
-	j, err := json.Marshal(&f)
+	j, err := json.Marshal(f)
 	if err != nil {
 		return ""
 	}

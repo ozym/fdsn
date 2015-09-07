@@ -106,9 +106,9 @@ func (t *Type) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (t Type) String() string {
+func (t *Type) String() string {
 
-	j, err := json.Marshal(&t)
+	j, err := json.Marshal(t)
 	if err != nil {
 		return ""
 	}

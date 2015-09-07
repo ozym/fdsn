@@ -16,9 +16,9 @@ type Float struct {
 	Value float64 `xml:",chardata"`
 }
 
-func (f Float) String() string {
+func (f *Float) String() string {
 
-	j, err := json.Marshal(&f)
+	j, err := json.Marshal(f)
 	if err != nil {
 		return ""
 	}

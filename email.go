@@ -8,9 +8,9 @@ import (
 
 type Email string
 
-func (e Email) String() string {
+func (e *Email) String() string {
 
-	j, err := json.Marshal(&e)
+	j, err := json.Marshal(e)
 	if err != nil {
 		return ""
 	}
