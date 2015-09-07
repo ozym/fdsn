@@ -16,8 +16,8 @@ type Angle struct {
 	Value float64 `xml:",chardata"`
 }
 
-func (a Angle) String() string {
-	j, err := json.Marshal(&a)
+func (a *Angle) String() string {
+	j, err := json.Marshal(a)
 	if err == nil {
 		return string(j)
 	}

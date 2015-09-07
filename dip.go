@@ -19,7 +19,7 @@ type Dip struct {
 }
 
 func (d *Dip) String() string {
-	j, err := json.Marshal(&d)
+	j, err := json.Marshal(d)
 	if err == nil {
 		return string(j)
 	}
