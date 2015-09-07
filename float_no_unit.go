@@ -14,9 +14,9 @@ type FloatNoUnit struct {
 	Value float64 `xml:",chardata"`
 }
 
-func (f FloatNoUnit) String() string {
+func (f *FloatNoUnit) String() string {
 
-	j, err := json.Marshal(&f)
+	j, err := json.Marshal(f)
 	if err != nil {
 		return ""
 	}

@@ -10,9 +10,9 @@ type ResponseListElement struct {
 	Phase     Angle
 }
 
-func (r ResponseListElement) String() string {
+func (r *ResponseListElement) String() string {
 
-	j, err := json.Marshal(&r)
+	j, err := json.Marshal(r)
 	if err != nil {
 		return ""
 	}

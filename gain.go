@@ -15,9 +15,9 @@ type Gain struct {
 	Frequency float64
 }
 
-func (g Gain) String() string {
+func (g *Gain) String() string {
 
-	j, err := json.Marshal(&g)
+	j, err := json.Marshal(g)
 	if err != nil {
 		return ""
 	}

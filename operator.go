@@ -11,9 +11,9 @@ type Operator struct {
 	WebSites []string `xml:"WebSite,omitempty" json:",omitempty"`
 }
 
-func (o Operator) String() string {
+func (o *Operator) String() string {
 
-	j, err := json.Marshal(&o)
+	j, err := json.Marshal(o)
 	if err != nil {
 		return ""
 	}

@@ -22,9 +22,9 @@ type Response struct {
 	Stages []ResponseStage `xml:"Stage,omitempty" json:",omitempty"`
 }
 
-func (r Response) String() string {
+func (r *Response) String() string {
 
-	j, err := json.Marshal(&r)
+	j, err := json.Marshal(r)
 	if err != nil {
 		return ""
 	}

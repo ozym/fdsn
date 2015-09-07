@@ -13,9 +13,9 @@ type Decimation struct {
 	Correction      Float
 }
 
-func (d Decimation) String() string {
+func (d *Decimation) String() string {
 
-	j, err := json.Marshal(&d)
+	j, err := json.Marshal(d)
 	if err != nil {
 		return ""
 	}

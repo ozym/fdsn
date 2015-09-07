@@ -34,9 +34,9 @@ type Polynomial struct {
 	Coefficients []Coefficient `xml:"Coefficient,omitempty" json:",omitempty"`
 }
 
-func (p Polynomial) String() string {
+func (p *Polynomial) String() string {
 
-	j, err := json.Marshal(&p)
+	j, err := json.Marshal(p)
 	if err != nil {
 		return ""
 	}

@@ -9,9 +9,9 @@ type Log struct {
 	Entries []Comment `xml:"Entry,omitempty" json:",omitempty"`
 }
 
-func (l Log) String() string {
+func (l *Log) String() string {
 
-	j, err := json.Marshal(&l)
+	j, err := json.Marshal(l)
 	if err != nil {
 		return ""
 	}

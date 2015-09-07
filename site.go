@@ -23,9 +23,9 @@ type Site struct {
 	Country string `xml:",omitempty" json:",omitempty"`
 }
 
-func (s Site) String() string {
+func (s *Site) String() string {
 
-	j, err := json.Marshal(&s)
+	j, err := json.Marshal(s)
 	if err != nil {
 		return ""
 	}

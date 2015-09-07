@@ -11,9 +11,9 @@ type FrequencyRangeGroup struct {
 	FrequencyDBVariation float64
 }
 
-func (f FrequencyRangeGroup) String() string {
+func (f *FrequencyRangeGroup) String() string {
 
-	j, err := json.Marshal(&f)
+	j, err := json.Marshal(f)
 	if err != nil {
 		return ""
 	}
