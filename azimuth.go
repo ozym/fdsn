@@ -18,7 +18,7 @@ type Azimuth struct {
 }
 
 func (a *Azimuth) String() string {
-	j, err := json.Marshal(&a)
+	j, err := json.Marshal(a)
 	if err == nil {
 		return string(j)
 	}
