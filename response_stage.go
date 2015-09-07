@@ -30,6 +30,11 @@ func (r ResponseStage) String() string {
 }
 
 func (r *ResponseStage) IsValid() error {
+
+	if r == nil {
+		return nil
+	}
+
 	if r.Number < 0 {
 		return fmt.Errorf("invalid response stage number: %d", r.Number)
 	}
@@ -41,27 +46,19 @@ func (r *ResponseStage) IsValid() error {
 		return err
 	}
 
-	if r.ResponseList != nil {
-		if err := r.ResponseList.IsValid(); err != nil {
-			return err
-		}
+	if err := Validate(r.ResponseList); err != nil {
+		return err
 	}
-	if r.FIR != nil {
-		if err := r.FIR.IsValid(); err != nil {
-			return err
-		}
+	if err := Validate(r.FIR); err != nil {
+		return err
 	}
-	if r.Polynomial != nil {
-		if err := r.Polynomial.IsValid(); err != nil {
-			return err
-		}
+	if err := Validate(r.Polynomial); err != nil {
+		return err
 	}
-	if r.Decimation != nil {
-		if err := r.Decimation.IsValid(); err != nil {
-			return err
-		}
+	if err := Validate(r.Decimation); err != nil {
+		return err
 	}
-	if err := r.StageGain.IsValid(); err != nil {
+	if err := Validate(&r.StageGain); err != nil {
 		return err
 	}
 

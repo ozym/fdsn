@@ -74,18 +74,22 @@ func (x *FDSNStationXML) String() string {
 
 func (x *FDSNStationXML) IsValid() error {
 
-	switch {
-	case x == nil:
+	if x == nil {
 		return nil
-	case x.NameSpace != FDSN_NAME_SPACE:
+	}
+
+	if x.NameSpace != FDSN_NAME_SPACE {
 		return fmt.Errorf("wrong name space: %s", x.NameSpace)
-	case x.SchemaVersion != FDSN_SCHEMA_VERSION:
+	}
+	if x.SchemaVersion != FDSN_SCHEMA_VERSION {
 		return fmt.Errorf("wrong schema version: %s", x.SchemaVersion)
-	case !(len(x.Source) > 0):
+	}
+
+	if !(len(x.Source) > 0) {
 		return fmt.Errorf("empty source element")
 	}
 
-	if err := x.Created.IsValid(); err != nil {
+	if err := Validate(&x.Created); err != nil {
 		return err
 	}
 

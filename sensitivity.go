@@ -37,17 +37,17 @@ func (s *Sensitivity) IsValid() error {
 		return nil
 	}
 
-	if err := s.Value.IsValid(); err != nil {
+	if err := Validate(&s.Value); err != nil {
 		return err
 	}
-	if err := s.InputUnits.IsValid(); err != nil {
+	if err := Validate(&s.InputUnits); err != nil {
 		return err
 	}
-	if err := s.OutputUnits.IsValid(); err != nil {
+	if err := Validate(&s.OutputUnits); err != nil {
 		return err
 	}
 	for _, f := range s.FrequencyRangeGroups {
-		if err := f.IsValid(); err != nil {
+		if err := Validate(&f); err != nil {
 			return err
 		}
 	}
