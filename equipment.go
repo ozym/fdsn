@@ -38,16 +38,16 @@ func (e *Equipment) IsValid() error {
 		return nil
 	}
 
-	if err := e.InstallationDate.IsValid(); err != nil {
+	if err := Validate(e.InstallationDate); err != nil {
 		return err
 	}
 
-	if err := e.RemovalDate.IsValid(); err != nil {
+	if err := Validate(e.RemovalDate); err != nil {
 		return err
 	}
 
 	for _, c := range e.CalibrationDates {
-		if err := c.IsValid(); err != nil {
+		if err := Validate(&c); err != nil {
 			return err
 		}
 	}

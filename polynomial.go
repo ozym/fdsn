@@ -55,26 +55,26 @@ func (p *Polynomial) IsValid() error {
 		return fmt.Errorf("empty polynomial name")
 	}
 
-	if err := p.InputUnits.IsValid(); err != nil {
+	if err := Validate(&p.InputUnits); err != nil {
 		return err
 	}
-	if err := p.OutputUnits.IsValid(); err != nil {
-		return err
-	}
-
-	if err := p.ApproximationType.IsValid(); err != nil {
+	if err := Validate(&p.OutputUnits); err != nil {
 		return err
 	}
 
-	if err := p.FrequencyLowerBound.IsValid(); err != nil {
+	if err := Validate(&p.ApproximationType); err != nil {
 		return err
 	}
-	if err := p.FrequencyUpperBound.IsValid(); err != nil {
+
+	if err := Validate(&p.FrequencyLowerBound); err != nil {
+		return err
+	}
+	if err := Validate(&p.FrequencyUpperBound); err != nil {
 		return err
 	}
 
 	for _, c := range p.Coefficients {
-		if err := c.IsValid(); err != nil {
+		if err := Validate(&c); err != nil {
 			return err
 		}
 	}

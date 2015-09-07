@@ -84,26 +84,26 @@ func (s *Station) IsValid() error {
 		return fmt.Errorf("empty code element")
 	}
 
-	if err := s.StartDate.IsValid(); err != nil {
+	if err := Validate(s.StartDate); err != nil {
 		return fmt.Errorf("bad start date: %s", err)
 	}
-	if err := s.EndDate.IsValid(); err != nil {
+	if err := Validate(s.EndDate); err != nil {
 		return fmt.Errorf("bad end date: %s", err)
 	}
-	if err := s.RestrictedStatus.IsValid(); err != nil {
+	if err := Validate(s.RestrictedStatus); err != nil {
 		return err
 	}
 
-	if err := s.Latitude.IsValid(); err != nil {
+	if err := Validate(&s.Latitude); err != nil {
 		return err
 	}
-	if err := s.Longitude.IsValid(); err != nil {
+	if err := Validate(&s.Longitude); err != nil {
 		return err
 	}
-	if err := s.Elevation.IsValid(); err != nil {
+	if err := Validate(&s.Elevation); err != nil {
 		return err
 	}
-	if err := s.Site.IsValid(); err != nil {
+	if err := Validate(&s.Site); err != nil {
 		return err
 	}
 
