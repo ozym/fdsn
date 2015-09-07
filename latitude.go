@@ -27,12 +27,17 @@ func (l Latitude) String() string {
 	return string(j)
 }
 
-func (l Latitude) IsValid() error {
+func (l *Latitude) IsValid() error {
+	if l == nil {
+		return nil
+	}
+
 	if l.Unit != "" && l.Unit != "DEGREES" {
 		return fmt.Errorf("invalid latitude unit: %s", l.Unit)
 	}
 	if l.Value < -90 || l.Value > 90 {
 		return fmt.Errorf("latitude outside range: %g", l.Value)
 	}
+
 	return nil
 }

@@ -18,7 +18,7 @@ type Dip struct {
 	Value float64 `xml:",chardata"`
 }
 
-func (d Dip) String() string {
+func (d *Dip) String() string {
 	j, err := json.Marshal(&d)
 	if err == nil {
 		return string(j)
@@ -26,7 +26,12 @@ func (d Dip) String() string {
 	return ""
 }
 
-func (d Dip) IsValid() error {
+func (d *Dip) IsValid() error {
+
+	if d == nil {
+		return nil
+	}
+
 	if d.Unit != "" && d.Unit != "DEGREES" {
 		return fmt.Errorf("dip invalid unit: %s", d.Unit)
 	}

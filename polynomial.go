@@ -43,7 +43,11 @@ func (p Polynomial) String() string {
 	return string(j)
 }
 
-func (p Polynomial) IsValid() error {
+func (p *Polynomial) IsValid() error {
+	if p == nil {
+		return nil
+	}
+
 	if !(len(p.ResourceId) > 0) {
 		return fmt.Errorf("empty polynomial resourceid")
 	}
@@ -76,4 +80,25 @@ func (p Polynomial) IsValid() error {
 	}
 
 	return nil
+}
+
+func (p *Polynomial) Copy(level Level) *Polynomial {
+
+	if p == nil {
+		return nil
+	}
+
+	switch {
+	case level < CHANNEL_LEVEL:
+		return nil
+	case level > CHANNEL_LEVEL:
+		return p
+	}
+
+	return &Polynomial{
+		ResourceId:  p.ResourceId,
+		Name:        p.Name,
+		Description: p.Description,
+		InputUnits:  p.InputUnits,
+	}
 }

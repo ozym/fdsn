@@ -18,11 +18,17 @@ func (l Log) String() string {
 	return string(j)
 }
 
-func (l Log) IsValid() error {
+func (l *Log) IsValid() error {
+
+	if l == nil {
+		return nil
+	}
+
 	for _, c := range l.Entries {
-		if err := c.IsValid(); err != nil {
+		if err := Validate(&c); err != nil {
 			return err
 		}
 	}
+
 	return nil
 }

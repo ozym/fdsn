@@ -103,7 +103,7 @@ func TestFDSNStationXML_Valid(t *testing.T) {
 		Sender:        "",
 		Created:       MustParse("2015-08-28T06:09:37"),
 	}
-	if err := Validate(x); err != nil {
+	if err := Validate(&x); err != nil {
 		t.Errorf("FDSNStationXML struct is not valid: %s", err)
 	}
 }
@@ -136,7 +136,7 @@ func TestFDSNStationXML_InValid(t *testing.T) {
 	}
 
 	for _, x := range tests {
-		if err := Validate(x); err == nil {
+		if err := Validate(&x); err == nil {
 			t.Errorf("FDSNStationXML struct should be invalid: %s", x)
 		}
 	}

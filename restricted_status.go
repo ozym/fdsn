@@ -74,18 +74,23 @@ func (r *RestrictedStatus) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (r RestrictedStatus) String() string {
+func (r *RestrictedStatus) String() string {
 
-	j, err := json.Marshal(&r)
+	j, err := json.Marshal(r)
 	if err != nil {
 		return ""
 	}
 	return string(j)
 }
 
-func (r RestrictedStatus) IsValid() error {
+func (r *RestrictedStatus) IsValid() error {
+	if r == nil {
+		return nil
+	}
+
 	if !(int(r.Status) < len(restrictedStatusLookup)) {
 		return fmt.Errorf("invalid restricted value: %d", r.Status)
 	}
+
 	return nil
 }

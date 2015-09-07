@@ -24,8 +24,8 @@ func (g Gain) String() string {
 	return string(j)
 }
 
-func (g Gain) IsValid() error {
-	if err := g.Value.IsValid(); err != nil {
+func (g *Gain) IsValid() error {
+	if err := Validate(&g.Value); err != nil {
 		return err
 	}
 	return nil

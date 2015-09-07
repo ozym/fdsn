@@ -18,6 +18,7 @@ func (e Email) String() string {
 }
 
 func (e Email) IsValid() error {
+
 	if !(len(e) > 0) {
 		return fmt.Errorf("empty email")
 	}

@@ -68,7 +68,7 @@ func TestLongitude_Valid(t *testing.T) {
 		}}
 
 	for _, l := range tests {
-		if err := Validate(l); err != nil {
+		if err := Validate(&l); err != nil {
 			t.Errorf("latitude struct is not valid: %s", err)
 		}
 	}
@@ -88,7 +88,7 @@ func TestLongitude_InValid(t *testing.T) {
 	}
 
 	for _, n := range tests {
-		if err := Validate(n); err == nil {
+		if err := Validate(&n); err == nil {
 			t.Errorf("latitude struct should be invalid: %s", n)
 		}
 	}

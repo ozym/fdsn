@@ -57,9 +57,14 @@ func (t *Symmetry) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	return nil
 }
 
-func (t Symmetry) IsValid() error {
+func (t *Symmetry) IsValid() error {
+	if t == nil {
+		return nil
+	}
+
 	if !(int(t.Type) < len(symmetryLookup)) {
 		return fmt.Errorf("invalid symmetry entry: %d", t.Type)
 	}
+
 	return nil
 }

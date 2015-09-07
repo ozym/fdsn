@@ -37,7 +37,11 @@ func (f FIR) String() string {
 	return string(j)
 }
 
-func (f FIR) IsValid() error {
+func (f *FIR) IsValid() error {
+	if f == nil {
+		return nil
+	}
+
 	if !(len(f.ResourceId) > 0) {
 		return fmt.Errorf("empty fir resourceid")
 	}
@@ -45,19 +49,19 @@ func (f FIR) IsValid() error {
 		return fmt.Errorf("empty fir name")
 	}
 
-	if err := f.InputUnits.IsValid(); err != nil {
+	if err := Validate(&f.InputUnits); err != nil {
 		return err
 	}
-	if err := f.OutputUnits.IsValid(); err != nil {
+	if err := Validate(&f.OutputUnits); err != nil {
 		return err
 	}
 
-	if err := f.Symmetry.IsValid(); err != nil {
+	if err := Validate(&f.Symmetry); err != nil {
 		return err
 	}
 
 	for _, n := range f.NumeratorCoefficients {
-		if err := n.IsValid(); err != nil {
+		if err := Validate(&n); err != nil {
 			return err
 		}
 	}

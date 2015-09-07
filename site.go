@@ -32,9 +32,14 @@ func (s Site) String() string {
 	return string(j)
 }
 
-func (s Site) IsValid() error {
+func (s *Site) IsValid() error {
+	if s == nil {
+		return nil
+	}
+
 	if !(len(s.Name) > 0) {
 		return fmt.Errorf("empty site name")
 	}
+
 	return nil
 }

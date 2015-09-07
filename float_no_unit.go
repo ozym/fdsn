@@ -24,7 +24,12 @@ func (f FloatNoUnit) String() string {
 	return string(j)
 }
 
-func (f FloatNoUnit) IsValid() error {
+func (f *FloatNoUnit) IsValid() error {
+
+	if f == nil {
+		return nil
+	}
+
 	if f.PlusError < 0.0 {
 		return fmt.Errorf("float plus error shouldn't be negative: %g", f.PlusError)
 	}

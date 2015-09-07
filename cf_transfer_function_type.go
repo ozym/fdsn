@@ -90,7 +90,11 @@ func (f CfTransferFunctionType) String() string {
 	return ""
 }
 
-func (f CfTransferFunctionType) IsValid() error {
+func (f *CfTransferFunctionType) IsValid() error {
+	if f == nil {
+		return nil
+	}
+
 	if !(int(f.Type) < len(cfFunctionLookup)) {
 		return fmt.Errorf("invalid function entry: %d", f.Type)
 	}

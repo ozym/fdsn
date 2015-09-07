@@ -24,7 +24,11 @@ func (f Frequency) String() string {
 	return ""
 }
 
-func (f Frequency) IsValid() error {
+func (f *Frequency) IsValid() error {
+	if f == nil {
+		return nil
+	}
+
 	if f.Unit != "" && f.Unit != "HERTZ" {
 		return fmt.Errorf("invalid unit: %s", f.Unit)
 	}

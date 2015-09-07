@@ -13,7 +13,7 @@ type ClockDrift struct {
 	Value float64 `xml:",chardata"`
 }
 
-func (c ClockDrift) String() string {
+func (c *ClockDrift) String() string {
 
 	j, err := json.Marshal(&c)
 	if err != nil {
@@ -22,9 +22,14 @@ func (c ClockDrift) String() string {
 	return string(j)
 }
 
-func (c ClockDrift) IsValid() error {
+func (c *ClockDrift) IsValid() error {
+	if c == nil {
+		return nil
+	}
+
 	if c.Unit != "" && c.Unit != "SECONDS/SAMPLE" {
 		return fmt.Errorf("invalid clock drift unit: %s", c.Unit)
 	}
+
 	return nil
 }
