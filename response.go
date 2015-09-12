@@ -1,9 +1,5 @@
 package fdsn
 
-import (
-	"encoding/json"
-)
-
 // Instrument sensitivities, or the complete system sensitivity, can be expressed
 // using either a sensitivity value or a polynomial. The information can be used
 // to convert raw data to Earth at a specified frequency or within a range of frequencies.
@@ -22,49 +18,24 @@ type Response struct {
 	Stages []ResponseStage `xml:"Stage,omitempty" json:",omitempty"`
 }
 
-func (r *Response) String() string {
-
-	j, err := json.Marshal(r)
-	if err != nil {
-		return ""
-	}
-	return string(j)
-}
-
-func (r *Response) IsValid() error {
-	if r == nil {
-		return nil
+func (r Response) IsValid() error {
+	if r.InstrumentSensitivity != nil {
+		if err := Validate(r.InstrumentSensitivity); err != nil {
+			return err
+		}
 	}
 
-	if err := Validate(r.InstrumentSensitivity); err != nil {
-		return err
-	}
-	if err := Validate(r.InstrumentPolynomial); err != nil {
-		return err
+	if r.InstrumentPolynomial != nil {
+		if err := Validate(r.InstrumentPolynomial); err != nil {
+			return err
+		}
 	}
 
 	for _, s := range r.Stages {
-		if err := Validate(&s); err != nil {
+		if err := Validate(s); err != nil {
 			return err
 		}
 	}
 
 	return nil
-}
-
-func (r *Response) Copy(level Level) *Response {
-
-	var s []ResponseStage
-
-	if level > CHANNEL_LEVEL {
-		s = r.Stages
-	}
-
-	return &Response{
-		ResourceId:            r.ResourceId,
-		InstrumentSensitivity: r.InstrumentSensitivity.Copy(level),
-		InstrumentPolynomial:  r.InstrumentPolynomial.Copy(level),
-		Stages:                s,
-	}
-
 }

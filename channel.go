@@ -1,29 +1,17 @@
 package fdsn
 
 import (
-	"encoding/json"
 	"fmt"
 )
 
 // Equivalent to SEED blockette 52 and parent element for the related the response blockettes.
 type Channel struct {
-	Code             string            `xml:"code,attr"`
-	StartDate        *DateTime         `xml:"startDate,attr,omitempty" json:",omitempty"`
-	EndDate          *DateTime         `xml:"endDate,attr,omitempty" json:",omitempty"`
-	RestrictedStatus *RestrictedStatus `xml:"restrictedStatus,attr,omitempty" json:",omitempty"`
-	LocationCode     string            `xml:"locationCode,attr"`
-
-	// A code used for display or association, alternate to the SEED-compliant code.
-	AlternateCode string `xml:"alternateCode,attr,omitempty" json:",omitempty"`
-
-	// A previously used code if different from the current code.
-	HistoricalCode string `xml:"historicalCode,attr,omitempty" json:",omitempty"`
-
-	Description string    `xml:"description,omitempty" json:",omitempty"`
-	Comments    []Comment `xml:"comment,omitempty" json:",omitempty"`
+	BaseNode
 
 	// URI of any type of external report, such as data quality reports.
 	ExternalReferences []ExternalReference `xml:"ExternalReference,omitempty" json:",omitempty"`
+
+	LocationCode string `xml:"locationCode,attr"`
 
 	// Latitude coordinate of this channel's sensor.
 	Latitude Latitude
@@ -53,8 +41,7 @@ type Channel struct {
 	// If this group is included, then SampleRate, which is the sample rate in samples per second, is required.
 	// SampleRateRatio, which is expressed as a ratio of number of samples in a number of seconds, is optional.
 	// If both are included, SampleRate should be considered more definitive.
-	SampleRate      SampleRate
-	SampleRateRatio *SampleRateRatio `xml:",omitempty" json:",omitempty"`
+	SampleRateGroup
 
 	// The storage format of the recorded data (e.g. SEED).
 	StorageFormat string
@@ -70,44 +57,22 @@ type Channel struct {
 	Response         *Response  `xml:",omitempty" json:",omitempty"`
 }
 
-func (c *Channel) String() string {
+func (c Channel) IsValid() error {
 
-	j, err := json.Marshal(c)
-	if err != nil {
-		return ""
-	}
-	return string(j)
-}
-
-func (c *Channel) IsValid() error {
-	if c == nil {
-		return nil
-	}
-
-	if !(len(c.Code) > 0) {
-		return fmt.Errorf("empty code element")
-	}
-
-	if err := Validate(c.StartDate); err != nil {
-		return fmt.Errorf("bad start date: %s", err)
-	}
-	if err := Validate(c.EndDate); err != nil {
-		return fmt.Errorf("bad end date: %s", err)
-	}
-	if err := Validate(c.RestrictedStatus); err != nil {
+	if err := Validate(c.BaseNode); err != nil {
 		return err
 	}
 
-	if err := Validate(&c.Latitude); err != nil {
+	if err := Validate(c.Latitude); err != nil {
 		return err
 	}
-	if err := Validate(&c.Longitude); err != nil {
+	if err := Validate(c.Longitude); err != nil {
 		return err
 	}
-	if err := Validate(&c.Elevation); err != nil {
+	if err := Validate(c.Elevation); err != nil {
 		return err
 	}
-	if err := Validate(&c.Depth); err != nil {
+	if err := Validate(c.Depth); err != nil {
 		return err
 	}
 
@@ -119,12 +84,12 @@ func (c *Channel) IsValid() error {
 	}
 
 	for _, t := range c.Types {
-		if err := Validate(&t); err != nil {
+		if err := Validate(t); err != nil {
 			return err
 		}
 	}
 
-	if err := Validate(&c.SampleRate); err != nil {
+	if err := Validate(c.SampleRate); err != nil {
 		return nil
 	}
 	if err := Validate(c.SampleRateRatio); err != nil {
@@ -134,68 +99,43 @@ func (c *Channel) IsValid() error {
 		return fmt.Errorf("empty code element")
 	}
 
-	if err := Validate(c.ClockDrift); err != nil {
-		return nil
+	if c.ClockDrift != nil {
+		if err := Validate(c.ClockDrift); err != nil {
+			return nil
+		}
 	}
 
-	if err := Validate(c.CalibrationUnits); err != nil {
-		return nil
+	if c.CalibrationUnits != nil {
+		if err := Validate(c.CalibrationUnits); err != nil {
+			return nil
+		}
 	}
-	if err := Validate(c.Sensor); err != nil {
-		return nil
+
+	if c.Sensor != nil {
+		if err := Validate(*c.Sensor); err != nil {
+			return nil
+		}
 	}
-	if err := Validate(c.PreAmplifier); err != nil {
-		return nil
+	if c.PreAmplifier != nil {
+		if err := Validate(*c.PreAmplifier); err != nil {
+			return nil
+		}
 	}
-	if err := Validate(c.DataLogger); err != nil {
-		return nil
+	if c.DataLogger != nil {
+		if err := Validate(*c.DataLogger); err != nil {
+			return nil
+		}
 	}
-	if err := Validate(c.Equipment); err != nil {
-		return nil
+	if c.Equipment != nil {
+		if err := Validate(*c.Equipment); err != nil {
+			return nil
+		}
 	}
-	if err := Validate(c.Response); err != nil {
-		return nil
+	if c.Response != nil {
+		if err := Validate(*c.Response); err != nil {
+			return nil
+		}
 	}
 
 	return nil
-}
-
-func (c *Channel) Copy(level Level) *Channel {
-
-	var r *Response
-
-	if level >= CHANNEL_LEVEL {
-		r = c.Response.Copy(level)
-	}
-
-	return &Channel{
-		Code:               c.Code,
-		StartDate:          c.StartDate,
-		EndDate:            c.EndDate,
-		RestrictedStatus:   c.RestrictedStatus,
-		LocationCode:       c.LocationCode,
-		AlternateCode:      c.AlternateCode,
-		HistoricalCode:     c.HistoricalCode,
-		Description:        c.Description,
-		Comments:           c.Comments,
-		ExternalReferences: c.ExternalReferences,
-		Latitude:           c.Latitude,
-		Longitude:          c.Longitude,
-		Elevation:          c.Elevation,
-		Depth:              c.Depth,
-		Azimuth:            c.Azimuth,
-		Dip:                c.Dip,
-		Types:              c.Types,
-		SampleRate:         c.SampleRate,
-		SampleRateRatio:    c.SampleRateRatio,
-		StorageFormat:      c.StorageFormat,
-		ClockDrift:         c.ClockDrift,
-		CalibrationUnits:   c.CalibrationUnits,
-		Sensor:             c.Sensor,
-		PreAmplifier:       c.PreAmplifier,
-		DataLogger:         c.DataLogger,
-		Equipment:          c.Equipment,
-
-		Response: r,
-	}
 }

@@ -5,10 +5,7 @@ type NumeratorCoefficient struct {
 	Value       FloatValue `xml:",chardata"`
 }
 
-func (n *NumeratorCoefficient) IsValid() error {
-	if n == nil {
-		return nil
-	}
+func (n NumeratorCoefficient) IsValid() error {
 
 	if err := Validate(&n.Value); err != nil {
 		return err

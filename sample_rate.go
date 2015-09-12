@@ -1,32 +1,21 @@
 package fdsn
 
 import (
-	"encoding/json"
 	"fmt"
 )
 
 // Sample rate in samples per second.
 type SampleRate struct {
-	Unit string `xml:"unit,attr,omitempty" json:",omitempty"` // SAMPLES/S
-
-	Value float64 `xml:",chardata"`
+	Float
 }
 
-func (s *SampleRate) String() string {
+func (s SampleRate) IsValid() error {
 
-	j, err := json.Marshal(s)
-	if err != nil {
-		return ""
-	}
-	return string(j)
-}
-
-func (s *SampleRate) IsValid() error {
-	if s == nil {
-		return nil
+	if err := Validate(s.Float); err != nil {
+		return err
 	}
 
-	if s.Unit != "" && s.Unit != "SAMPLES/S" {
+	if s.Float.Unit != "" && s.Float.Unit != "SAMPLES/S" {
 		return fmt.Errorf("invalid sample rate unit: %s", s.Unit)
 	}
 

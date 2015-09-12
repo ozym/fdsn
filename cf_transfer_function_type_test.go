@@ -10,10 +10,10 @@ func TestCfTransferFunctionType_String(t *testing.T) {
 		r CfTransferFunctionType
 		s string
 	}{
-		{CfTransferFunctionType{CF_FUNCTION_UNKNOWN}, `"UNKNOWN"`},
-		{CfTransferFunctionType{CF_FUNCTION_ANALOG_RADIANS_PER_SECOND}, `"ANALOG (RADIANS/SECOND)"`},
-		{CfTransferFunctionType{CF_FUNCTION_ANALOG_HERTZ}, `"ANALOG (HERTZ)"`},
-		{CfTransferFunctionType{CF_FUNCTION_DIGITAL}, `"DIGITAL"`},
+		{CfTransferFunctionType{CF_FUNCTION_UNKNOWN}, "UNKNOWN"},
+		{CfTransferFunctionType{CF_FUNCTION_ANALOG_RADIANS_PER_SECOND}, "ANALOG (RADIANS/SECOND)"},
+		{CfTransferFunctionType{CF_FUNCTION_ANALOG_HERTZ}, "ANALOG (HERTZ)"},
+		{CfTransferFunctionType{CF_FUNCTION_DIGITAL}, "DIGITAL"},
 	}
 
 	for _, x := range tests {

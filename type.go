@@ -58,7 +58,16 @@ type Type struct {
 	Type uint
 }
 
-func (t *Type) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
+func (t Type) IsValid() error {
+
+	if !(int(t.Type) < len(typeLookup)) {
+		return fmt.Errorf("invalid type: %d", t.Type)
+	}
+
+	return nil
+}
+
+func (t Type) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 	if !(int(t.Type) < len(typeLookup)) {
 		return fmt.Errorf("invalid type: %d", t.Type)
 	}
@@ -82,7 +91,7 @@ func (t *Type) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	return nil
 }
 
-func (t *Type) MarshalJSON() ([]byte, error) {
+func (t Type) MarshalJSON() ([]byte, error) {
 	if !(int(t.Type) < len(typeLookup)) {
 		return nil, fmt.Errorf("invalid type: %d", t.Type)
 	}
@@ -102,27 +111,6 @@ func (t *Type) UnmarshalJSON(data []byte) error {
 	}
 
 	*t = Type{Type: typeMap[s]}
-
-	return nil
-}
-
-func (t *Type) String() string {
-
-	j, err := json.Marshal(t)
-	if err != nil {
-		return ""
-	}
-	return string(j)
-}
-
-func (t *Type) IsValid() error {
-	if t == nil {
-		return nil
-	}
-
-	if !(int(t.Type) < len(typeLookup)) {
-		return fmt.Errorf("invalid type: %d", t.Type)
-	}
 
 	return nil
 }

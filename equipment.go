@@ -1,9 +1,5 @@
 package fdsn
 
-import (
-	"encoding/json"
-)
-
 type Equipment struct {
 	// This field contains a string that should serve as a unique resource identifier.
 	// This identifier can be interpreted differently depending on the datacenter/software
@@ -23,27 +19,18 @@ type Equipment struct {
 	CalibrationDates []DateTime `xml:"CalibrationDate,omitempty" json:",omitempty"`
 }
 
-func (e *Equipment) String() string {
+func (e Equipment) IsValid() error {
 
-	j, err := json.Marshal(&e)
-	if err != nil {
-		return ""
-	}
-	return string(j)
-}
-
-func (e *Equipment) IsValid() error {
-
-	if e == nil {
-		return nil
+	if e.InstallationDate != nil {
+		if err := Validate(e.InstallationDate); err != nil {
+			return err
+		}
 	}
 
-	if err := Validate(e.InstallationDate); err != nil {
-		return err
-	}
-
-	if err := Validate(e.RemovalDate); err != nil {
-		return err
+	if e.RemovalDate != nil {
+		if err := Validate(e.RemovalDate); err != nil {
+			return err
+		}
 	}
 
 	for _, c := range e.CalibrationDates {

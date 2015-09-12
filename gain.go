@@ -1,7 +1,7 @@
 package fdsn
 
 import (
-	"encoding/json"
+// "encoding/xml"
 )
 
 // Complex type for sensitivity and frequency ranges.
@@ -10,23 +10,28 @@ import (
 // FrequencyEnd) in which the SensitivityValue is valid within the number of decibels specified in FrequencyDBVariation.
 type Gain struct {
 	// A scalar that, when applied to the data values, converts the data to different units (e.g. Earth units)
-	Value FloatValue
+	Value float64
 	// The frequency (in Hertz) at which the Value is valid.
 	Frequency float64
 }
 
-func (g *Gain) String() string {
-
-	j, err := json.Marshal(g)
-	if err != nil {
-		return ""
-	}
-	return string(j)
-}
-
-func (g *Gain) IsValid() error {
-	if err := Validate(&g.Value); err != nil {
-		return err
-	}
+func (g Gain) IsValid() error {
 	return nil
 }
+
+/*
+func (g Gain) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
+	// if it's a smallish integer then use that...
+	switch {
+	case g.Value > 1.0e+10:
+		return e.EncodeElement(g, start)
+	case (float64)(int64(g.Value)) == (float64)(g.Value):
+		return e.EncodeElement(struct {
+			Value     int64
+			Frequency float64
+		}{int64(g.Value), g.Frequency}, start)
+	default:
+		return e.EncodeElement(g, start)
+	}
+}
+*/

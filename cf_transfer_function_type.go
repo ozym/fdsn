@@ -34,6 +34,24 @@ type CfTransferFunctionType struct {
 	Type uint
 }
 
+func (f CfTransferFunctionType) String() string {
+
+	if int(f.Type) < len(cfFunctionLookup) {
+		return cfFunctionLookup[int(f.Type)]
+	}
+
+	return cfFunctionLookup[0]
+}
+
+func (f CfTransferFunctionType) IsValid() error {
+
+	if !(int(f.Type) < len(cfFunctionLookup)) {
+		return fmt.Errorf("invalid function entry: %d", f.Type)
+	}
+
+	return nil
+}
+
 func (f *CfTransferFunctionType) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 	if !(int(f.Type) < len(cfFunctionLookup)) {
 		return fmt.Errorf("invalid function entry: %d", f.Type)
@@ -78,26 +96,6 @@ func (f *CfTransferFunctionType) UnmarshalJSON(data []byte) error {
 	}
 
 	f.Type = cfFunctionMap[s]
-
-	return nil
-}
-
-func (f *CfTransferFunctionType) String() string {
-	j, err := json.Marshal(f)
-	if err == nil {
-		return string(j)
-	}
-	return ""
-}
-
-func (f *CfTransferFunctionType) IsValid() error {
-	if f == nil {
-		return nil
-	}
-
-	if !(int(f.Type) < len(cfFunctionLookup)) {
-		return fmt.Errorf("invalid function entry: %d", f.Type)
-	}
 
 	return nil
 }

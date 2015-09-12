@@ -1,7 +1,6 @@
 package fdsn
 
 import (
-	"encoding/json"
 	"fmt"
 )
 
@@ -16,30 +15,16 @@ type Angle struct {
 	Value float64 `xml:",chardata"`
 }
 
-func (a *Angle) String() string {
-	j, err := json.Marshal(a)
-	if err == nil {
-		return string(j)
-	}
-	return ""
-}
+func (a Angle) IsValid() error {
 
-func (a *Angle) IsValid() error {
-
-	if a == nil {
-		return nil
-	}
-
-	if a.Unit != "" && a.Unit != "DEGREES" {
+	switch {
+	case a.Unit != "" && a.Unit != "DEGREES":
 		return fmt.Errorf("invalid unit: %s", a.Unit)
-	}
-	if a.Value < -360 || a.Value > 360 {
+	case a.Value < -360 || a.Value > 360:
 		return fmt.Errorf("angle outside range: %g", a.Value)
-	}
-	if a.PlusError < 0.0 {
+	case a.PlusError < 0.0:
 		return fmt.Errorf("angle plus error shouldn't be negative: %g", a.PlusError)
-	}
-	if a.MinusError < 0.0 {
+	case a.MinusError < 0.0:
 		return fmt.Errorf("angle minus error shouldn't be negative: %g", a.MinusError)
 	}
 

@@ -1,7 +1,6 @@
 package fdsn
 
 import (
-	"encoding/json"
 	"fmt"
 )
 
@@ -14,19 +13,7 @@ type Person struct {
 	PhoneNumbers []PhoneNumber `xml:"Phone,omitempty" json:",omitempty"`
 }
 
-func (p *Person) String() string {
-
-	j, err := json.Marshal(p)
-	if err != nil {
-		return ""
-	}
-	return string(j)
-}
-
-func (p *Person) IsValid() error {
-	if p == nil {
-		return nil
-	}
+func (p Person) IsValid() error {
 
 	for _, n := range p.Names {
 		if !(len(n) > 0) {
@@ -48,5 +35,6 @@ func (p *Person) IsValid() error {
 			return err
 		}
 	}
+
 	return nil
 }

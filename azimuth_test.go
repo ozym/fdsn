@@ -14,12 +14,7 @@ func TestAzimuth_Marshal(t *testing.T) {
 	}{
 		{
 			`<Azimuth unit="DEGREES" plusError="2" minusError="2">1</Azimuth>`,
-			Azimuth{
-				Value:      1,
-				Unit:       "DEGREES",
-				PlusError:  2,
-				MinusError: 2,
-			},
+			Azimuth{Value: 1, Unit: "DEGREES", PlusError: 2, MinusError: 2},
 		}, {
 			`<Azimuth>1</Azimuth>`,
 			Azimuth{Value: 1.0},
@@ -41,43 +36,10 @@ func TestAzimuth_Marshal(t *testing.T) {
 	}
 }
 
-func TestAzimuth_String(t *testing.T) {
-
-	var tests = []struct {
-		s string
-		x Azimuth
-	}{
-		{
-			`{"Unit":"DEGREES","PlusError":2,"MinusError":2,"Value":1}`,
-			Azimuth{
-				Value:      1,
-				Unit:       "DEGREES",
-				PlusError:  2,
-				MinusError: 2,
-			},
-		}, {
-			`{"Value":1}`,
-			Azimuth{Value: 1.0},
-		}, {
-			`{"Value":0}`,
-			Azimuth{},
-		}}
-
-	for _, test := range tests {
-
-		if test.x.String() != test.s {
-			t.Error(strings.Join([]string{"string mismatch:", test.x.String(), test.s, ""}, "\n****\n"))
-		}
-	}
-}
-
 func TestAzimuth_Valid(t *testing.T) {
 
 	var tests = []Azimuth{
-		Azimuth{
-			Value: 1,
-			Unit:  "DEGREES",
-		},
+		Azimuth{Value: 1, Unit: "DEGREES"},
 		Azimuth{Value: 1.0},
 		Azimuth{},
 	}

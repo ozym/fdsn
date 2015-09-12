@@ -33,6 +33,15 @@ type Symmetry struct {
 	Type uint
 }
 
+func (t Symmetry) IsValid() error {
+
+	if !(int(t.Type) < len(symmetryLookup)) {
+		return fmt.Errorf("invalid symmetry entry: %d", t.Type)
+	}
+
+	return nil
+}
+
 func (t *Symmetry) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 	if !(int(t.Type) < len(symmetryLookup)) {
 		return fmt.Errorf("invalid symmetry entry: %d", t.Type)
@@ -53,18 +62,6 @@ func (t *Symmetry) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	}
 
 	t.Type = symmetryMap[s]
-
-	return nil
-}
-
-func (t *Symmetry) IsValid() error {
-	if t == nil {
-		return nil
-	}
-
-	if !(int(t.Type) < len(symmetryLookup)) {
-		return fmt.Errorf("invalid symmetry entry: %d", t.Type)
-	}
 
 	return nil
 }

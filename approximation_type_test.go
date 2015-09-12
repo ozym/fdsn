@@ -10,6 +10,7 @@ func TestApproximationType(t *testing.T) {
 		a ApproximationType
 		s string
 	}{
+		{ApproximationType{APPROXIMATION_UNKNOWN}, "UNKNOWN"},
 		{ApproximationType{APPROXIMATION_MACLAURIN}, "MACLAURIN"},
 	}
 

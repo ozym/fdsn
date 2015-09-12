@@ -7,3 +7,10 @@ type Validator interface {
 func Validate(v Validator) error {
 	return v.IsValid()
 }
+
+func ValidatePtr(v Validator) error {
+	if v == nil {
+		return nil
+	}
+	return v.IsValid()
+}

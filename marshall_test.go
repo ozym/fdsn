@@ -25,16 +25,12 @@ func TestMarshalling(t *testing.T) {
 		Sender:        "WEL(GNS_Test)",
 		Created:       MustParse("2015-08-28T11:10:40"),
 		Networks: []Network{{
-			Code:             "NZ",
-			Description:      "New Zealand National Seismograph Network",
-			RestrictedStatus: &RestrictedStatus{STATUS_OPEN},
-			StartDate:        MustParsePtr("1980-01-01T00:00:00"),
+			BaseNode: BaseNode{Code: "NZ",
+				Description:      "New Zealand National Seismograph Network",
+				RestrictedStatus: StatusOpen,
+				StartDate:        MustParse("1980-01-01T00:00:00"),
+			},
 		}},
-	}
-
-	tc, err := Parse("2008-10-13T00:00:00")
-	if err != nil {
-		t.Error(err)
 	}
 
 	s := &FDSNStationXML{
@@ -44,19 +40,31 @@ func TestMarshalling(t *testing.T) {
 		Sender:        "WEL(GNS_Test)",
 		Created:       MustParse("2015-08-28T11:10:02"),
 		Networks: []Network{{
-			Code:             "NZ",
-			Description:      "New Zealand National Seismograph Network",
-			RestrictedStatus: &RestrictedStatus{STATUS_OPEN},
-			StartDate:        MustParsePtr("1980-01-01T00:00:00"),
+			BaseNode: BaseNode{
+				Code:             "NZ",
+				Description:      "New Zealand National Seismograph Network",
+				RestrictedStatus: StatusOpen,
+				StartDate:        MustParse("1980-01-01T00:00:00"),
+			},
 			Stations: []Station{{
-				Code:             "ABAZ",
-				Site:             Site{Name: "Army Bay"},
-				StartDate:        MustParsePtr("2008-10-13T00:00:00"),
-				RestrictedStatus: &RestrictedStatus{STATUS_OPEN},
-				Latitude:         Latitude{Value: -36.600224},
-				Longitude:        Longitude{Value: 174.832333},
-				Elevation:        Distance{Value: 74},
-				CreationDate:     tc,
+				BaseNode: BaseNode{
+					Code:             "ABAZ",
+					StartDate:        MustParse("2008-10-13T00:00:00"),
+					RestrictedStatus: StatusOpen,
+				},
+				Site: Site{Name: "Army Bay"},
+				Latitude: Latitude{
+					LatitudeBase: LatitudeBase{
+						Value: -36.600224,
+					},
+				},
+				Longitude: Longitude{
+					LongitudeBase: LongitudeBase{
+						Value: 174.832333,
+					},
+				},
+				Elevation:    Distance{Float: Float{Value: 74}},
+				CreationDate: MustParse("2008-10-13T00:00:00"),
 			}},
 		}},
 	}
@@ -68,37 +76,62 @@ func TestMarshalling(t *testing.T) {
 		Sender:        "WEL(GNS_Test)",
 		Created:       MustParse("2015-08-28T11:05:52"),
 		Networks: []Network{{
-			Code:             "NZ",
-			Description:      "New Zealand National Seismograph Network",
-			RestrictedStatus: &RestrictedStatus{STATUS_OPEN},
-			StartDate:        MustParsePtr("1980-01-01T00:00:00"),
-			Stations: []Station{{Code: "ABAZ",
-				Site:             Site{Name: "Army Bay"},
-				StartDate:        MustParsePtr("2008-10-13T00:00:00"),
-				RestrictedStatus: &RestrictedStatus{STATUS_OPEN},
-				Latitude:         Latitude{Value: -36.600224},
-				Longitude:        Longitude{Value: 174.832333},
-				Elevation:        Distance{Value: 74},
-				CreationDate:     tc,
+			BaseNode: BaseNode{
+				Code:             "NZ",
+				Description:      "New Zealand National Seismograph Network",
+				RestrictedStatus: StatusOpen,
+				StartDate:        MustParse("1980-01-01T00:00:00"),
+			},
+			Stations: []Station{{
+				BaseNode: BaseNode{
+					Code:             "ABAZ",
+					StartDate:        MustParse("2008-10-13T00:00:00"),
+					RestrictedStatus: StatusOpen,
+				},
+				Site: Site{Name: "Army Bay"},
+				Latitude: Latitude{
+					LatitudeBase: LatitudeBase{
+						Value: -36.600224,
+					},
+				},
+				Longitude: Longitude{
+					LongitudeBase: LongitudeBase{
+						Value: 174.832333,
+					},
+				},
+				Elevation:    Distance{Float: Float{Value: 74}},
+				CreationDate: MustParse("2008-10-13T00:00:00"),
 				Channels: []Channel{{
-					Code:             "EHZ",
-					LocationCode:     "10",
-					RestrictedStatus: &RestrictedStatus{STATUS_OPEN},
-					Latitude:         Latitude{Value: -36.600224},
-					Longitude:        Longitude{Value: 174.832333},
-					Elevation:        Distance{Value: 74},
-					Depth:            Distance{Value: 0},
-					Azimuth:          &Azimuth{Value: 0},
-					Dip:              &Dip{Value: -90},
-					SampleRate:       SampleRate{Value: 100},
-					SampleRateRatio: &SampleRateRatio{
-						NumberSamples: 100,
-						NumberSeconds: 1,
+					BaseNode: BaseNode{
+						Code:             "EHZ",
+						StartDate:        MustParse("2008-10-13T04:00:00"),
+						EndDate:          MustParse("2010-03-15T02:00:00"),
+						RestrictedStatus: StatusOpen,
+					},
+					LocationCode: "10",
+					Latitude: Latitude{
+						LatitudeBase: LatitudeBase{
+							Value: -36.600224,
+						},
+					},
+					Longitude: Longitude{
+						LongitudeBase: LongitudeBase{
+							Value: 174.832333,
+						},
+					},
+					Elevation: Distance{Float: Float{Value: 74}},
+					Depth:     Distance{Float: Float{Value: 0}},
+					Azimuth:   &Azimuth{Value: 0},
+					Dip:       &Dip{Value: -90},
+					SampleRateGroup: SampleRateGroup{
+						SampleRate: SampleRate{Float: Float{Value: 100}},
+						SampleRateRatio: &SampleRateRatio{
+							NumberSamples: 100,
+							NumberSeconds: 1,
+						},
 					},
 					StorageFormat: "Steim2",
 					ClockDrift:    &ClockDrift{Value: 0.0001},
-					StartDate:     MustParsePtr("2008-10-13T04:00:00"),
-					EndDate:       MustParsePtr("2010-03-15T02:00:00"),
 					Sensor: &Equipment{
 						ResourceId:  "Sensor#20150130114212.658908.42",
 						Type:        "L4C-3D",
@@ -111,31 +144,45 @@ func TestMarshalling(t *testing.T) {
 					},
 					Response: &Response{
 						InstrumentSensitivity: &Sensitivity{
-							Value:       74574700,
-							Frequency:   15,
+							Gain: Gain{
+								Value:     74574700,
+								Frequency: 15,
+							},
 							InputUnits:  Units{Name: "M/S"},
 							OutputUnits: Units{Name: ""},
 						},
 					},
 				},
 					{
-						Code:             "EHZ",
-						LocationCode:     "10",
-						RestrictedStatus: &RestrictedStatus{STATUS_OPEN},
-						Latitude:         Latitude{Value: -36.600224},
-						Longitude:        Longitude{Value: 174.832333},
-						Elevation:        Distance{Value: 74},
-						Depth:            Distance{Value: 0},
-						Azimuth:          &Azimuth{Value: 0},
-						Dip:              &Dip{Value: -90},
-						SampleRate:       SampleRate{Value: 100},
-						SampleRateRatio: &SampleRateRatio{
-							NumberSamples: 100,
-							NumberSeconds: 1,
+						BaseNode: BaseNode{
+							Code:             "EHZ",
+							StartDate:        MustParse("2010-03-15T02:15:00"),
+							RestrictedStatus: StatusOpen,
+						},
+						LocationCode: "10",
+						Latitude: Latitude{
+							LatitudeBase: LatitudeBase{
+								Value: -36.600224,
+							},
+						},
+						Longitude: Longitude{
+							LongitudeBase: LongitudeBase{
+								Value: 174.832333,
+							},
+						},
+						Elevation: Distance{Float: Float{Value: 74}},
+						Depth:     Distance{Float: Float{Value: 0}},
+						Azimuth:   &Azimuth{Value: 0},
+						Dip:       &Dip{Value: -90},
+						SampleRateGroup: SampleRateGroup{
+							SampleRate: SampleRate{Float: Float{Value: 100}},
+							SampleRateRatio: &SampleRateRatio{
+								NumberSamples: 100,
+								NumberSeconds: 1,
+							},
 						},
 						StorageFormat: "Steim2",
 						ClockDrift:    &ClockDrift{Value: 0.0001},
-						StartDate:     MustParsePtr("2010-03-15T02:15:00"),
 						Sensor: &Equipment{
 							ResourceId:  "Sensor#20150130114212.659492.46",
 							Type:        "LE-3DliteMkII",
@@ -148,8 +195,10 @@ func TestMarshalling(t *testing.T) {
 						},
 						Response: &Response{
 							InstrumentSensitivity: &Sensitivity{
-								Value:       167772000,
-								Frequency:   15,
+								Gain: Gain{
+									Value:     1.67772e+08,
+									Frequency: 15,
+								},
 								InputUnits:  Units{Name: "M/S"},
 								OutputUnits: Units{Name: ""},
 							},
@@ -166,37 +215,58 @@ func TestMarshalling(t *testing.T) {
 		Sender:        "WEL(GNS_Test)",
 		Created:       MustParse("2015-08-28T23:11:23"),
 		Networks: []Network{{
-			Code:             "NZ",
-			Description:      "New Zealand National Seismograph Network",
-			RestrictedStatus: &RestrictedStatus{STATUS_OPEN},
-			StartDate:        MustParsePtr("1980-01-01T00:00:00"),
-			Stations: []Station{{Code: "ABAZ",
-				Site:             Site{Name: "Army Bay"},
-				StartDate:        MustParsePtr("2008-10-13T00:00:00"),
-				RestrictedStatus: &RestrictedStatus{STATUS_OPEN},
-				Latitude:         Latitude{Value: -36.600224},
-				Longitude:        Longitude{Value: 174.832333},
-				Elevation:        Distance{Value: 74},
-				CreationDate:     tc,
+			BaseNode: BaseNode{Code: "NZ",
+				Description:      "New Zealand National Seismograph Network",
+				RestrictedStatus: StatusOpen,
+				StartDate:        MustParse("1980-01-01T00:00:00"),
+			},
+			Stations: []Station{{BaseNode: BaseNode{Code: "ABAZ",
+				StartDate:        MustParse("2008-10-13T00:00:00"),
+				RestrictedStatus: StatusOpen,
+			},
+				Site: Site{Name: "Army Bay"},
+				Latitude: Latitude{
+					LatitudeBase: LatitudeBase{
+						Value: -36.600224,
+					},
+				},
+				Longitude: Longitude{
+					LongitudeBase: LongitudeBase{
+						Value: 174.832333,
+					},
+				},
+				Elevation:    Distance{Float: Float{Value: 74}},
+				CreationDate: MustParse("2008-10-13T00:00:00"),
 				Channels: []Channel{{
-					Code:             "EHZ",
-					LocationCode:     "10",
-					RestrictedStatus: &RestrictedStatus{STATUS_OPEN},
-					Latitude:         Latitude{Value: -36.600224},
-					Longitude:        Longitude{Value: 174.832333},
-					Elevation:        Distance{Value: 74},
-					Depth:            Distance{Value: 0},
-					Azimuth:          &Azimuth{Value: 0},
-					Dip:              &Dip{Value: -90},
-					SampleRate:       SampleRate{Value: 100},
-					SampleRateRatio: &SampleRateRatio{
-						NumberSamples: 100,
-						NumberSeconds: 1,
+					BaseNode: BaseNode{Code: "EHZ",
+						StartDate:        MustParse("2008-10-13T04:00:00"),
+						EndDate:          MustParse("2010-03-15T02:00:00"),
+						RestrictedStatus: StatusOpen,
+					},
+					LocationCode: "10",
+					Latitude: Latitude{
+						LatitudeBase: LatitudeBase{
+							Value: -36.600224,
+						},
+					},
+					Longitude: Longitude{
+						LongitudeBase: LongitudeBase{
+							Value: 174.832333,
+						},
+					},
+					Elevation: Distance{Float: Float{Value: 74}},
+					Depth:     Distance{Float: Float{Value: 0}},
+					Azimuth:   &Azimuth{Value: 0},
+					Dip:       &Dip{Value: -90},
+					SampleRateGroup: SampleRateGroup{
+						SampleRate: SampleRate{Float: Float{Value: 100}},
+						SampleRateRatio: &SampleRateRatio{
+							NumberSamples: 100,
+							NumberSeconds: 1,
+						},
 					},
 					StorageFormat: "Steim2",
 					ClockDrift:    &ClockDrift{Value: 0.0001},
-					StartDate:     MustParsePtr("2008-10-13T04:00:00"),
-					EndDate:       MustParsePtr("2010-03-15T02:00:00"),
 					Sensor: &Equipment{
 						ResourceId:  "Sensor#20150130114212.658908.42",
 						Type:        "L4C-3D",
@@ -209,8 +279,10 @@ func TestMarshalling(t *testing.T) {
 					},
 					Response: &Response{
 						InstrumentSensitivity: &Sensitivity{
-							Value:       74574700,
-							Frequency:   15,
+							Gain: Gain{
+								Value:     74574700,
+								Frequency: 15,
+							},
 							InputUnits:  Units{Name: "M/S"},
 							OutputUnits: Units{Name: "COUNTS"},
 						},
@@ -218,13 +290,15 @@ func TestMarshalling(t *testing.T) {
 							{
 								Number: 1,
 								PolesZeros: &PolesZeros{
-									ResourceId:             "ResponsePAZ#20150130114212.658955.43",
-									Name:                   "ABAZ.2008.287.HZ10",
-									InputUnits:             Units{Name: "M/S"},
-									OutputUnits:            Units{Name: "V"},
+									BaseFilter: BaseFilter{
+										ResourceId:  "ResponsePAZ#20150130114212.658955.43",
+										Name:        "ABAZ.2008.287.HZ10",
+										InputUnits:  Units{Name: "M/S"},
+										OutputUnits: Units{Name: "V"},
+									},
 									PzTransferFunctionType: PzTransferFunctionType{PZ_FUNCTION_LAPLACE_RADIANS_PER_SECOND},
 									NormalizationFactor:    0.999556,
-									NormalizationFrequency: Frequency{Value: 15},
+									NormalizationFrequency: Frequency{Float: Float{Value: 15}},
 									Zeros: []PoleZero{
 										{Number: 2, Real: FloatNoUnit{Value: 0}, Imaginary: FloatNoUnit{Value: 0}},
 										{Number: 3, Real: FloatNoUnit{Value: 0}, Imaginary: FloatNoUnit{Value: 0}},
@@ -247,7 +321,7 @@ func TestMarshalling(t *testing.T) {
 									CfTransferFunctionType: CfTransferFunctionType{CF_FUNCTION_DIGITAL},
 								},
 								Decimation: &Decimation{
-									InputSampleRate: Frequency{Value: 100},
+									InputSampleRate: Frequency{Float: Float{Value: 100}},
 									Factor:          1,
 									Offset:          0,
 									Delay:           Float{Value: 0.0},
@@ -261,11 +335,13 @@ func TestMarshalling(t *testing.T) {
 							{
 								Number: 3,
 								FIR: &FIR{
-									ResourceId:  "ResponseFIR#20150130114212.658669.41",
-									Name:        "ABAZ.10.EHZ.2008.287.stage_3",
-									InputUnits:  Units{Name: "COUNTS"},
-									OutputUnits: Units{Name: "COUNTS"},
-									Symmetry:    Symmetry{SYMMETRY_NONE},
+									BaseFilter: BaseFilter{
+										ResourceId:  "ResponseFIR#20150130114212.658669.41",
+										Name:        "ABAZ.10.EHZ.2008.287.stage_3",
+										InputUnits:  Units{Name: "COUNTS"},
+										OutputUnits: Units{Name: "COUNTS"},
+									},
+									Symmetry: Symmetry{SYMMETRY_NONE},
 									NumeratorCoefficients: []NumeratorCoefficient{
 										{Coefficient: 0, Value: 1.31549e-11},
 										{Coefficient: 1, Value: 0.000150107},
@@ -335,7 +411,7 @@ func TestMarshalling(t *testing.T) {
 									},
 								},
 								Decimation: &Decimation{
-									InputSampleRate: Frequency{Value: 100},
+									InputSampleRate: Frequency{Float: Float{Value: 100}},
 									Factor:          1,
 									Offset:          0,
 									Delay:           Float{Value: 0.04167},
@@ -350,23 +426,34 @@ func TestMarshalling(t *testing.T) {
 					},
 				},
 					{
-						Code:             "EHZ",
-						LocationCode:     "10",
-						RestrictedStatus: &RestrictedStatus{STATUS_OPEN},
-						Latitude:         Latitude{Value: -36.600224},
-						Longitude:        Longitude{Value: 174.832333},
-						Elevation:        Distance{Value: 74},
-						Depth:            Distance{Value: 0},
-						Azimuth:          &Azimuth{Value: 0},
-						Dip:              &Dip{Value: -90},
-						SampleRate:       SampleRate{Value: 100},
-						SampleRateRatio: &SampleRateRatio{
-							NumberSamples: 100,
-							NumberSeconds: 1,
+						BaseNode: BaseNode{Code: "EHZ",
+							StartDate:        MustParse("2010-03-15T02:15:00"),
+							RestrictedStatus: StatusOpen,
+						},
+						LocationCode: "10",
+						Latitude: Latitude{
+							LatitudeBase: LatitudeBase{
+								Value: -36.600224,
+							},
+						},
+						Longitude: Longitude{
+							LongitudeBase: LongitudeBase{
+								Value: 174.832333,
+							},
+						},
+						Elevation: Distance{Float: Float{Value: 74}},
+						Depth:     Distance{Float: Float{Value: 0}},
+						Azimuth:   &Azimuth{Value: 0},
+						Dip:       &Dip{Value: -90},
+						SampleRateGroup: SampleRateGroup{
+							SampleRate: SampleRate{Float: Float{Value: 100}},
+							SampleRateRatio: &SampleRateRatio{
+								NumberSamples: 100,
+								NumberSeconds: 1,
+							},
 						},
 						StorageFormat: "Steim2",
 						ClockDrift:    &ClockDrift{Value: 0.0001},
-						StartDate:     MustParsePtr("2010-03-15T02:15:00"),
 						Sensor: &Equipment{
 							ResourceId:  "Sensor#20150130114212.659492.46",
 							Type:        "LE-3DliteMkII",
@@ -379,8 +466,10 @@ func TestMarshalling(t *testing.T) {
 						},
 						Response: &Response{
 							InstrumentSensitivity: &Sensitivity{
-								Value:       167772000,
-								Frequency:   15,
+								Gain: Gain{
+									Value:     1.67772e+08,
+									Frequency: 15,
+								},
 								InputUnits:  Units{Name: "M/S"},
 								OutputUnits: Units{Name: "COUNTS"},
 							},
@@ -388,13 +477,15 @@ func TestMarshalling(t *testing.T) {
 								{
 									Number: 1,
 									PolesZeros: &PolesZeros{
-										ResourceId:             "ResponsePAZ#20150130114212.659544.47",
-										Name:                   "ABAZ.2010.074.HZ10",
-										InputUnits:             Units{Name: "M/S"},
-										OutputUnits:            Units{Name: "V"},
+										BaseFilter: BaseFilter{
+											ResourceId:  "ResponsePAZ#20150130114212.659544.47",
+											Name:        "ABAZ.2010.074.HZ10",
+											InputUnits:  Units{Name: "M/S"},
+											OutputUnits: Units{Name: "V"},
+										},
 										PzTransferFunctionType: PzTransferFunctionType{PZ_FUNCTION_LAPLACE_RADIANS_PER_SECOND},
 										NormalizationFactor:    1.00008,
-										NormalizationFrequency: Frequency{Value: 15},
+										NormalizationFrequency: Frequency{Float: Float{Value: 15}},
 										Zeros: []PoleZero{
 											{Number: 3, Real: FloatNoUnit{Value: 0}, Imaginary: FloatNoUnit{Value: 0}},
 											{Number: 4, Real: FloatNoUnit{Value: 0}, Imaginary: FloatNoUnit{Value: 0}},
@@ -419,7 +510,7 @@ func TestMarshalling(t *testing.T) {
 										CfTransferFunctionType: CfTransferFunctionType{CF_FUNCTION_DIGITAL},
 									},
 									Decimation: &Decimation{
-										InputSampleRate: Frequency{Value: 100},
+										InputSampleRate: Frequency{Float: Float{Value: 100}},
 										Factor:          1,
 										Offset:          0,
 										Delay:           Float{Value: 0.0},
@@ -433,11 +524,13 @@ func TestMarshalling(t *testing.T) {
 								{
 									Number: 3,
 									FIR: &FIR{
-										ResourceId:  "ResponseFIR#20150130114212.659238.45",
-										Name:        "ABAZ.10.EHZ.2010.074.stage_3",
-										InputUnits:  Units{Name: "COUNTS"},
-										OutputUnits: Units{Name: "COUNTS"},
-										Symmetry:    Symmetry{SYMMETRY_NONE},
+										BaseFilter: BaseFilter{
+											ResourceId:  "ResponseFIR#20150130114212.659238.45",
+											Name:        "ABAZ.10.EHZ.2010.074.stage_3",
+											InputUnits:  Units{Name: "COUNTS"},
+											OutputUnits: Units{Name: "COUNTS"},
+										},
+										Symmetry: Symmetry{SYMMETRY_NONE},
 										NumeratorCoefficients: []NumeratorCoefficient{
 											{Coefficient: 0, Value: 1.31549e-11},
 											{Coefficient: 1, Value: 0.000150107},
@@ -507,7 +600,7 @@ func TestMarshalling(t *testing.T) {
 										},
 									},
 									Decimation: &Decimation{
-										InputSampleRate: Frequency{Value: 100},
+										InputSampleRate: Frequency{Float: Float{Value: 100}},
 										Factor:          1,
 										Offset:          0,
 										Delay:           Float{Value: 0.04167},
@@ -535,7 +628,7 @@ func TestMarshalling(t *testing.T) {
 		{"station", "testdata/station.xml", s},
 		{"channel", "testdata/channel.xml", c},
 		{"response", "testdata/response.xml", r},
-		{"ac1a", "testdata/ac1a.xml", nil},
+		{"ac2a", "testdata/ac1a.xml", nil},
 		{"akus", "testdata/akus.xml", nil},
 		{"mqz", "testdata/mqz.xml", nil},
 		{"covz", "testdata/covz.xml", nil},

@@ -21,14 +21,24 @@ func TestStation_Marshal(t *testing.T) {
 	}, "")
 
 	n := &Station{
-		Code:             "ABAZ",
-		Site:             Site{Name: "Army Bay"},
-		StartDate:        MustParsePtr("2008-10-13T00:00:00"),
-		RestrictedStatus: &RestrictedStatus{STATUS_OPEN},
-		Latitude:         Latitude{Value: -36.600224},
-		Longitude:        Longitude{Value: 174.832333},
-		Elevation:        Distance{Value: 74},
-		CreationDate:     MustParse("2008-10-13T00:00:00"),
+		BaseNode: BaseNode{
+			Code:             "ABAZ",
+			StartDate:        MustParse("2008-10-13T00:00:00"),
+			RestrictedStatus: StatusOpen,
+		},
+		Site: Site{Name: "Army Bay"},
+		Latitude: Latitude{
+			LatitudeBase: LatitudeBase{
+				Value: -36.600224,
+			},
+		},
+		Longitude: Longitude{
+			LongitudeBase: LongitudeBase{
+				Value: 174.832333,
+			},
+		},
+		Elevation:    Distance{Float: Float{Value: 74}},
+		CreationDate: MustParse("2008-10-13T00:00:00"),
 	}
 
 	x, err := xml.Marshal(&n)
@@ -41,57 +51,30 @@ func TestStation_Marshal(t *testing.T) {
 	}
 }
 
-func TestStation_String(t *testing.T) {
-
-	var tests = []struct {
-		s string
-		x Station
-	}{
-		{
-			`{"Code":"ABAZ","StartDate":"2008-10-13T00:00:00","RestrictedStatus":"open","Latitude":{"Value":-36.600224},"Longitude":{"Value":174.832333},"Elevation":{"Value":74},"Site":{"Name":"Army Bay"},"CreationDate":"2008-10-13T00:00:00"}`,
-			Station{
-				Code:             "ABAZ",
-				Site:             Site{Name: "Army Bay"},
-				StartDate:        MustParsePtr("2008-10-13T00:00:00"),
-				RestrictedStatus: &RestrictedStatus{STATUS_OPEN},
-				Latitude:         Latitude{Value: -36.600224},
-				Longitude:        Longitude{Value: 174.832333},
-				Elevation:        Distance{Value: 74},
-				CreationDate:     MustParse("2008-10-13T00:00:00"),
-			},
-		}, {
-			`{"Code":"XX","Latitude":{"Value":0},"Longitude":{"Value":0},"Elevation":{"Value":0},"Site":{"Name":""},"CreationDate":"0001-01-01T00:00:00"}`,
-			Station{
-				Code:      "XX",
-				Latitude:  Latitude{Value: 0.0},
-				Longitude: Longitude{Value: 0.0},
-			},
-		}, {
-			`{"Code":"","Latitude":{"Value":0},"Longitude":{"Value":0},"Elevation":{"Value":0},"Site":{"Name":""},"CreationDate":"0001-01-01T00:00:00"}`,
-			Station{},
-		}}
-
-	for _, test := range tests {
-		if test.x.String() != test.s {
-			t.Error(strings.Join([]string{"string mismatch:", test.x.String(), test.s, ""}, "\n****\n"))
-		}
-	}
-}
-
 func TestStation_Valid(t *testing.T) {
 
 	s := Station{
-		Code:             "ABAZ",
-		Site:             Site{Name: "Army Bay"},
-		StartDate:        MustParsePtr("2008-10-13T00:00:00"),
-		RestrictedStatus: &RestrictedStatus{STATUS_OPEN},
-		Latitude:         Latitude{Value: -36.600224},
-		Longitude:        Longitude{Value: 174.832333},
-		Elevation:        Distance{Value: 74},
-		CreationDate:     MustParse("2008-10-13T00:00:00"),
+		BaseNode: BaseNode{
+			Code:             "ABAZ",
+			StartDate:        MustParse("2008-10-13T00:00:00"),
+			RestrictedStatus: StatusOpen,
+		},
+		Site: Site{Name: "Army Bay"},
+		Latitude: Latitude{
+			LatitudeBase: LatitudeBase{
+				Value: -36.600224,
+			},
+		},
+		Longitude: Longitude{
+			LongitudeBase: LongitudeBase{
+				Value: 174.832333,
+			},
+		},
+		Elevation:    Distance{Float: Float{Value: 74}},
+		CreationDate: MustParse("2008-10-13T00:00:00"),
 	}
 
-	if err := Validate(&s); err != nil {
+	if err := Validate(s); err != nil {
 		t.Errorf("station struct is not valid: %s", err)
 	}
 }
@@ -99,17 +82,23 @@ func TestStation_Valid(t *testing.T) {
 func TestStation_InValid(t *testing.T) {
 	var tests = []Station{
 		Station{
-			Code: "",
+			BaseNode: BaseNode{
+				Code: "",
+			},
 		},
 		Station{
 			Site: Site{},
 		},
 		Station{
-			Code: "C",
+			BaseNode: BaseNode{
+				Code: "C",
+			},
 			Site: Site{},
 		},
 		Station{
-			Code: "",
+			BaseNode: BaseNode{
+				Code: "",
+			},
 			Site: Site{Name: "N"},
 		},
 	}

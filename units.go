@@ -1,7 +1,6 @@
 package fdsn
 
 import (
-	"encoding/json"
 	"fmt"
 )
 
@@ -13,19 +12,7 @@ type Units struct {
 	Description string `xml:",omitempty" json:",omitempty"`
 }
 
-func (u *Units) String() string {
-
-	j, err := json.Marshal(&u)
-	if err != nil {
-		return ""
-	}
-	return string(j)
-}
-
-func (u *Units) IsValid() error {
-	if u == nil {
-		return nil
-	}
+func (u Units) IsValid() error {
 
 	if !(len(u.Name) > 0) {
 		return fmt.Errorf("empty units name")

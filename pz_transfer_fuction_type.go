@@ -33,6 +33,15 @@ type PzTransferFunctionType struct {
 	Type uint
 }
 
+func (f PzTransferFunctionType) IsValid() error {
+
+	if !(int(f.Type) < len(pzFunctionLookup)) {
+		return fmt.Errorf("invalid transfer function type: %d", f.Type)
+	}
+
+	return nil
+}
+
 func (f *PzTransferFunctionType) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 	if !(int(f.Type) < len(pzFunctionLookup)) {
 		return fmt.Errorf("invalid function entry: %d", f.Type)
@@ -53,18 +62,6 @@ func (f *PzTransferFunctionType) UnmarshalXML(d *xml.Decoder, start xml.StartEle
 	}
 
 	f.Type = pzFunctionMap[s]
-
-	return nil
-}
-
-func (f *PzTransferFunctionType) IsValid() error {
-	if f == nil {
-		return nil
-	}
-
-	if !(int(f.Type) < len(pzFunctionLookup)) {
-		return fmt.Errorf("invalid transfer function type: %d", f.Type)
-	}
 
 	return nil
 }

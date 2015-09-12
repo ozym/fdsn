@@ -1,7 +1,6 @@
 package fdsn
 
 import (
-	"encoding/json"
 	"fmt"
 )
 
@@ -17,18 +16,7 @@ type Azimuth struct {
 	Value float64 `xml:",chardata"`
 }
 
-func (a *Azimuth) String() string {
-	j, err := json.Marshal(a)
-	if err == nil {
-		return string(j)
-	}
-	return ""
-}
-
-func (a *Azimuth) IsValid() error {
-	if a == nil {
-		return nil
-	}
+func (a Azimuth) IsValid() error {
 
 	if a.Unit != "" && a.Unit != "DEGREES" {
 		return fmt.Errorf("azimuth invalid unit: %s", a.Unit)

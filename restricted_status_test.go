@@ -10,9 +10,9 @@ func TestRestrictedStatus_String(t *testing.T) {
 		r RestrictedStatus
 		s string
 	}{
-		{RestrictedStatus{STATUS_OPEN}, `"open"`},
-		{RestrictedStatus{STATUS_CLOSED}, `"closed"`},
-		{RestrictedStatus{STATUS_PARTIAL}, `"partial"`},
+		{StatusOpen, "open"},
+		{StatusClosed, "closed"},
+		{StatusPartial, "partial"},
 	}
 
 	for _, x := range tests {
@@ -26,10 +26,10 @@ func TestRestrictedStatus_String(t *testing.T) {
 func TestRestrictedStatus_Valid(t *testing.T) {
 
 	var tests = []RestrictedStatus{
-		RestrictedStatus{STATUS_UNKNOWN},
-		RestrictedStatus{STATUS_OPEN},
-		RestrictedStatus{STATUS_CLOSED},
-		RestrictedStatus{STATUS_PARTIAL},
+		StatusUnknown,
+		StatusOpen,
+		StatusClosed,
+		StatusPartial,
 	}
 
 	for _, a := range tests {
@@ -43,7 +43,7 @@ func TestRestrictedStatus_Valid(t *testing.T) {
 func TestRestrictedStatus_InValid(t *testing.T) {
 
 	var tests = []RestrictedStatus{
-		RestrictedStatus{STATUS_PARTIAL + 1},
+		statusEnd,
 	}
 
 	for _, a := range tests {

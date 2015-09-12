@@ -1,7 +1,6 @@
 package fdsn
 
 import (
-	"encoding/json"
 	"fmt"
 )
 
@@ -27,19 +26,7 @@ type ResponseList struct {
 	ResponseListElements []ResponseListElement `xml:"ResponseListElement,omitempty" json:",omitempty"`
 }
 
-func (r *ResponseList) String() string {
-
-	j, err := json.Marshal(r)
-	if err != nil {
-		return ""
-	}
-	return string(j)
-}
-
-func (r *ResponseList) IsValid() error {
-	if r == nil {
-		return nil
-	}
+func (r ResponseList) IsValid() error {
 
 	if !(len(r.ResourceId) > 0) {
 		return fmt.Errorf("empty response list resourceid")

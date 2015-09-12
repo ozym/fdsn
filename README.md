@@ -19,49 +19,49 @@ Progress: String() IsValid()
 
 - [x] RootType
 - [x] NetworkType
-- [x] StationType
-- [x] ChannelType
+- [ ] StationType
+- [ ] ChannelType
 - [x] GainType
-- [x] FrequencyRangeGroup
+- [ ] FrequencyRangeGroup
 - [x] SensitivityType
-- [x] EquipmentType
-- [x] ResponseStageType
-- [x] LogType
-- [x] CommentType
-- [x] PolesZerosType
+- [ ] EquipmentType
+- [ ] ResponseStageType
+- [ ] LogType
+- [ ] CommentType
+- [ ] PolesZerosType
 - [x] FIRType
-- [x] CoefficientsType
-- [x] ResponseListElementType
-- [x] ResponseListType
-- [x] PolynomialType
-- [x] DecimationType
-- [-] uncertaintyDouble
-- [x] FloatNoUnitType
-- [x] FloatType
-- [-] SecondType
-- [-] VoltageType
-- [x] AngleType
+- [ ] CoefficientsType
+- [ ] ResponseListElementType
+- [ ] ResponseListType
+- [ ] PolynomialType
+- [ ] DecimationType
+- [ ] uncertaintyDouble
+- [ ] FloatNoUnitType
+- [ ] FloatType
+- [ ] SecondType
+- [ ] VoltageType
+- [ ] AngleType
 - [x] LatitudeBaseType
 - [x] LatitudeType
 - [x] LongitudeBaseType
 - [x] LongitudeType
-- [x] AzimuthType
-- [x] DipType
+- [ ] AzimuthType
+- [ ] DipType
 - [x] DistanceType
-- [x] FrequencyType
-- [-] SampleRateGroup
+- [ ] FrequencyType
+- [x] SampleRateGroup
 - [x] SampleRateType
 - [x] SampleRateRatioType
 - [x] PoleZeroType
-- [-] CounterType
+- [x] CounterType
 - [x] PersonType
 - [x] SiteType
 - [x] ExternalReferenceType
-- [x] NominalType
+- [ ] NominalType
 - [x] EmailType
 - [x] PhoneNumberType
 - [x] RestrictedStatusType
 - [x] UnitsType
-- [-] BaseFilterType
+- [x] BaseFilterType
 - [x] ResponseType
-- [-] BaseNodeType
+- [x] BaseNodeType

@@ -6,37 +6,53 @@ import (
 	"fmt"
 )
 
+type RestrictedStatus uint
+
 const (
-	STATUS_UNKNOWN uint = iota
-	STATUS_OPEN
-	STATUS_CLOSED
-	STATUS_PARTIAL
+	StatusUnknown RestrictedStatus = iota
+	StatusOpen
+	StatusClosed
+	StatusPartial
+	statusEnd
 )
 
-var restrictedStatusLookup = []string{
-	STATUS_UNKNOWN: "unknown",
-	STATUS_OPEN:    "open",
-	STATUS_CLOSED:  "closed",
-	STATUS_PARTIAL: "partial",
+var restrictedStatus = [...]string{
+	StatusUnknown: "unknown",
+	StatusOpen:    "open",
+	StatusClosed:  "closed",
+	StatusPartial: "partial",
 }
 
-var restrictedStatusMap = map[string]uint{
-	"unknown": STATUS_UNKNOWN,
-	"open":    STATUS_OPEN,
-	"closed":  STATUS_CLOSED,
-	"partial": STATUS_PARTIAL,
+var restrictedStatusMap = map[string]RestrictedStatus{
+	"unknown": StatusUnknown,
+	"open":    StatusOpen,
+	"closed":  StatusClosed,
+	"partial": StatusPartial,
 }
 
-type RestrictedStatus struct {
-	Status uint
-}
+func (r RestrictedStatus) String() string {
 
-func (r *RestrictedStatus) MarshalXMLAttr(name xml.Name) (xml.Attr, error) {
-	if !(int(r.Status) < len(restrictedStatusLookup)) {
-		return xml.Attr{}, fmt.Errorf("invalid restricted value: %d", r.Status)
+	if r < statusEnd {
+		return restrictedStatus[r]
 	}
 
-	return xml.Attr{Name: name, Value: restrictedStatusLookup[r.Status]}, nil
+	return ""
+}
+
+func (r RestrictedStatus) IsValid() error {
+
+	if !(r < statusEnd) {
+		return fmt.Errorf("invalid restricted value: %d", r)
+	}
+
+	return nil
+}
+
+func (r RestrictedStatus) MarshalXMLAttr(name xml.Name) (xml.Attr, error) {
+	if !(r < statusEnd) {
+		return xml.Attr{}, fmt.Errorf("invalid restricted value: %d", r)
+	}
+	return xml.Attr{Name: name, Value: restrictedStatus[r]}, nil
 }
 
 func (r *RestrictedStatus) UnmarshalXMLAttr(attr xml.Attr) error {
@@ -45,16 +61,16 @@ func (r *RestrictedStatus) UnmarshalXMLAttr(attr xml.Attr) error {
 		return fmt.Errorf("invalid restricted value: %s", attr.Value)
 	}
 
-	*r = RestrictedStatus{Status: restrictedStatusMap[attr.Value]}
+	*r = restrictedStatusMap[attr.Value]
 
 	return nil
 }
 
-func (r *RestrictedStatus) MarshalJSON() ([]byte, error) {
-	if !(int(r.Status) < len(restrictedStatusLookup)) {
-		return nil, fmt.Errorf("invalid restricted value: %d", r.Status)
+func (r RestrictedStatus) MarshalJSON() ([]byte, error) {
+	if !(r < statusEnd) {
+		return nil, fmt.Errorf("invalid restricted value: %d", r)
 	}
-	return json.Marshal(restrictedStatusLookup[r.Status])
+	return json.Marshal(restrictedStatus[r])
 }
 
 func (r *RestrictedStatus) UnmarshalJSON(data []byte) error {
@@ -69,28 +85,7 @@ func (r *RestrictedStatus) UnmarshalJSON(data []byte) error {
 		return fmt.Errorf("invalid restricted value: %s", s)
 	}
 
-	*r = RestrictedStatus{Status: restrictedStatusMap[s]}
-
-	return nil
-}
-
-func (r *RestrictedStatus) String() string {
-
-	j, err := json.Marshal(r)
-	if err != nil {
-		return ""
-	}
-	return string(j)
-}
-
-func (r *RestrictedStatus) IsValid() error {
-	if r == nil {
-		return nil
-	}
-
-	if !(int(r.Status) < len(restrictedStatusLookup)) {
-		return fmt.Errorf("invalid restricted value: %d", r.Status)
-	}
+	*r = restrictedStatusMap[s]
 
 	return nil
 }

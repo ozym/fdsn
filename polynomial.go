@@ -1,7 +1,6 @@
 package fdsn
 
 import (
-	"encoding/json"
 	"fmt"
 )
 
@@ -34,19 +33,7 @@ type Polynomial struct {
 	Coefficients []Coefficient `xml:"Coefficient,omitempty" json:",omitempty"`
 }
 
-func (p *Polynomial) String() string {
-
-	j, err := json.Marshal(p)
-	if err != nil {
-		return ""
-	}
-	return string(j)
-}
-
-func (p *Polynomial) IsValid() error {
-	if p == nil {
-		return nil
-	}
+func (p Polynomial) IsValid() error {
 
 	if !(len(p.ResourceId) > 0) {
 		return fmt.Errorf("empty polynomial resourceid")
@@ -55,50 +42,29 @@ func (p *Polynomial) IsValid() error {
 		return fmt.Errorf("empty polynomial name")
 	}
 
-	if err := Validate(&p.InputUnits); err != nil {
+	if err := Validate(p.InputUnits); err != nil {
 		return err
 	}
-	if err := Validate(&p.OutputUnits); err != nil {
-		return err
-	}
-
-	if err := Validate(&p.ApproximationType); err != nil {
+	if err := Validate(p.OutputUnits); err != nil {
 		return err
 	}
 
-	if err := Validate(&p.FrequencyLowerBound); err != nil {
+	if err := Validate(p.ApproximationType); err != nil {
 		return err
 	}
-	if err := Validate(&p.FrequencyUpperBound); err != nil {
+
+	if err := Validate(p.FrequencyLowerBound); err != nil {
+		return err
+	}
+	if err := Validate(p.FrequencyUpperBound); err != nil {
 		return err
 	}
 
 	for _, c := range p.Coefficients {
-		if err := Validate(&c); err != nil {
+		if err := Validate(c); err != nil {
 			return err
 		}
 	}
 
 	return nil
-}
-
-func (p *Polynomial) Copy(level Level) *Polynomial {
-
-	if p == nil {
-		return nil
-	}
-
-	switch {
-	case level < CHANNEL_LEVEL:
-		return nil
-	case level > CHANNEL_LEVEL:
-		return p
-	}
-
-	return &Polynomial{
-		ResourceId:  p.ResourceId,
-		Name:        p.Name,
-		Description: p.Description,
-		InputUnits:  p.InputUnits,
-	}
 }

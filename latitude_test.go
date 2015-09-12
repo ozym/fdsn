@@ -8,12 +8,14 @@ import (
 
 func TestLatitude_Marshal(t *testing.T) {
 
-	testLatitude := `<Latitude datum="WGS84" unit="DEGREES">45</Latitude>`
+	testLatitude := `<Latitude unit="DEGREES" datum="WGS84">45</Latitude>`
 
 	l := &Latitude{
 		Datum: "WGS84",
-		Unit:  "DEGREES",
-		Value: 45.0,
+		LatitudeBase: LatitudeBase{
+			Unit:  "DEGREES",
+			Value: 45.0,
+		},
 	}
 
 	x, err := xml.Marshal(&l)
@@ -26,45 +28,19 @@ func TestLatitude_Marshal(t *testing.T) {
 	}
 }
 
-func TestLatitude_String(t *testing.T) {
-
-	var tests = []struct {
-		s string
-		x Latitude
-	}{
-		{
-			`{"Datum":"WGS84","Unit":"DEGREES","Value":45}`,
-			Latitude{
-				Datum: "WGS84",
-				Unit:  "DEGREES",
-				Value: 45.0,
-			},
-		}, {
-			`{"Value":45}`,
-			Latitude{
-				Value: 45.0,
-			},
-		}, {
-			`{"Value":0}`,
-			Latitude{},
-		}}
-
-	for _, test := range tests {
-		if test.x.String() != test.s {
-			t.Error(strings.Join([]string{"string mismatch:", test.x.String(), test.s, ""}, "\n****\n"))
-		}
-	}
-}
-
 func TestLatitude_Valid(t *testing.T) {
 
 	var tests = []Latitude{
 		{
 			Datum: "WGS84",
-			Unit:  "DEGREES",
-			Value: 45.0,
+			LatitudeBase: LatitudeBase{
+				Unit:  "DEGREES",
+				Value: 45.0,
+			},
 		}, {
-			Value: 45.0,
+			LatitudeBase: LatitudeBase{
+				Value: 45.0,
+			},
 		}}
 
 	for _, l := range tests {
@@ -77,13 +53,19 @@ func TestLatitude_Valid(t *testing.T) {
 func TestLatitude_InValid(t *testing.T) {
 	var tests = []Latitude{
 		Latitude{
-			Unit: "UNIT",
+			LatitudeBase: LatitudeBase{
+				Unit: "UNIT",
+			},
 		},
 		Latitude{
-			Value: 100,
+			LatitudeBase: LatitudeBase{
+				Value: 100,
+			},
 		},
 		Latitude{
-			Value: -100,
+			LatitudeBase: LatitudeBase{
+				Value: -100,
+			},
 		},
 	}
 

@@ -1,7 +1,6 @@
 package fdsn
 
 import (
-	"encoding/json"
 	"fmt"
 )
 
@@ -18,31 +17,16 @@ type Dip struct {
 	Value float64 `xml:",chardata"`
 }
 
-func (d *Dip) String() string {
-	j, err := json.Marshal(d)
-	if err == nil {
-		return string(j)
-	}
-	return ""
-}
+func (d Dip) IsValid() error {
 
-func (d *Dip) IsValid() error {
-
-	if d == nil {
-		return nil
-	}
-
-	if d.Unit != "" && d.Unit != "DEGREES" {
+	switch {
+	case d.Unit != "" && d.Unit != "DEGREES":
 		return fmt.Errorf("dip invalid unit: %s", d.Unit)
-	}
-
-	if d.Value < -90 || d.Value > 90 {
+	case d.Value < -90 || d.Value > 90:
 		return fmt.Errorf("dip outside range: %g", d.Value)
-	}
-	if d.PlusError < 0.0 {
+	case d.PlusError < 0.0:
 		return fmt.Errorf("dip plus error shouldn't be negative: %g", d.PlusError)
-	}
-	if d.MinusError < 0.0 {
+	case d.MinusError < 0.0:
 		return fmt.Errorf("dip minus error shouldn't be negative: %g", d.MinusError)
 	}
 

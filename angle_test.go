@@ -14,12 +14,7 @@ func TestAngle_Marshal(t *testing.T) {
 	}{
 		{
 			`<Angle unit="DEGREES" plusError="2" minusError="2">1</Angle>`,
-			Angle{
-				Value:      1,
-				Unit:       "DEGREES",
-				PlusError:  2,
-				MinusError: 2,
-			},
+			Angle{Value: 1, Unit: "DEGREES", PlusError: 2, MinusError: 2},
 		}, {
 			`<Angle>1</Angle>`,
 			Angle{Value: 1.0},
@@ -41,43 +36,10 @@ func TestAngle_Marshal(t *testing.T) {
 	}
 }
 
-func TestAngle_String(t *testing.T) {
-
-	var tests = []struct {
-		s string
-		x Angle
-	}{
-		{
-			`{"Unit":"DEGREES","PlusError":2,"MinusError":2,"Value":1}`,
-			Angle{
-				Value:      1,
-				Unit:       "DEGREES",
-				PlusError:  2,
-				MinusError: 2,
-			},
-		}, {
-			`{"Value":1}`,
-			Angle{Value: 1.0},
-		}, {
-			`{"Value":0}`,
-			Angle{},
-		}}
-
-	for _, test := range tests {
-
-		if test.x.String() != test.s {
-			t.Error(strings.Join([]string{"string mismatch:", test.x.String(), test.s, ""}, "\n****\n"))
-		}
-	}
-}
-
 func TestAngle_Valid(t *testing.T) {
 
 	var tests = []Angle{
-		Angle{
-			Value: 1,
-			Unit:  "DEGREES",
-		},
+		Angle{Value: 1, Unit: "DEGREES"},
 		Angle{Value: 1.0},
 		Angle{},
 	}
